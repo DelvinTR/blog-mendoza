@@ -7,23 +7,21 @@ import { redirect } from 'next/navigation';
 const prisma = new PrismaClient();
 
 export async function saveArticle(formData: FormData) {
-  const id = formData.get('id') as string | null;
+  const id = formData.get('id') as string;
   const title = formData.get('title') as string;
   const content = formData.get('content') as string;
-  const published = formData.get('published') === 'true';
-
-  if (!title || !content) {
-    throw new Error('Title and content are required');
-  }
+  const authorName = formData.get('authorName') as string;
+  const authorAvatar = formData.get('authorAvatar') as string;
+  const tags = formData.get('tags') as string;
 
   if (id) {
     await prisma.article.update({
       where: { id },
-      data: { title, content, published },
+      data: { title, content, authorName, authorAvatar, tags },
     });
   } else {
     await prisma.article.create({
-      data: { title, content, published },
+      data: { title, content, authorName, authorAvatar, tags },
     });
   }
 

@@ -15,28 +15,62 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
     notFound();
   }
 
+  const tagsArray = article.tags ? article.tags.split(',').map((t: string) => t.trim()).filter(Boolean) : [];
+
   return (
-    <article style={{ padding: '5%', maxWidth: '800px', margin: '0 auto' }}>
-      <Link href="/blog" style={{ color: 'var(--accent-orange)', textDecoration: 'none', fontWeight: 'bold', marginBottom: '2rem', display: 'inline-block' }}>
-        ← Back to Blog
+    <article style={{ padding: '8% 5%', maxWidth: '1400px', margin: '0 auto' }}>
+      <Link href="/#blog" style={{ color: 'var(--accent-orange)', textDecoration: 'none', fontWeight: 'bold', marginBottom: '4rem', display: 'inline-block' }}>
+        ← BROWSE ALL ADVENTURES
       </Link>
       
-      <h1 style={{ fontSize: '4rem', lineHeight: 1.1, marginBottom: '1rem' }}>{article.title}</h1>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: '3rem', fontWeight: 'bold' }}>
-        {new Date(article.createdAt).toLocaleDateString()}
-      </p>
+      <div className="article-grid">
+        
+        {/* Left Editorial Sidebar */}
+        <aside className="article-sidebar">
+          <h4>Author</h4>
+          <div className="author-info">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={article.authorAvatar || '/phone.png'} alt={article.authorName || 'Author'} className="author-avatar" />
+            <span>{article.authorName || 'Penny Lane'}</span>
+          </div>
 
-      <div 
-        className="memimas-content"
-        style={{ fontSize: '1.2rem', lineHeight: 1.8 }}
-        dangerouslySetInnerHTML={{ __html: article.content }} 
-      />
-      
-      <div style={{ marginTop: '5rem', borderTop: '2px solid var(--text-secondary)', paddingTop: '2rem', textAlign: 'center' }}>
-        <h3 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Share this adventure</h3>
+          <h4>Date</h4>
+          <div className="date">
+            {new Date(article.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+          </div>
+
+          {tagsArray.length > 0 && (
+            <>
+              <br/><br/>
+              <div className="tags">
+                {tagsArray.map((tag: string) => (
+                  <span key={tag} className="tag">{tag}</span>
+                ))}
+              </div>
+            </>
+          )}
+        </aside>
+
+        {/* Main Content Wrapper */}
+        <div className="article-content">
+          <h1 style={{ fontSize: '5rem', lineHeight: 1.1, marginBottom: '4rem', color: 'var(--text-primary)', fontFamily: 'var(--font-righteous)', textTransform: 'uppercase' }}>
+            {article.title}
+          </h1>
+          
+          <div 
+            className="memimas-content"
+            dangerouslySetInnerHTML={{ __html: article.content }} 
+          />
+        </div>
+
+      </div>
+
+      {/* Share Section */}
+      <div style={{ marginTop: '8rem', borderTop: '4px solid var(--text-primary)', paddingTop: '4rem', textAlign: 'center' }}>
+        <h3 style={{ fontSize: '2.5rem', marginBottom: '2rem' }}>Share this adventure</h3>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-          <button className="vintage-btn" style={{ padding: '0.5rem 1rem', fontSize: '1rem' }}>Twitter</button>
-          <button className="vintage-btn" style={{ padding: '0.5rem 1rem', fontSize: '1rem' }}>Facebook</button>
+          <button className="vintage-btn" style={{ padding: '0.8rem 2rem', fontSize: '1.2rem' }}>Twitter</button>
+          <button className="vintage-btn" style={{ padding: '0.8rem 2rem', fontSize: '1.2rem' }}>Facebook</button>
         </div>
       </div>
     </article>

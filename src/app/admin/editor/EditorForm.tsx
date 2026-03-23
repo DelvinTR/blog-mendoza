@@ -24,13 +24,12 @@ export default function EditorForm({ initialData }: { initialData: any }) {
     return null;
   }
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData();
-    if (initialData?.id) formData.append('id', initialData.id);
-    formData.append('title', title);
-    formData.append('content', editor.getHTML());
-    formData.append('published', String(published));
+    const formData = new FormData(e.currentTarget);
+    if (initialData?.id) formData.set('id', initialData.id);
+    formData.set('content', editor.getHTML());
+    formData.set('published', String(published));
     
     await saveArticle(formData);
   };
@@ -53,13 +52,20 @@ export default function EditorForm({ initialData }: { initialData: any }) {
       <div className={styles.formGroup}>
         <label>Article Title</label>
         <input
-          required
           type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className={styles.input}
-          placeholder="My Trip to Paris"
+          name="title"
+          placeholder="Article Title"
+          defaultValue={initialData?.title || ''}
+          required
+          className={styles.titleInput}
         />
+        
+        {/* Editorial Metadata */}
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+          <input type="text" name="authorName" placeholder="Author Name" defaultValue={initialData?.authorName || ''} className={styles.titleInput} style={{ flex: 1, fontSize: '1rem', margin: 0 }} />
+          <input type="text" name="authorAvatar" placeholder="Avatar Face URL" defaultValue={initialData?.authorAvatar || ''} className={styles.titleInput} style={{ flex: 1, fontSize: '1rem', margin: 0 }} />
+          <input type="text" name="tags" placeholder="Tags (comma separated)" defaultValue={initialData?.tags || ''} className={styles.titleInput} style={{ flex: 2, fontSize: '1rem', margin: 0 }} />
+        </div>
       </div>
 
       <div className={styles.formGroup}>

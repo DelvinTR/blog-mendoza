@@ -49,11 +49,12 @@
 }
 
 :root {
-  --bg-color: #FFEBB7;
-  --text-primary: #243763;
-  --text-secondary: #AD8E70;
-  --accent-orange: #FF6E31;
-  --accent-pink: #F5ADC1;
+  --bg-color: #FBE1B5; /* Navajo White */
+  --text-primary: #2E434F; /* Limed Spruce */
+  --text-secondary: #4A5B66; /* Muted Limed Spruce */
+  --accent-orange: #F89254; /* Faded Orange */
+  --accent-green: #8DA249; /* Asparagus */
+  --accent-blue: #81A1B4; /* Regent Blue */
 }
 
 * {
@@ -150,8 +151,126 @@ h1, h2, h3, h4, .vintage-btn, button, input, textarea {
   font-display: swap;
 }
 
-.memimas-content,
-.memimas-content * {
+.memimas-content p, .memimas-content span, .memimas-content li {
   font-family: 'Memimas', sans-serif !important;
   text-transform: none !important;
+}
+
+/* --- Editorial Article Layout --- */
+.article-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 4rem;
+}
+
+@media (max-width: 900px) {
+  .article-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.article-sidebar {
+  font-family: 'Forager', var(--font-righteous), sans-serif;
+  color: var(--text-primary);
+}
+
+.article-sidebar h4 {
+  color: var(--accent-orange);
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  letter-spacing: 3px;
+  margin-bottom: 1.5rem;
+  font-weight: 900;
+}
+
+.article-sidebar .author-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.article-sidebar .author-avatar {
+  width: 55px; height: 55px; 
+  border-radius: 50%; 
+  object-fit: cover;
+  border: 4px solid var(--bg-color);
+  box-shadow: 0 0 0 2px var(--accent-orange);
+}
+
+.article-sidebar .date {
+  font-family: 'Memimas', sans-serif;
+  font-style: italic;
+  font-size: 1.3rem;
+}
+
+.article-sidebar .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.article-sidebar .tag {
+  background-color: var(--bg-color);
+  color: var(--accent-orange);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  border: 2px solid var(--accent-orange);
+}
+
+/* Article Content Typography overrides */
+.memimas-content {
+  font-size: 1.4rem !important;
+  line-height: 1.6 !important;
+}
+
+/* Drop Cap */
+.memimas-content > p:first-of-type::first-letter {
+  float: left;
+  font-size: 6rem;
+  line-height: 0.8;
+  padding-right: 0.8rem;
+  padding-top: 0.5rem;
+  color: var(--accent-green);
+  font-family: var(--font-inter), sans-serif !important;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+/* Blockquote / Callout box */
+.memimas-content blockquote {
+  background: linear-gradient(135deg, #FBE1B5 0%, #D4E5C0 100%);
+  padding: 3rem;
+  border-radius: 20px;
+  margin: 4rem 0;
+  border: none;
+  box-shadow: 10px 10px 0px rgba(0,0,0,0.05);
+}
+
+.memimas-content blockquote p {
+  font-family: var(--font-inter), sans-serif !important;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+}
+
+.memimas-content blockquote h2,
+.memimas-content blockquote h3 {
+  color: var(--accent-green) !important;
+  font-style: italic;
+  font-size: 2.2rem;
+  font-family: 'Forager', var(--font-righteous), sans-serif !important;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.memimas-content blockquote span {
+  font-family: inherit !important;
 }

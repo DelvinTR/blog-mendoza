@@ -18,7 +18,7 @@ export default async function BlogFeed() {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '3rem' }}>
           {articles.map((article: any, i: number) => (
-            <div key={article.id} className="vintage-card" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', backgroundColor: i%2===0 ? 'var(--bg-color)' : 'var(--accent-pink)' }}>
+            <div key={article.id} className="vintage-card" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', backgroundColor: 'var(--accent-blue)' }}>
               <div style={{ border: '2px solid var(--text-primary)', height: '180px', backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <span style={{ fontSize: '3rem' }}>📷</span>
               </div>

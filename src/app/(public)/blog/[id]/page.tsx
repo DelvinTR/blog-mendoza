@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   
-  const article = await prisma.article.findUnique({
+  const article: any = await prisma.article.findUnique({
     where: { id },
   });
 

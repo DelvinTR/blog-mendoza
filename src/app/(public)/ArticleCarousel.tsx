@@ -48,7 +48,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
           </svg>
         </button>
 
-        <h2 style={{ fontSize: '3.5rem', margin: 0, textAlign: 'center' }}>Latest Adventures</h2>
+        <h2 style={{ fontSize: '3.5rem', margin: 0, textAlign: 'center', color: '#2E434F' }}>Latest Adventures</h2>
 
         {/* Right Arrow */}
         <button 

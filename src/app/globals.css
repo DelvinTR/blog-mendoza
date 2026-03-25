@@ -164,8 +164,16 @@ h1, h2, h3, h4, .vintage-btn, button, input, textarea {
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Vintage Melinda';
+  src: url('/fonts/Vintage Melinda.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 .memimas-content p, .memimas-content span, .memimas-content li {
-  font-family: 'Memimas', sans-serif;
+  font-family: 'Vintage Melinda', 'Memimas', sans-serif;
   text-transform: none;
 }
 
@@ -242,18 +250,7 @@ h1, h2, h3, h4, .vintage-btn, button, input, textarea {
   line-height: 1.6 !important;
 }
 
-/* Drop Cap */
-.memimas-content > p:first-of-type::first-letter {
-  float: left;
-  font-size: 6rem;
-  line-height: 0.8;
-  padding-right: 0.8rem;
-  padding-top: 0.5rem;
-  color: var(--accent-green);
-  font-family: var(--font-inter), sans-serif !important;
-  font-weight: 900;
-  text-transform: uppercase;
-}
+/* Drop Cap removed per user request */
 
 /* Blockquote / Callout box */
 .memimas-content blockquote {

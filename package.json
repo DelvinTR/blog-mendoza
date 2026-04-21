@@ -1,13 +1,15 @@
 {
-  "name": "temp-blog",
-  "version": "0.1.0",
+  "name": "vinots-blog",
+  "version": "1.0.0",
+  "description": "A retro-styled vintage travel blog built with Next.js, Prisma, and TipTap.",
+  "author": "Vinot",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && prisma db push && next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate && npx prisma db push --accept-data-loss"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.7.6",

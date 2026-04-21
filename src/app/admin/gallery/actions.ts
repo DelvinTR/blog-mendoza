@@ -1,16 +1,18 @@
 'use server';
 
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 import { put, del } from '@vercel/blob';
-
-const prisma = new PrismaClient();
 
 export async function uploadPhoto(formData: FormData) {
   const photo = formData.get('photo') as File;
   const caption = formData.get('caption') as string;
 
   if (!photo) return;
+  
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    throw new Error("Vercel Blob: BLOB_READ_WRITE_TOKEN is missing in .env file. Please check implementation_plan.md for instructions.");
+  }
 
   const blob = await put(photo.name, photo, { access: 'public' });
   const url = blob.url;
@@ -32,7 +34,7 @@ export async function deletePhoto(id: string, url: string) {
   try {
     // Delete from Vercel Blob
     await del(url);
-  } catch (err) {}
+  } catch (err) { }
 
   revalidatePath('/admin/gallery');
   revalidatePath('/gallery');

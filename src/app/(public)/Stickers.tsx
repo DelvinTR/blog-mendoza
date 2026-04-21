@@ -1,54 +1,65 @@
-export const StarSticker = ({ top, left, right, bottom, color, size = 40, rotation = 0 }: any) => (
-  <svg width={size} height={size} viewBox="0 0 100 100" style={{ position: 'absolute', top, left, right, bottom, transform: `rotate(${rotation}deg)`, zIndex: 5, filter: 'drop-shadow(3px 3px 0px var(--text-primary))' }}>
-    <polygon points="50,5 65,35 95,40 75,65 80,95 50,80 20,95 25,65 5,40 35,35" fill={color} stroke="var(--text-primary)" strokeWidth="4" strokeLinejoin="round" />
-  </svg>
-);
+import React from 'react';
 
-export const PeaceSticker = ({ top, left, right, bottom, color, size = 50, rotation = 0 }: any) => (
-  <svg width={size} height={size} viewBox="0 0 100 100" style={{ position: 'absolute', top, left, right, bottom, transform: `rotate(${rotation}deg)`, zIndex: 5, filter: 'drop-shadow(3px 3px 0px var(--text-primary))' }}>
-    <circle cx="50" cy="50" r="45" fill={color} stroke="var(--text-primary)" strokeWidth="5" />
-    <line x1="50" y1="5" x2="50" y2="95" stroke="var(--text-primary)" strokeWidth="5" />
-    <line x1="50" y1="50" x2="20" y2="85" stroke="var(--text-primary)" strokeWidth="5" />
-    <line x1="50" y1="50" x2="80" y2="85" stroke="var(--text-primary)" strokeWidth="5" />
-  </svg>
-);
+// List of available sticker files in public/assets/stickers/
+const STICKERS_LIST = [
+  'Calque 1.png', 'Calque 2.png', 'Calque 3.png', 'Calque 4.png', 'Calque 5.png',
+  'Calque 6.png', 'Calque 7.png', 'Calque 8.png', 'Calque 9.png', 'Calque 10.png',
+  'Calque 11.png', 'Calque 12.png', 'Calque 14.png', 'Calque 15.png', 'Calque 16.png',
+  'Calque 17.png', 'Calque 18.png', 'Calque 19.png', 'Calque 20.png', 'Calque 21.png'
+];
 
-export const FlowerSticker = ({ top, left, right, bottom, color, size = 60, rotation = 0 }: any) => (
-  <svg width={size} height={size} viewBox="0 0 100 100" style={{ position: 'absolute', top, left, right, bottom, transform: `rotate(${rotation}deg)`, zIndex: 5, filter: 'drop-shadow(3px 3px 0px var(--text-primary))' }}>
-    <g fill={color} stroke="var(--text-primary)" strokeWidth="5">
-      <circle cx="30" cy="30" r="20" />
-      <circle cx="70" cy="30" r="20" />
-      <circle cx="30" cy="70" r="20" />
-      <circle cx="70" cy="70" r="20" />
-      <circle cx="50" cy="20" r="20" />
-      <circle cx="50" cy="80" r="20" />
-      <circle cx="20" cy="50" r="20" />
-      <circle cx="80" cy="50" r="20" />
-    </g>
-    <circle cx="50" cy="50" r="15" fill="#F89254" stroke="var(--text-primary)" strokeWidth="5" />
-  </svg>
-);
+/**
+ * Helper to get a stable "random" index based on position props
+ * This prevents hydration mismatch errors in Next.js
+ */
+const getStableIndex = (props: any) => {
+  const seed = (props.top || '') + (props.left || '') + (props.right || '') + (props.bottom || '') + 'salt-for-variety';
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = ((hash << 5) - hash) + seed.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+};
 
-export const SmileySticker = ({ top, left, right, bottom, color, size = 50, rotation = 0 }: any) => (
-  <svg width={size} height={size} viewBox="0 0 100 100" style={{ position: 'absolute', top, left, right, bottom, transform: `rotate(${rotation}deg)`, zIndex: 5, filter: 'drop-shadow(3px 3px 0px var(--text-primary))' }}>
-    <circle cx="50" cy="50" r="45" fill={color} stroke="var(--text-primary)" strokeWidth="5" />
-    <circle cx="35" cy="40" r="5" fill="var(--text-primary)" />
-    <circle cx="65" cy="40" r="5" fill="var(--text-primary)" />
-    <path d="M 25 60 Q 50 85 75 60" fill="none" stroke="var(--text-primary)" strokeWidth="6" strokeLinecap="round" />
-  </svg>
-);
+export const CustomSticker = ({ top, left, right, bottom, size = 100, rotation = 0, stickerIndex }: any) => {
+  const autoIndex = getStableIndex({ top, left, right, bottom });
+  // Use manual index if provided, otherwise fallback to calculated hash
+  const finalIndex = typeof stickerIndex === 'number' ? stickerIndex : autoIndex;
+  const stickerFile = STICKERS_LIST[finalIndex % STICKERS_LIST.length];
+
+  return (
+    <div className="retro-sticker" style={{ position: 'absolute', top, left, right, bottom, zIndex: 5 }}>
+      <div className="retro-sticker-inner" style={{ transform: `rotate(${rotation}deg)` }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img 
+          src={`/assets/stickers/${stickerFile}`} 
+          alt="Retro Sticker" 
+          style={{ 
+            width: `${size}px`, 
+            height: 'auto', 
+            display: 'block',
+            filter: 'drop-shadow(3px 3px 0px rgba(0,0,0,0.2))'
+          }} 
+        />
+      </div>
+    </div>
+  );
+};
+
+// Map old SVG components to the new CustomSticker component
+// This way we don't have to change the code in every page
+export const StarSticker = (props: any) => <CustomSticker {...props} />;
+export const PeaceSticker = (props: any) => <CustomSticker {...props} />;
+export const FlowerSticker = (props: any) => <CustomSticker {...props} />;
+export const SmileySticker = (props: any) => <CustomSticker {...props} />;
 
 export const EmojiSticker = ({ emoji, top, left, right, bottom, size = 50, rotation = 0 }: any) => (
-  <div style={{ 
-    position: 'absolute', 
-    top, left, right, bottom, 
-    transform: `rotate(${rotation}deg)`, 
-    zIndex: 5, 
-    fontSize: `${size}px`,
-    userSelect: 'none',
-    lineHeight: 1,
-    filter: 'drop-shadow(3px 3px 0px var(--text-primary))'
-  }}>
-    {emoji}
+  <div className="retro-sticker" style={{ position: 'absolute', top, left, right, bottom, zIndex: 5 }}>
+    <div className="retro-sticker-inner" style={{ transform: `rotate(${rotation}deg)`, fontSize: `${size}px`, userSelect: 'none', lineHeight: 1 }}>
+      <div style={{ filter: 'drop-shadow(3px 3px 0px rgba(0,0,0,0.15))' }}>
+        {emoji}
+      </div>
+    </div>
   </div>
 );

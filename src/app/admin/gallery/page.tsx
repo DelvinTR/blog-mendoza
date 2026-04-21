@@ -1,9 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { uploadPhoto, deletePhoto } from './actions';
 import DeleteButton from '../components/DeleteButton';
 import styles from '../admin.module.css';
-
-const prisma = new PrismaClient();
 
 export default async function AdminGallery() {
   const photos = await prisma.photo.findMany({

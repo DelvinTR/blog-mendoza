@@ -1,10 +1,8 @@
 import Link from 'next/link';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { deleteArticle } from './actions';
 import DeleteButton from './components/DeleteButton';
 import styles from './admin.module.css';
-
-const prisma = new PrismaClient();
 
 export default async function AdminDashboard() {
   const articles = await prisma.article.findMany({

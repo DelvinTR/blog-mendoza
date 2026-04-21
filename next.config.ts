@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Silence the multiple-lockfile warning for Turbopack
+  turbopack: {
+    root: ".",
+  },
 };
 
 export default nextConfig;

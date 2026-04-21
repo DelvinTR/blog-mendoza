@@ -1,8 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import EditorForm from './EditorForm';
 import styles from '../admin.module.css';
-
-const prisma = new PrismaClient();
 
 export default async function EditorPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
   const { id } = await searchParams; // Next.js 15 searchParams is a Promise

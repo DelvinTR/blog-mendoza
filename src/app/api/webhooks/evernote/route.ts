@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
-
-const prisma = new PrismaClient();
 
 // Securité : Seul Zapier/Make.com avec ce jeton pourra créer des articles
 const WEBHOOK_SECRET = process.env.EVERNOTE_WEBHOOK_SECRET || 'super-secret-token-1234';

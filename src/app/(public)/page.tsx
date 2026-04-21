@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import ArticleCarousel from './ArticleCarousel';
 import RetroTvFrame from './RetroTvFrame';
+import RetroCameraFrame from './RetroCameraFrame';
+import HomePhotoSlider from './HomePhotoSlider';
 import { StarSticker, PeaceSticker, FlowerSticker, SmileySticker } from './Stickers';
-
-const prisma = new PrismaClient();
 
 export default async function HomePage() {
   const articles = await prisma.article.findMany({
@@ -22,114 +22,114 @@ export default async function HomePage() {
     <div style={{ display: 'flex', flexDirection: 'column' }}>
 
       {/* 1. Hero Section */}
-      <section id="hero" style={{ padding: '6rem 5% 4rem 5%', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem', alignItems: 'center', backgroundColor: 'var(--bg-color)', borderBottom: '4px solid var(--text-primary)', position: 'relative' }}>
+      <section id="hero" className="hero-section">
+        <StarSticker top="12%" left="42%" size={140} rotation={15} stickerIndex={12} />
+        <PeaceSticker bottom="35%" left="-30px" size={150} rotation={25} stickerIndex={19} />
 
-        <StarSticker top="10%" left="40%" color="var(--accent-green)" size={45} rotation={20} />
-        <FlowerSticker bottom="8%" left="45%" color="var(--accent-blue)" size={70} rotation={-15} />
-
-        <div>
-          <h1 style={{ fontSize: '4rem', lineHeight: 1.1, marginBottom: '1.5rem' }}>
-            Vinot's Blog ⭐
+        <div className="hero-content">
+          <p className="hero-eyebrow">Blog de voyage vintage</p>
+          <h1 className="hero-title">
+            Vinot&apos;s Blog
           </h1>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', fontSize: '1.1rem', maxWidth: '500px' }}>
-            LOREM IPSUM DOLOR SIT AMET CONSECTETUR. AMET NUNC TINCIDUNT IN TRISTIQUE. SENECTUS ID TINCIDUNT TEMPUS LACUS TEMPOR NIBH EGESTAS SIT POSUERE.
+          <p className="hero-subtitle">
+            Explorez le monde à travers des récits authentiques, des photos captivantes et des aventures inspirantes. Un voyage vintage, une histoire à la fois.
           </p>
-          <a href="#blog" className="vintage-btn">
-            Lire les articles
-          </a>
+          <div className="hero-cta-group">
+            <a href="#blog" className="vintage-btn">
+              Lire les articles
+            </a>
+            <a href="#gallery" className="article-back-link" style={{ marginBottom: 0, fontSize: '0.88rem' }}>
+              Voir la galerie
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
         </div>
 
-        {/* Telephone container */}
-        <div style={{ position: 'relative', width: '100%', maxWidth: '300px', margin: '0 auto', transform: 'rotate(5deg)' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/phone.png" alt="Retro Phone" style={{ width: '100%', height: 'auto', display: 'block', filter: 'drop-shadow(10px 10px 0px var(--text-primary))' }} />
+        {/* Phone container */}
+        <div className="hero-phone-wrapper">
+          <div className="hero-phone-inner">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/phone.png" alt="Retro Phone" className="hero-phone-img" />
 
-          {/* Screen Area (Absolute overlay) */}
-          <div style={{
-            position: 'absolute',
-            top: '20%',
-            left: '18%',
-            right: '18%',
-            bottom: '41%',
-            backgroundColor: '#fff',
-            padding: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px',
-            overflow: 'hidden',
-            borderRadius: '4px',
-            boxShadow: 'inset 0 0 10px rgba(0,0,0,0.1)'
-          }}>
-            {latestPost ? (
-              <>
-                <div style={{ background: '#D9381E', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 'bold', alignSelf: 'center', display: 'flex', alignItems: 'center', gap: '6px', width: '100%', justifyContent: 'center', textTransform: 'uppercase' }}>
-                  <span style={{ height: '8px', width: '8px', borderRadius: '50%', background: 'white', display: 'inline-block', animation: 'pulse 1.5s infinite' }}></span>
-                  Nouveau POST
-                </div>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <h3 style={{ fontSize: '1.2rem', color: 'var(--text-primary)', margin: 0, lineHeight: 1.3, textTransform: 'none', textAlign: 'center' }}>
-                    {latestPost.title}
-                  </h3>
-                </div>
-                <Link href={`/blog/${latestPost.id}`} style={{ background: 'var(--accent-orange)', color: 'white', textDecoration: 'none', padding: '10px', textAlign: 'center', borderRadius: '4px', fontWeight: 'bold', fontSize: '0.9rem', width: '100%' }}>
-                  Ouvrir l'article
-                </Link>
-              </>
-            ) : (
-              <div style={{ textAlign: 'center', margin: 'auto', color: '#999', fontSize: '0.9rem' }}>
-                Pas encore de post
+            {/* Screen Area */}
+            <div className={`hero-phone-screen ${latestPost?.coverImage ? 'has-bg' : ''}`}>
+              {latestPost?.coverImage && (
+                <div 
+                  className="phone-screen-bg" 
+                  style={{ backgroundImage: `url(${latestPost.coverImage})` }}
+                />
+              )}
+              <div className="phone-screen-content">
+                {latestPost ? (
+                  <>
+                    <div className="phone-new-badge">
+                      <span className="phone-pulse-dot"></span>
+                      Nouveau POST
+                    </div>
+                    <div className="phone-title">
+                      <h3>{latestPost.title}</h3>
+                    </div>
+                    <Link href={`/blog/${latestPost.id}`} className="phone-cta">
+                      Ouvrir l&apos;article
+                    </Link>
+                  </>
+                ) : (
+                  <div className="phone-empty">
+                    Pas encore de post
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       </section>
 
       {/* 2. Blog Feed Section */}
-      <section id="blog" style={{ padding: '5rem 5%', backgroundColor: 'var(--accent-green)', borderBottom: '4px solid var(--text-primary)', position: 'relative' }}>
-        <PeaceSticker top="8%" left="15%" color="var(--accent-orange)" size={65} rotation={-10} />
-        <SmileySticker bottom="10%" right="10%" color="var(--bg-color)" size={75} rotation={15} />
+      <section id="blog" className="blog-section">
+        <PeaceSticker top="-5%" left="12%" size={160} rotation={-15} stickerIndex={2} />
+        <SmileySticker bottom="-10%" right="8%" size={180} rotation={12} stickerIndex={17} />
+
+        <div className="section-header">
+          <p className="section-eyebrow">Articles récents</p>
+          <h2 className="section-title">Aventures & Récits</h2>
+          <p className="section-subtitle">Des histoires de voyage authentiques, racontées avec passion</p>
+        </div>
 
         <RetroTvFrame>
           <ArticleCarousel articles={articles} />
         </RetroTvFrame>
 
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem' }}>
-          <Link href="/blog" className="vintage-btn" style={{ fontSize: '1.2rem', padding: '0.8rem 2.5rem' }}>
+        {/* Mobile: show carousel directly without TV */}
+        <div className="mobile-carousel-fallback">
+          <ArticleCarousel articles={articles} />
+        </div>
+
+        <div className="blog-section-cta">
+          <Link href="/blog" className="vintage-btn">
             Voir tous les articles
           </Link>
         </div>
       </section>
 
-      {/* 3. Photo Gallery Section */}
-      <section id="gallery" style={{ padding: '5rem 5% 8rem 5%', backgroundColor: 'var(--accent-blue)', position: 'relative', overflow: 'hidden' }}>
-        <StarSticker top="-5%" left="10%" color="var(--accent-orange)" size={70} rotation={15} />
-        <SmileySticker top="10%" right="15%" color="var(--accent-green)" size={60} rotation={-15} />
-        <PeaceSticker bottom="5%" left="20%" color="var(--accent-blue)" size={80} rotation={10} />
-        <StarSticker bottom="15%" right="10%" color="#ff9eaa" size={50} rotation={45} />
-        <FlowerSticker top="45%" left="-20px" color="var(--bg-color)" size={90} rotation={-5} />
-        <SmileySticker top="55%" right="-10px" color="var(--accent-orange)" size={70} rotation={25} />
+      {/* 3. Photo Gallery Section — Camera Frame */}
+      <section id="gallery" className="gallery-section">
+        <StarSticker top="-8%" left="8%" size={170} rotation={10} stickerIndex={1} />
+        <FlowerSticker top="60%" left="-30px" size={180} rotation={-8} stickerIndex={9} />
+        <PeaceSticker bottom="-10%" right="-20px" size={150} rotation={35} stickerIndex={14} />
 
-        <h2 style={{ textAlign: 'center', fontSize: '3.5rem', marginBottom: '4rem', position: 'relative', zIndex: 10 }}>Galerie</h2>
+        <h2 className="gallery-title animate-fade-in-up">Galerie Photo</h2>
 
-        {photos.length === 0 ? (
-          <p style={{ textAlign: 'center', position: 'relative', zIndex: 10 }}>La gallerie est vide :(</p>
-        ) : (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4rem', justifyContent: 'center', position: 'relative', zIndex: 10 }}>
-            {photos.map((photo: any, i: number) => {
-              const rotation = i % 2 === 0 ? (i % 3 === 0 ? '-4deg' : '3deg') : (i % 5 === 0 ? '5deg' : '-2deg');
-              const tapeType = i % 3 === 0 ? 'blue-yellow' : i % 3 === 1 ? 'pink' : 'green';
+        <RetroCameraFrame>
+          <HomePhotoSlider photos={photos.map(p => ({ id: p.id, url: p.url, caption: p.caption }))} />
+        </RetroCameraFrame>
 
-              return (
-                <div key={photo.id} className="polaroid" style={{ width: '300px', transform: `rotate(${rotation})` }}>
-                  <div className={`tape ${tapeType}`}></div>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={photo.url} alt={photo.caption || 'Travel memory'} />
-                  <div className="polaroid-caption">{photo.caption}</div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+        <div className="gallery-section-cta">
+          <Link href="/gallery" className="vintage-btn">
+            Voir le scrapbook complet
+          </Link>
+        </div>
       </section>
 
     </div>

@@ -219,6 +219,87 @@
 }
 
 /* ==========================================
+   BACKGROUND IMAGE ZONE (Notebook)
+   ========================================== */
+
+.bgZone {
+  width: 100%;
+  min-height: 120px;
+  border: 2px dashed #e2e8f0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.bgZone:hover {
+  border-color: #FF6E31;
+  background-color: #fff9f5;
+}
+
+.bgZoneHasImage {
+  border: 1px solid #e2e8f0;
+  min-height: 180px;
+  cursor: default;
+}
+
+.bgZoneDragging {
+  border-color: #FF6E31;
+  background-color: #fff3ec;
+  transform: scale(1.005);
+}
+
+.bgPreview {
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+  max-height: 300px;
+  object-fit: cover;
+  display: block;
+  opacity: 0.85;
+}
+
+.bgOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(45, 26, 10, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.bgZoneHasImage:hover .bgOverlay {
+  opacity: 1;
+}
+
+.bgBtn {
+  composes: coverBtn;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.bgLabel {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #94a3b8;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ==========================================
    PREMIUM EDITOR FORM
    ========================================== */
 
@@ -1093,6 +1174,7 @@
     opacity: 0;
     transform: translateY(-8px) scale(0.97);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -1412,11 +1494,11 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.publishToggle input:checked + .toggleSlider {
+.publishToggle input:checked+.toggleSlider {
   background: #22c55e;
 }
 
-.publishToggle input:checked + .toggleSlider::before {
+.publishToggle input:checked+.toggleSlider::before {
   transform: translateX(16px);
 }
 
@@ -1500,6 +1582,7 @@
     opacity: 0;
     transform: scale(0.95) translateY(4px);
   }
+
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -1510,6 +1593,7 @@
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
@@ -1587,28 +1671,143 @@
    RESPONSIVE
    ========================================== */
 
-@media (max-width: 768px) {
+/* Tablet */
+@media (max-width: 1024px) {
   .mainContent {
-    padding: 1.25rem;
+    padding: 2rem 1.5rem;
   }
 
+  .sidebar {
+    width: 220px;
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  /* Stack layout vertically */
+  .adminContainer {
+    flex-direction: column;
+  }
+
+  /* Sidebar becomes a horizontal top bar */
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    gap: 0;
+    border-right: none;
+    border-bottom: 1px solid #e8e8ef;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #ffffff;
+  }
+
+  .sidebarHeader h2 {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .navLinks {
+    flex-direction: row;
+    gap: 0.15rem;
+    margin-left: auto;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .navLinks a {
+    font-size: 0.8rem;
+    padding: 0.45rem 0.65rem;
+    white-space: nowrap;
+  }
+
+  /* Main content fills screen */
+  .mainContent {
+    padding: 1.25rem;
+    max-width: 100%;
+  }
+
+  /* Table scrollable */
+  .card {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.75rem 0.6rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .table {
+    min-width: 500px;
+  }
+
+  /* Editor toolbar scrollable */
   .premiumToolbar {
     padding: 0.4rem;
     overflow-x: auto;
     flex-wrap: nowrap;
     -webkit-overflow-scrolling: touch;
+    gap: 0.15rem;
   }
 
+  .toolDivider {
+    margin: 0 0.2rem;
+  }
+
+  .tBtn {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+  }
+
+  .tBtnDropdown {
+    font-size: 0.72rem;
+    padding: 3px 7px;
+    height: 30px;
+  }
+
+  .dropdownLabel {
+    max-width: 70px;
+  }
+
+  /* Editor content */
   .premiumEditorContent {
     padding: 1.25rem;
   }
 
+  .premiumEditorContent :global(.ProseMirror) {
+    min-height: 350px;
+  }
+
+  /* Title input */
+  .premiumTitleInput {
+    font-size: 1.5rem;
+  }
+
+  .excerptInput {
+    font-size: 1rem;
+  }
+
+  /* Meta row stacked */
   .metaRow {
     flex-direction: column;
   }
 
+  .metaInput {
+    min-width: 100%;
+  }
+
+  /* Floating menus */
   .floatingMenu {
     min-width: 220px;
+    max-width: calc(100vw - 2rem);
   }
 
   .floatingGrid {
@@ -1620,6 +1819,7 @@
     max-width: calc(100vw - 2rem);
   }
 
+  /* Cover zone */
   .coverZone {
     min-height: 140px;
   }
@@ -1630,5 +1830,33 @@
 
   .coverPreview {
     min-height: 200px;
+    max-height: 280px;
+  }
+
+  /* Footer bar */
+  .editorFooter {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  /* Buttons */
+  .btn {
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+  }
+
+  /* Color pickers position */
+  .colorGrid,
+  .highlightGrid,
+  .colorDropdown {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+
+  /* Dropdown menus */
+  .dropdownMenu {
+    max-height: 220px;
   }
 }

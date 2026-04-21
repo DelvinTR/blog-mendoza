@@ -1,12 +1,12 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-
-const prisma = new PrismaClient();
+import ReadingProgress from '../../ReadingProgress';
+import NotebookReader from './NotebookReader';
 
 export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  
+
   const article: any = await prisma.article.findUnique({
     where: { id },
   });
@@ -15,64 +15,57 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
     notFound();
   }
 
-  const tagsArray = article.tags ? article.tags.split(',').map((t: string) => t.trim()).filter(Boolean) : [];
+  const tagsArray = article.tags
+    ? article.tags.split(',').map((t: string) => t.trim()).filter(Boolean)
+    : [];
+
+  const formattedDate = new Date(article.createdAt).toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
 
   return (
-    <article style={{ padding: '8% 5%', maxWidth: '1400px', margin: '0 auto' }}>
-      <Link href="/#blog" style={{ color: 'var(--accent-orange)', textDecoration: 'none', fontWeight: 'bold', marginBottom: '4rem', display: 'inline-block' }}>
-        ← BROWSE ALL ADVENTURES
-      </Link>
-      
-      <div className="article-grid">
-        
-        {/* Left Editorial Sidebar */}
-        <aside className="article-sidebar">
-          <h4>Author</h4>
-          <div className="author-info">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={article.authorAvatar || '/phone.png'} alt={article.authorName || 'Author'} className="author-avatar" />
-            <span>{article.authorName || 'Penny Lane'}</span>
-          </div>
+    <>
+      <ReadingProgress />
 
-          <h4>Date</h4>
-          <div className="date">
-            {new Date(article.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-          </div>
-
-          {tagsArray.length > 0 && (
-            <>
-              <br/><br/>
-              <div className="tags">
-                {tagsArray.map((tag: string) => (
-                  <span key={tag} className="tag">{tag}</span>
-                ))}
-              </div>
-            </>
-          )}
-        </aside>
-
-        {/* Main Content Wrapper */}
-        <div className="article-content">
-          <h1 style={{ fontSize: '5rem', lineHeight: 1.1, marginBottom: '4rem', color: 'var(--text-primary)', fontFamily: 'var(--font-righteous)', textTransform: 'uppercase' }}>
-            {article.title}
-          </h1>
-          
-          <div 
-            className="memimas-content"
-            dangerouslySetInnerHTML={{ __html: article.content }} 
-          />
-        </div>
-
+      {/* Back link — floating above the notebook scene */}
+      <div style={{
+        position: 'fixed',
+        top: '100px',
+        left: '24px',
+        zIndex: 100,
+      }}>
+        <Link
+          href="/blog"
+          className="article-back-link"
+          style={{
+            marginBottom: 0,
+            background: 'rgba(30,15,5,0.65)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            padding: '6px 16px',
+            borderRadius: '24px',
+            border: '1px solid rgba(253,232,196,0.15)',
+            display: 'inline-flex',
+          }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          Tous les articles
+        </Link>
       </div>
 
-      {/* Share Section */}
-      <div style={{ marginTop: '8rem', borderTop: '4px solid var(--text-primary)', paddingTop: '4rem', textAlign: 'center' }}>
-        <h3 style={{ fontSize: '2.5rem', marginBottom: '2rem' }}>Share this adventure</h3>
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-          <button className="vintage-btn" style={{ padding: '0.8rem 2rem', fontSize: '1.2rem' }}>Twitter</button>
-          <button className="vintage-btn" style={{ padding: '0.8rem 2rem', fontSize: '1.2rem' }}>Facebook</button>
-        </div>
-      </div>
-    </article>
+      {/* The interactive notebook */}
+      <NotebookReader
+        title={article.title}
+        content={article.content}
+        bgImage={article.bgImage}
+        authorName={article.authorName}
+        date={formattedDate}
+        tags={tagsArray}
+      />
+    </>
   );
 }

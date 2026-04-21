@@ -74,9 +74,10 @@ import { Callout } from './CalloutExtension';
 const lowlight = createLowlight(common);
 
 const FONT_FAMILIES = [
-  { label: 'Sans Serif', value: 'Inter, system-ui, sans-serif' },
-  { label: 'Serif', value: 'Georgia, serif' },
-  { label: 'Merriweather', value: 'Merriweather, serif' },
+  { label: 'Sans Serif', value: 'var(--font-inter), Inter, system-ui, sans-serif' },
+  { label: 'Serif', value: 'var(--font-playfair), Georgia, serif' },
+  { label: 'Manuscrit (Caveat)', value: 'var(--font-caveat), cursive' },
+  { label: 'Manuscrit (Shadows)', value: 'var(--font-shadows), cursive' },
   { label: 'Lora', value: 'Lora, serif' },
   { label: 'Playfair', value: 'Playfair Display, serif' },
   { label: 'Monospace', value: 'JetBrains Mono, monospace' },
@@ -110,12 +111,15 @@ export default function EditorForm({ initialData }: { initialData: any }) {
   const [saving, setSaving] = useState(false);
   const [coverImage, setCoverImage] = useState<string>(initialData?.coverImage || '');
   const [coverDragging, setCoverDragging] = useState(false);
+  const [bgImage, setBgImage] = useState<string>(initialData?.bgImage || '');
+  const [bgDragging, setBgDragging] = useState(false);
   const [showFontPicker, setShowFontPicker] = useState(false);
   const [showSizePicker, setShowSizePicker] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [showHighlightPicker, setShowHighlightPicker] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
+  const bgInputRef = useRef<HTMLInputElement>(null);
 
   const editor = useEditor({
     extensions: [
@@ -219,6 +223,31 @@ export default function EditorForm({ initialData }: { initialData: any }) {
     e.target.value = '';
   };
 
+  const handleBgChange = async (file: File) => {
+    const formData = new FormData();
+    formData.append('photo', file);
+    formData.append('caption', 'Notebook Background');
+    const res = await uploadPhoto(formData);
+    if (res?.url) {
+      setBgImage(res.url);
+    }
+  };
+
+  const handleBgInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) await handleBgChange(file);
+    e.target.value = '';
+  };
+
+  const handleBgDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    setBgDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      await handleBgChange(file);
+    }
+  };
+
   const handleCoverDrop = async (e: React.DragEvent) => {
     e.preventDefault();
     setCoverDragging(false);
@@ -258,6 +287,7 @@ export default function EditorForm({ initialData }: { initialData: any }) {
       formData.set('content', editor.getHTML());
       formData.set('published', String(published));
       formData.set('coverImage', coverImage);
+      formData.set('bgImage', bgImage);
       await saveArticle(formData);
     } finally {
       setSaving(false);
@@ -324,6 +354,50 @@ export default function EditorForm({ initialData }: { initialData: any }) {
           type="file"
           ref={coverInputRef}
           onChange={handleCoverInput}
+          style={{ display: 'none' }}
+          accept="image/*"
+        />
+      </div>
+
+      {/* Notebook Background Image Zone */}
+      <div
+        className={`${styles.bgZone} ${bgImage ? styles.bgZoneHasImage : ''} ${bgDragging ? styles.bgZoneDragging : ''}`}
+        onDragOver={(e) => { e.preventDefault(); setBgDragging(true); }}
+        onDragLeave={() => setBgDragging(false)}
+        onDrop={handleBgDrop}
+        onClick={() => !bgImage && bgInputRef.current?.click()}
+      >
+        <div className={styles.bgLabel}>Arrière-plan du cahier</div>
+        {bgImage ? (
+          <>
+            <img src={bgImage} alt="Background" className={styles.bgPreview} />
+            <div className={styles.bgOverlay}>
+              <button
+                type="button"
+                className={styles.bgBtn}
+                onClick={(e) => { e.stopPropagation(); bgInputRef.current?.click(); }}
+              >
+                <Upload size={16} /> Changer
+              </button>
+              <button
+                type="button"
+                className={styles.coverBtnDanger}
+                onClick={(e) => { e.stopPropagation(); setBgImage(''); }}
+              >
+                <X size={16} /> Supprimer
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className={styles.coverPlaceholder}>
+            <ImageIcon size={24} />
+            <span>Image de fond du carnet (immersion)</span>
+          </div>
+        )}
+        <input
+          type="file"
+          ref={bgInputRef}
+          onChange={handleBgInput}
           style={{ display: 'none' }}
           accept="image/*"
         />

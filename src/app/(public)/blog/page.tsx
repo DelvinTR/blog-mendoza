@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
-
-const prisma = new PrismaClient();
 
 export default async function BlogFeed() {
   const articles = await prisma.article.findMany({
@@ -10,27 +8,99 @@ export default async function BlogFeed() {
   });
 
   return (
-    <div style={{ padding: '5%' }}>
-      <h1 style={{ fontSize: '3.5rem', textAlign: 'center', marginBottom: '4rem' }}>All Adventures</h1>
-      
+    <div className="blog-list-page">
+      <div style={{ textAlign: 'center', marginBottom: 'var(--space-sm)' }}>
+        <p className="section-eyebrow">Journal de voyage</p>
+      </div>
+      <h1 className="blog-list-title">Toutes les aventures</h1>
+
       {articles.length === 0 ? (
-        <p style={{ textAlign: 'center' }}>No articles published yet.</p>
+        <p style={{
+          textAlign: 'center',
+          color: 'var(--text-muted)',
+          fontFamily: 'var(--font-body)',
+          fontSize: '1.1rem',
+          marginTop: 'var(--space-2xl)'
+        }}>
+          Aucun article publié pour l&apos;instant — revenez bientôt !
+        </p>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '3rem' }}>
-          {articles.map((article: any, i: number) => (
-            <div key={article.id} className="vintage-card" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', backgroundColor: 'var(--accent-blue)' }}>
-              <div style={{ border: '2px solid var(--text-primary)', height: '180px', backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: '3rem' }}>📷</span>
-              </div>
-              <h2 style={{ fontSize: '1.5rem', minHeight: '3rem' }}>{article.title}</h2>
-              <div style={{ fontSize: '0.9rem', color: 'var(--text-primary)' }}>
-                {new Date(article.createdAt).toLocaleDateString()}
-              </div>
-              <Link href={`/blog/${article.id}`} className="vintage-btn" style={{ textAlign: 'center', width: '100%', fontSize: '1rem', marginTop: 'auto' }}>
-                READ
+        <div className="blog-list-grid">
+          {articles.map((article: any, i: number) => {
+            const tagsArray = article.tags
+              ? article.tags.split(',').map((t: string) => t.trim()).filter(Boolean)
+              : [];
+
+            return (
+              <Link
+                key={article.id}
+                href={`/blog/${article.id}`}
+                className="blog-list-card"
+                style={{ textDecoration: 'none', animationDelay: `${i * 0.08}s` }}
+              >
+                {/* Cover */}
+                <div className="blog-card-cover-wrapper">
+                  {article.coverImage ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={article.coverImage}
+                      alt={article.title}
+                      className="blog-card-cover"
+                    />
+                  ) : (
+                    <div className="blog-card-cover-placeholder">
+                      {/* Placeholder SVG — no emoji */}
+                      <svg
+                        className="blog-card-cover-placeholder-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M3 9a2 2 0 0 1 2-2h.93a2 2 0 0 0 1.664-.89l.812-1.22A2 2 0 0 1 10.07 4h3.86a2 2 0 0 1 1.664.89l.812 1.22A2 2 0 0 0 18.07 7H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/>
+                        <circle cx="12" cy="13" r="3"/>
+                      </svg>
+                    </div>
+                  )}
+                </div>
+
+                {/* Body */}
+                <div className="blog-card-body">
+                  {tagsArray.length > 0 && (
+                    <div className="blog-card-tags">
+                      {tagsArray.slice(0, 3).map((tag: string) => (
+                        <span key={tag} className="blog-card-tag">{tag}</span>
+                      ))}
+                    </div>
+                  )}
+
+                  <h2 className="blog-card-title">{article.title}</h2>
+
+                  {article.excerpt && (
+                    <p className="blog-card-excerpt">{article.excerpt}</p>
+                  )}
+
+                  <div className="blog-card-footer">
+                    <span className="blog-card-meta">
+                      {new Date(article.createdAt).toLocaleDateString('fr-FR', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                      })}
+                    </span>
+                    <span className="blog-card-read-btn">
+                      Lire
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
               </Link>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

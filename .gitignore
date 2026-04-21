@@ -56,7 +56,8 @@ _check_photos.js
 start.cmd
 /design-system/
 /ui-ux-pro-max-skill/
-/public/uploads/stickers.zip
+# Uploads locaux générés en développement
+/public/uploads/
 
 # Agent config (local tooling)
 /.agent/

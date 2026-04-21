@@ -64,7 +64,7 @@ import {
   Type,
 } from 'lucide-react';
 import { saveArticle } from '../actions';
-import { uploadPhoto } from '../gallery/actions';
+import { uploadImageOnly } from '../gallery/actions';
 import styles from '../admin.module.css';
 import BubbleMenuBar from './BubbleMenuBar';
 import SlashCommandMenu from './SlashCommandMenu';
@@ -193,9 +193,10 @@ export default function EditorForm({ initialData }: { initialData: any }) {
     if (!editor) return;
     const formData = new FormData();
     formData.append('photo', file);
-    formData.append('caption', file.name);
-    const res = await uploadPhoto(formData);
-    if (res?.url) {
+    const res = await uploadImageOnly(formData);
+    if (res?.error) {
+      alert(res.error);
+    } else if (res?.url) {
       editor.chain().focus().setImage({ src: res.url, alt: file.name }).run();
     }
   }, [editor]);
@@ -210,9 +211,10 @@ export default function EditorForm({ initialData }: { initialData: any }) {
   const handleCoverChange = async (file: File) => {
     const formData = new FormData();
     formData.append('photo', file);
-    formData.append('caption', 'Cover Image');
-    const res = await uploadPhoto(formData);
-    if (res?.url) {
+    const res = await uploadImageOnly(formData);
+    if (res?.error) {
+      alert(res.error);
+    } else if (res?.url) {
       setCoverImage(res.url);
     }
   };
@@ -226,9 +228,10 @@ export default function EditorForm({ initialData }: { initialData: any }) {
   const handleBgChange = async (file: File) => {
     const formData = new FormData();
     formData.append('photo', file);
-    formData.append('caption', 'Notebook Background');
-    const res = await uploadPhoto(formData);
-    if (res?.url) {
+    const res = await uploadImageOnly(formData);
+    if (res?.error) {
+      alert(res.error);
+    } else if (res?.url) {
       setBgImage(res.url);
     }
   };

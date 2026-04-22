@@ -168,10 +168,21 @@
   animation: fadeInUp 0.5s var(--ease-out) forwards;
 }
 
-.mobile-nav-overlay a:nth-child(2) { animation-delay: 0.1s; }
-.mobile-nav-overlay a:nth-child(3) { animation-delay: 0.2s; }
-.mobile-nav-overlay a:nth-child(4) { animation-delay: 0.3s; }
-.mobile-nav-overlay a:nth-child(5) { animation-delay: 0.4s; }
+.mobile-nav-overlay a:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.mobile-nav-overlay a:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.mobile-nav-overlay a:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.mobile-nav-overlay a:nth-child(5) {
+  animation-delay: 0.4s;
+}
 
 .mobile-nav-overlay a:hover {
   color: var(--accent-orange);
@@ -500,8 +511,8 @@
 .hero-phone-screen {
   position: absolute;
   top: 20%;
-  left: 18%;
-  right: 18%;
+  left: 17%;
+  right: 17%;
   bottom: 41%;
   background: #ece8e1;
   display: flex;
@@ -528,13 +539,13 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(20, 10, 5, 0.45); /* Overlay sombre pour assurer la lisibilité */
+  background: rgba(20, 10, 5, 0.45);
+  /* Overlay sombre pour assurer la lisibilité */
 }
 
 .phone-screen-content {
   position: relative;
   z-index: 1;
-  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -585,7 +596,7 @@
 
 .hero-phone-screen.has-bg .phone-title h3 {
   color: #fff;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .phone-cta {
@@ -2859,7 +2870,8 @@
 
 /* ---- Stickers — Floating Retro Elements ---- */
 .retro-sticker {
-  pointer-events: none; /* Never block interactions */
+  pointer-events: none;
+  /* Never block interactions */
   user-select: none;
 }
 
@@ -2877,7 +2889,7 @@
   }
 
   .retro-tv-zoom {
-    zoom: 1.10;
+    zoom: 0.7;
   }
 
   /* Camera */
@@ -3007,7 +3019,7 @@
   }
 
   .retro-tv-zoom {
-    zoom: 1.00;
+    zoom: 0.6;
   }
 
   .retro-sticker {
@@ -3227,7 +3239,7 @@
   }
 
   .retro-tv-zoom {
-    zoom: 0.60;
+    zoom: 0.30;
   }
 
 

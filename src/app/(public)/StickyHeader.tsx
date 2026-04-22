@@ -17,13 +17,13 @@ export default function StickyHeader() {
     <>
       <header className={`header ${scrolled ? 'scrolled' : ''}`}>
         <Link href="/" className="header-logo">
-          Vinot&apos;s Blog
+          BLOG MENDOZA
         </Link>
         <nav className="nav-links">
           <Link href="/">Accueil</Link>
           <Link href="/#blog">Articles</Link>
-          <Link href="/#gallery">Galerie</Link>
-          <Link href="/gallery">Scrapbook</Link>
+          <Link href="/#gallery">Moments de vie</Link>
+          <Link href="/gallery">Galerie</Link>
           <Link href="/admin" className="signin-btn" prefetch={false}>Admin</Link>
         </nav>
         <MobileNav />

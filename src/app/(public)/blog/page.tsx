@@ -12,7 +12,7 @@ export default async function BlogFeed() {
       <div style={{ textAlign: 'center', marginBottom: 'var(--space-sm)' }}>
         <p className="section-eyebrow">Journal de voyage</p>
       </div>
-      <h1 className="blog-list-title">Toutes les aventures</h1>
+      <h1 className="blog-list-title">Tous les articles</h1>
 
       {articles.length === 0 ? (
         <p style={{
@@ -59,8 +59,8 @@ export default async function BlogFeed() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       >
-                        <path d="M3 9a2 2 0 0 1 2-2h.93a2 2 0 0 0 1.664-.89l.812-1.22A2 2 0 0 1 10.07 4h3.86a2 2 0 0 1 1.664.89l.812 1.22A2 2 0 0 0 18.07 7H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/>
-                        <circle cx="12" cy="13" r="3"/>
+                        <path d="M3 9a2 2 0 0 1 2-2h.93a2 2 0 0 0 1.664-.89l.812-1.22A2 2 0 0 1 10.07 4h3.86a2 2 0 0 1 1.664.89l.812 1.22A2 2 0 0 0 18.07 7H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z" />
+                        <circle cx="12" cy="13" r="3" />
                       </svg>
                     </div>
                   )}
@@ -93,7 +93,7 @@ export default async function BlogFeed() {
                     <span className="blog-card-read-btn">
                       Lire
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                        <path d="M5 12h14M12 5l7 7-7 7" />
                       </svg>
                     </span>
                   </div>

@@ -26,12 +26,12 @@ export default async function HomePage() {
 
 
         <div className="hero-content">
-          <p className="hero-eyebrow">Blog de voyage vintage</p>
+          <p className="hero-eyebrow">Quête secondaire :</p>
           <h1 className="hero-title">
-            Vinot&apos;s Blog
+            AVENTURE MENDOZA
           </h1>
           <p className="hero-subtitle">
-            Explorez le monde à travers des récits authentiques, des photos captivantes et des aventures inspirantes. Un voyage vintage, une histoire à la fois.
+            Retrouvez sur ce blog, des photos, des histoires, des anectodes, des voyages, et surtout du vintage !
           </p>
           <div className="hero-cta-group">
             <a href="#blog" className="vintage-btn">
@@ -40,7 +40,7 @@ export default async function HomePage() {
             <a href="#gallery" className="article-back-link" style={{ marginBottom: 0, fontSize: '0.88rem' }}>
               Voir la galerie
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
+                <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </a>
           </div>
@@ -55,8 +55,8 @@ export default async function HomePage() {
             {/* Screen Area */}
             <div className={`hero-phone-screen ${latestPost?.coverImage ? 'has-bg' : ''}`}>
               {latestPost?.coverImage && (
-                <div 
-                  className="phone-screen-bg" 
+                <div
+                  className="phone-screen-bg"
                   style={{ backgroundImage: `url(${latestPost.coverImage})` }}
                 />
               )}
@@ -92,7 +92,7 @@ export default async function HomePage() {
         <div className="section-header">
           <p className="section-eyebrow">Articles récents</p>
           <h2 className="section-title">Aventures & Récits</h2>
-          <p className="section-subtitle">Des histoires de voyage authentiques, racontées avec passion</p>
+          <p className="section-subtitle">Des histoires de voyage et de vie, racontées par Vinot</p>
         </div>
 
         <RetroTvFrame>
@@ -115,7 +115,7 @@ export default async function HomePage() {
       <section id="gallery" className="gallery-section">
 
 
-        <h2 className="gallery-title animate-fade-in-up">Galerie Photo</h2>
+        <h2 className="gallery-title animate-fade-in-up">Moments de vie</h2>
 
         <RetroCameraFrame>
           <HomePhotoSlider photos={photos.map(p => ({ id: p.id, url: p.url, caption: p.caption }))} />
@@ -123,7 +123,7 @@ export default async function HomePage() {
 
         <div className="gallery-section-cta">
           <Link href="/gallery" className="vintage-btn">
-            Voir le scrapbook complet
+            Voir toutes les photos
           </Link>
         </div>
       </section>

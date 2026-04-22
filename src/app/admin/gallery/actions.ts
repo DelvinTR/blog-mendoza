@@ -33,7 +33,7 @@ export async function uploadImageOnly(formData: FormData) {
   }
 
   try {
-    const blob = await put(photo.name, photo, { access: 'public' });
+    const blob = await put(photo.name, photo, { access: 'public', addRandomSuffix: true });
     return { url: blob.url };
   } catch (err: any) {
     return { error: `Erreur Vercel Blob: ${err.message}` };

@@ -56,59 +56,85 @@ export default function NotebookReader({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Parse HTML content into individual "page chunks" via a hidden div
   useEffect(() => {
     if (!content) { setPages([]); return; }
+    
+    let isCancelled = false;
 
-    const container = document.createElement('div');
-    container.innerHTML = content;
-    container.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;padding:32px 40px;`;
-    document.body.appendChild(container);
-
-    const PAGE_HEIGHT = 480; // Secure internal height to adapt to 600px locked height
-    const pagesArr: string[] = [];
-    let currentPageHTML = '';
-    let currentHeight = 0;
-
-    const nodes = Array.from(container.childNodes);
-
-    const measureNode = (node: ChildNode): number => {
-      const probe = document.createElement('div');
-      probe.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;`;
-      if (node instanceof Element) {
-        probe.appendChild(node.cloneNode(true));
-      } else {
-        const wrapper = document.createElement('p');
-        wrapper.textContent = node.textContent || '';
-        probe.appendChild(wrapper);
+    const paginate = async () => {
+      // 1. Wait for custom web fonts (Caveat) to load so text metrics are accurate
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
       }
-      document.body.appendChild(probe);
-      const h = probe.offsetHeight + 30; // base margin matches grid
-      document.body.removeChild(probe);
-      return h;
+
+      const container = document.createElement('div');
+      container.innerHTML = content;
+      container.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;padding:32px 40px;`;
+      document.body.appendChild(container);
+
+      // 2. Wait for all images inside the content to load to get true image heights
+      const images = Array.from(container.querySelectorAll('img'));
+      await Promise.all(images.map(img => {
+        if (img.complete) return Promise.resolve();
+        return new Promise(resolve => {
+          img.onload = resolve;
+          img.onerror = resolve;
+        });
+      }));
+
+      if (isCancelled) {
+        document.body.removeChild(container);
+        return;
+      }
+
+      const PAGE_HEIGHT = 480; // Secure internal height to adapt to 600px locked height
+      const pagesArr: string[] = [];
+      let currentPageHTML = '';
+      let currentHeight = 0;
+
+      const nodes = Array.from(container.childNodes);
+
+      const measureNode = (node: ChildNode): number => {
+        const probe = document.createElement('div');
+        probe.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;`;
+        if (node instanceof Element) {
+          probe.appendChild(node.cloneNode(true));
+        } else {
+          const wrapper = document.createElement('p');
+          wrapper.textContent = node.textContent || '';
+          probe.appendChild(wrapper);
+        }
+        document.body.appendChild(probe);
+        const h = probe.offsetHeight + 30; // base margin matches grid
+        document.body.removeChild(probe);
+        return h;
+      };
+
+      for (const node of nodes) {
+        const nodeHeight = measureNode(node);
+        if (currentHeight + nodeHeight > PAGE_HEIGHT && currentPageHTML !== '') {
+          pagesArr.push(currentPageHTML);
+          currentPageHTML = '';
+          currentHeight = 0;
+        }
+        if (node instanceof Element) {
+          currentPageHTML += (node as Element).outerHTML;
+        } else {
+          currentPageHTML += `<p>${node.textContent}</p>`;
+        }
+        currentHeight += nodeHeight;
+      }
+
+      if (currentPageHTML) pagesArr.push(currentPageHTML);
+
+      document.body.removeChild(container);
+      setPages(pagesArr);
+      setTotalSpreads(Math.ceil(pagesArr.length / 2) + 1);
     };
 
-    for (const node of nodes) {
-      const nodeHeight = measureNode(node);
-      if (currentHeight + nodeHeight > PAGE_HEIGHT && currentPageHTML !== '') {
-        pagesArr.push(currentPageHTML);
-        currentPageHTML = '';
-        currentHeight = 0;
-      }
-      if (node instanceof Element) {
-        currentPageHTML += (node as Element).outerHTML;
-      } else {
-        currentPageHTML += `<p>${node.textContent}</p>`;
-      }
-      currentHeight += nodeHeight;
-    }
+    paginate();
 
-    if (currentPageHTML) pagesArr.push(currentPageHTML);
-
-    document.body.removeChild(container);
-    setPages(pagesArr);
-    // Spread 0 = cover; then each spread shows 2 pages
-    setTotalSpreads(Math.ceil(pagesArr.length / 2) + 1);
+    return () => { isCancelled = true; };
   }, [content, viewWidth]);
 
   const flip = useCallback((dir: 'next' | 'prev') => {

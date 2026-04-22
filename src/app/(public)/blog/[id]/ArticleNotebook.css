@@ -256,20 +256,6 @@
   position: relative;
   z-index: 2;
   height: 100%;
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(120, 80, 40, 0.3) transparent;
-}
-
-.page-content::-webkit-scrollbar {
-  width: 4px;
-}
-
-.page-content::-webkit-scrollbar-thumb {
-  background: rgba(120, 80, 40, 0.2);
-  border-radius: 4px;
 }
 
 .page-number {

@@ -94,35 +94,74 @@ export default function NotebookReader({
 
       const nodes = Array.from(container.childNodes);
 
-      const measureNode = (node: ChildNode): number => {
+      const measureHTML = (html: string): number => {
         const probe = document.createElement('div');
         probe.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;`;
-        if (node instanceof Element) {
-          probe.appendChild(node.cloneNode(true));
-        } else {
-          const wrapper = document.createElement('p');
-          wrapper.textContent = node.textContent || '';
-          probe.appendChild(wrapper);
-        }
+        probe.innerHTML = html;
         document.body.appendChild(probe);
         const h = probe.offsetHeight + 30; // base margin matches grid
         document.body.removeChild(probe);
         return h;
       };
 
-      for (const node of nodes) {
-        const nodeHeight = measureNode(node);
-        if (currentHeight + nodeHeight > PAGE_HEIGHT && currentPageHTML !== '') {
+      const pushPage = () => {
+        if (currentPageHTML !== '') {
           pagesArr.push(currentPageHTML);
           currentPageHTML = '';
           currentHeight = 0;
         }
-        if (node instanceof Element) {
-          currentPageHTML += (node as Element).outerHTML;
+      };
+
+      const addHTML = (html: string, height: number) => {
+        currentPageHTML += html;
+        currentHeight += height;
+      };
+
+      for (const node of nodes) {
+        // Skip empty text nodes
+        if (node.nodeType === Node.TEXT_NODE && !node.textContent?.trim()) continue;
+
+        let nodeHTML = node instanceof Element ? node.outerHTML : `<p>${node.textContent}</p>`;
+        let nodeHeight = measureHTML(nodeHTML);
+
+        if (currentHeight + nodeHeight <= PAGE_HEIGHT) {
+          addHTML(nodeHTML, nodeHeight);
         } else {
-          currentPageHTML += `<p>${node.textContent}</p>`;
+          if (currentHeight > 0) {
+            pushPage();
+          }
+
+          if (nodeHeight <= PAGE_HEIGHT) {
+            addHTML(nodeHTML, nodeHeight);
+          } else {
+            // Un paragraphe géant qui dépasse une page entière !
+            if (node instanceof Element && node.tagName.toLowerCase() === 'p') {
+              const words = (node.textContent || '').split(' ');
+              let currentChunk = '';
+
+              for (const word of words) {
+                const testChunk = currentChunk ? `${currentChunk} ${word}` : word;
+                const testHeight = measureHTML(`<p>${testChunk}</p>`);
+
+                if (currentHeight + testHeight > PAGE_HEIGHT) {
+                  if (currentChunk) {
+                    addHTML(`<p>${currentChunk}</p>`, measureHTML(`<p>${currentChunk}</p>`));
+                    pushPage();
+                  }
+                  currentChunk = word;
+                } else {
+                  currentChunk = testChunk;
+                }
+              }
+              if (currentChunk.trim()) {
+                addHTML(`<p>${currentChunk}</p>`, measureHTML(`<p>${currentChunk}</p>`));
+              }
+            } else {
+              // Un autre élément géant (image), on le laisse passer
+              addHTML(nodeHTML, nodeHeight);
+            }
+          }
         }
-        currentHeight += nodeHeight;
       }
 
       if (currentPageHTML) pagesArr.push(currentPageHTML);

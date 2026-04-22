@@ -269,8 +269,8 @@
 /* ---- PAGE TEXT — Handwriting style ---- */
 .page-text {
   font-family: var(--font-caveat), cursive;
-  font-size: 18px;
-  line-height: 1.85;
+  font-size: 19px;
+  line-height: 30px;
   color: #2c1a04;
   position: relative;
   z-index: 2;
@@ -278,7 +278,8 @@
 
 /* Paragraphs */
 .page-text p {
-  margin-bottom: 0.6rem;
+  margin-top: 0;
+  margin-bottom: 30px;
   text-transform: none;
   font-weight: 400;
 }
@@ -291,13 +292,13 @@
   color: #3d1a00;
   text-transform: none;
   font-weight: 400;
-  margin: 0.8rem 0 0.4rem;
-  line-height: 1.3;
+  margin: 30px 0 0 0;
+  line-height: 30px;
 }
 
-.page-text h1 { font-size: 1.7rem; }
-.page-text h2 { font-size: 1.4rem; }
-.page-text h3 { font-size: 1.2rem; }
+.page-text h1 { font-size: 26px; }
+.page-text h2 { font-size: 22px; }
+.page-text h3 { font-size: 20px; }
 
 /* Bold / Strong */
 .page-text strong, .page-text b {
@@ -364,11 +365,12 @@
 /* Lists */
 .page-text ul, .page-text ol {
   padding-left: 1.4rem;
-  margin-bottom: 0.6rem;
+  margin-top: 0;
+  margin-bottom: 30px;
 }
 
 .page-text li {
-  margin-bottom: 0.2rem;
+  margin-bottom: 0;
 }
 
 /* ---- CORNER FOLDS  ---- */
@@ -666,15 +668,6 @@
     left: 48px;
   }
 
-  .page-text {
-    font-size: 16px;
-    line-height: 1.75;
-  }
-
-  .page-text h1 { font-size: 1.5rem; }
-  .page-text h2 { font-size: 1.25rem; }
-  .page-text h3 { font-size: 1.1rem; }
-
   .page-text img {
     max-width: 95%;
   }
@@ -734,11 +727,6 @@
 
   .page-lines {
     background-position: 0 44px;
-  }
-
-  .page-text {
-    font-size: 15px;
-    line-height: 1.7;
   }
 
   .page-number {

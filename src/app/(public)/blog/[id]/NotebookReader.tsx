@@ -62,7 +62,7 @@ export default function NotebookReader({
 
     const container = document.createElement('div');
     container.innerHTML = content;
-    container.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:18px;line-height:1.85;padding:32px 40px;`;
+    container.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;padding:32px 40px;`;
     document.body.appendChild(container);
 
     const PAGE_HEIGHT = 480; // Secure internal height to adapt to 600px locked height
@@ -74,7 +74,7 @@ export default function NotebookReader({
 
     const measureNode = (node: ChildNode): number => {
       const probe = document.createElement('div');
-      probe.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:18px;line-height:1.85;`;
+      probe.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;`;
       if (node instanceof Element) {
         probe.appendChild(node.cloneNode(true));
       } else {
@@ -83,7 +83,7 @@ export default function NotebookReader({
         probe.appendChild(wrapper);
       }
       document.body.appendChild(probe);
-      const h = probe.offsetHeight + 18; // base margin
+      const h = probe.offsetHeight + 30; // base margin matches grid
       document.body.removeChild(probe);
       return h;
     };

@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
-
-
+import ScrapbookGrid from './ScrapbookGrid';
 export default async function GalleryPage() {
   const photos = await prisma.photo.findMany({
     orderBy: { createdAt: 'desc' },
@@ -26,21 +25,7 @@ export default async function GalleryPage() {
           Aucune photo pour l&apos;instant — revenez bientôt !
         </p>
       ) : (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4rem', justifyContent: 'center', position: 'relative', zIndex: 10 }}>
-          {photos.map((photo: any, i: number) => {
-            const rotation = i % 2 === 0 ? (i % 3 === 0 ? '-4deg' : '3deg') : (i % 5 === 0 ? '5deg' : '-2deg');
-            const tapeType = i % 3 === 0 ? 'blue-yellow' : i % 3 === 1 ? 'pink' : 'green';
-            
-            return (
-              <div key={photo.id} className="polaroid" style={{ width: '360px', transform: `rotate(${rotation})` }}>
-                <div className={`tape ${tapeType}`}></div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={photo.url} alt={photo.caption || 'Photo de voyage'} />
-                <div className="polaroid-caption">{photo.caption}</div>
-              </div>
-            );
-          })}
-        </div>
+        <ScrapbookGrid photos={photos} />
       )}
     </article>
   );

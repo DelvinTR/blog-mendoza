@@ -97,8 +97,13 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
               backgroundColor: 'var(--accent-blue)' 
             }}
           >
-            <div style={{ border: '2px solid var(--text-primary)', height: '180px', backgroundColor: 'var(--bg-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontSize: '3rem' }}>🌿</span>
+            <div style={{ border: '2px solid var(--text-primary)', height: '180px', backgroundColor: 'var(--bg-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
+              {article.coverImage ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img src={article.coverImage} alt={article.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              ) : (
+                <span style={{ fontSize: '3rem' }}>🌿</span>
+              )}
             </div>
             <h2 style={{ fontSize: '1.5rem', minHeight: '3.5rem', lineHeight: 1.2 }}>{article.title}</h2>
             <div style={{ fontSize: '0.9rem', color: 'var(--bg-color)', fontWeight: 'bold' }}>

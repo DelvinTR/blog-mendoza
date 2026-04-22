@@ -177,17 +177,17 @@ export default function NotebookReader({
 
   // Get content for current spread
   // spread 0 = cover page (left=cover, right=page[0])
-  // spread n = pages[2n-2] left, pages[2n-1] right
+  // spread n = pages[2n-1] left, pages[2n] right
   const getLeftContent = (): { type: 'cover' | 'page'; html?: string; pageNum?: number } => {
     if (currentSpread === 0) return { type: 'cover' };
-    const idx = (currentSpread - 1) * 2;
+    const idx = currentSpread * 2 - 1;
     return { type: 'page', html: pages[idx] || '', pageNum: idx + 1 };
   };
   const getRightContent = (): { type: 'blank' | 'page'; html?: string; pageNum?: number } => {
     if (currentSpread === 0) return { type: 'page', html: pages[0] || '', pageNum: 1 };
-    const idx = (currentSpread - 1) * 2 + 1;
-    if (idx >= pages.length) return { type: 'blank' };
-    return { type: 'page', html: pages[idx], pageNum: idx + 1 };
+    const idx = currentSpread * 2;
+    if (idx >= pages.length && !pages[idx]) return { type: 'blank' };
+    return { type: 'page', html: pages[idx] || '', pageNum: idx + 1 };
   };
 
   const left = getLeftContent();

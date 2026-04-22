@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
-import { StarSticker, PeaceSticker, FlowerSticker, SmileySticker } from '../Stickers';
+
 
 export default async function GalleryPage() {
   const photos = await prisma.photo.findMany({
@@ -10,10 +10,7 @@ export default async function GalleryPage() {
   return (
     <article style={{ padding: '6% 5%', minHeight: '80vh', position: 'relative', overflow: 'hidden' }}>
       {/* Background Decor */}
-      <StarSticker top="-18%" left="-40px" size={140} rotation={12} stickerIndex={5} />
-      <SmileySticker top="12%" right="-20px" size={160} rotation={-18} stickerIndex={13} />
-      <FlowerSticker top="55%" left="-20px" size={130} rotation={-10} stickerIndex={0} />
-      <StarSticker bottom="15%" right="-30px" size={150} rotation={35} stickerIndex={7} />
+
       
       <Link href="/" className="article-back-link" style={{ marginBottom: '3rem', display: 'inline-flex' }}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

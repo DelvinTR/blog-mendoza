@@ -1,6 +1,6 @@
 import './public.css';
 import StickyHeader from './StickyHeader';
-import { CustomSticker } from './Stickers';
+
 
 export default function PublicLayout({
   children,
@@ -14,7 +14,7 @@ export default function PublicLayout({
         {children}
       </main>
       <footer className="footer" style={{ position: 'relative', overflow: 'hidden' }}>
-        <CustomSticker top="10%" right="-20px" size={130} rotation={-15} stickerIndex={18} />
+
         <div className="footer-inner">
           <div className="footer-brand">
             <div className="footer-brand-name">Vinot&apos;s Blog</div>

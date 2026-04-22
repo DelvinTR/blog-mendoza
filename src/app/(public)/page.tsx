@@ -4,7 +4,7 @@ import ArticleCarousel from './ArticleCarousel';
 import RetroTvFrame from './RetroTvFrame';
 import RetroCameraFrame from './RetroCameraFrame';
 import HomePhotoSlider from './HomePhotoSlider';
-import { StarSticker, PeaceSticker, FlowerSticker, SmileySticker } from './Stickers';
+
 
 export default async function HomePage() {
   const articles = await prisma.article.findMany({
@@ -23,8 +23,7 @@ export default async function HomePage() {
 
       {/* 1. Hero Section */}
       <section id="hero" className="hero-section">
-        <StarSticker top="12%" left="42%" size={140} rotation={15} stickerIndex={12} />
-        <PeaceSticker bottom="35%" left="-30px" size={150} rotation={25} stickerIndex={19} />
+
 
         <div className="hero-content">
           <p className="hero-eyebrow">Blog de voyage vintage</p>
@@ -88,8 +87,7 @@ export default async function HomePage() {
 
       {/* 2. Blog Feed Section */}
       <section id="blog" className="blog-section">
-        <PeaceSticker top="-5%" left="12%" size={160} rotation={-15} stickerIndex={2} />
-        <SmileySticker bottom="-10%" right="8%" size={180} rotation={12} stickerIndex={17} />
+
 
         <div className="section-header">
           <p className="section-eyebrow">Articles récents</p>
@@ -115,9 +113,7 @@ export default async function HomePage() {
 
       {/* 3. Photo Gallery Section — Camera Frame */}
       <section id="gallery" className="gallery-section">
-        <StarSticker top="-8%" left="8%" size={170} rotation={10} stickerIndex={1} />
-        <FlowerSticker top="60%" left="-30px" size={180} rotation={-8} stickerIndex={9} />
-        <PeaceSticker bottom="-10%" right="-20px" size={150} rotation={35} stickerIndex={14} />
+
 
         <h2 className="gallery-title animate-fade-in-up">Galerie Photo</h2>
 

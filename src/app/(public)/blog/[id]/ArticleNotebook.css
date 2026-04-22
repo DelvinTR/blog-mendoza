@@ -607,9 +607,8 @@
   .notebook-book {
     flex-direction: column;
     width: 100%;
-    max-width: 420px;
-    height: auto;
-    min-height: 450px;
+    max-width: 440px;
+    height: 600px; /* Hauteur fixe pour éviter les sauts */
     perspective: none;
     border-radius: 8px;
   }
@@ -642,7 +641,24 @@
   .notebook-right .notebook-page {
     border-radius: 8px;
     padding: 28px 24px;
-    min-height: 400px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-content {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(120, 80, 40, 0.3) transparent;
+  }
+
+  .page-content::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .page-content::-webkit-scrollbar-thumb {
+    background: rgba(120, 80, 40, 0.2);
+    border-radius: 4px;
   }
 
   .notebook-right .page-margin-line {
@@ -709,7 +725,7 @@
 
   .notebook-right .notebook-page {
     padding: 24px 18px;
-    min-height: 350px;
+    height: 100%;
   }
 
   .notebook-right .page-margin-line {

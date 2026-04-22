@@ -20,6 +20,7 @@ model Article {
   published    Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  comments     Comment[]
 }
 
 model Photo {
@@ -28,3 +29,13 @@ model Photo {
   caption   String?
   createdAt DateTime @default(now())
 }
+
+model Comment {
+  id        String   @id @default(cuid())
+  author    String
+  content   String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  articleId String
+  createdAt DateTime @default(now())
+}
+

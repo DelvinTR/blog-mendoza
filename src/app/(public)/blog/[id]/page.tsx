@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ReadingProgress from '../../ReadingProgress';
 import NotebookReader from './NotebookReader';
+import CommentSection from './CommentSection';
 
 export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -66,6 +67,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
         date={formattedDate}
         tags={tagsArray}
       />
+
+      {/* Comment section — Livre d'or */}
+      <CommentSection articleId={article.id} />
     </>
   );
 }
+

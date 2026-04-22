@@ -15,6 +15,12 @@ export function proxy(req: NextRequest) {
   const url = req.nextUrl;
 
   if (url.pathname.startsWith('/admin')) {
+    // Skip auth for prefetch requests to avoid browser login popups on public pages
+    const isPrefetch = req.headers.get('x-nextjs-prefetch') === '1' || req.headers.get('purpose') === 'prefetch';
+    if (isPrefetch) {
+      return NextResponse.next();
+    }
+
     if (basicAuth) {
       const authValue = basicAuth.split(' ')[1];
       const [user, pwd] = atob(authValue).split(':');

@@ -24,7 +24,7 @@ export default function StickyHeader() {
           <Link href="/#blog">Articles</Link>
           <Link href="/#gallery">Galerie</Link>
           <Link href="/gallery">Scrapbook</Link>
-          <Link href="/admin" className="signin-btn">Admin</Link>
+          <Link href="/admin" className="signin-btn" prefetch={false}>Admin</Link>
         </nav>
         <MobileNav />
       </header>

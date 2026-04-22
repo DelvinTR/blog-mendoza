@@ -39,7 +39,7 @@ export default function MobileNav() {
           <Link href="/" onClick={() => setIsOpen(false)}>Accueil</Link>
           <Link href="/#blog" onClick={() => setIsOpen(false)}>Blog</Link>
           <Link href="/#gallery" onClick={() => setIsOpen(false)}>Galerie</Link>
-          <Link href="/admin" onClick={() => setIsOpen(false)}>Admin</Link>
+          <Link href="/admin" onClick={() => setIsOpen(false)} prefetch={false}>Admin</Link>
         </div>
       )}
     </>

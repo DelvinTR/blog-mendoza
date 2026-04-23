@@ -59,3 +59,23 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
   }
 }
+
+// DELETE /api/comments?id=xxx
+export async function DELETE(req: NextRequest) {
+  try {
+    const commentId = req.nextUrl.searchParams.get('id');
+
+    if (!commentId) {
+      return NextResponse.json({ error: 'id is required' }, { status: 400 });
+    }
+
+    await prisma.comment.delete({
+      where: { id: commentId },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
+  }
+}
+

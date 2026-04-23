@@ -5,8 +5,16 @@ import ReadingProgress from '../../ReadingProgress';
 import NotebookReader from './NotebookReader';
 import CommentSection from './CommentSection';
 
-export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
+export default async function ArticlePage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const { id } = await params;
+  const search = await searchParams;
+  const isAdmin = search.admin === 'true';
 
   const article: any = await prisma.article.findUnique({
     where: { id },
@@ -69,8 +77,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ id: st
       />
 
       {/* Comment section — Livre d'or */}
-      <CommentSection articleId={article.id} />
+      <CommentSection articleId={article.id} isAdmin={isAdmin} />
     </>
   );
 }
-

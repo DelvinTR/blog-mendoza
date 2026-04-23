@@ -21,11 +21,12 @@ function timeAgo(dateStr: string): string {
   return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
-export default function CommentSection({ articleId }: { articleId: string }) {
+export default function CommentSection({ articleId, isAdmin = false }: { articleId: string; isAdmin?: boolean }) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [author, setAuthor] = useState('');
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
@@ -87,6 +88,21 @@ export default function CommentSection({ articleId }: { articleId: string }) {
     }
   };
 
+  const handleDelete = async (commentId: string) => {
+    if (!confirm('Supprimer ce commentaire ?')) return;
+    setDeletingId(commentId);
+    try {
+      const res = await fetch(`/api/comments?id=${commentId}`, { method: 'DELETE' });
+      if (res.ok) {
+        setComments((prev) => prev.filter((c) => c.id !== commentId));
+      }
+    } catch {
+      // silently fail
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   return (
     <section className="comments-section">
       <div className="comments-inner">
@@ -106,6 +122,9 @@ export default function CommentSection({ articleId }: { articleId: string }) {
               : `${comments.length} message${comments.length > 1 ? 's' : ''}`
             }
           </p>
+          {isAdmin && (
+            <span className="comments-admin-badge">Mode admin</span>
+          )}
         </div>
 
         {/* Form */}
@@ -164,10 +183,28 @@ export default function CommentSection({ articleId }: { articleId: string }) {
                   <span className="comment-card-avatar">
                     {c.author.charAt(0).toUpperCase()}
                   </span>
-                  <div>
+                  <div style={{ flex: 1 }}>
                     <span className="comment-card-author">{c.author}</span>
                     <span className="comment-card-date">{timeAgo(c.createdAt)}</span>
                   </div>
+                  {isAdmin && (
+                    <button
+                      className="comment-delete-btn"
+                      onClick={() => handleDelete(c.id)}
+                      disabled={deletingId === c.id}
+                      title="Supprimer ce commentaire"
+                      aria-label="Supprimer ce commentaire"
+                    >
+                      {deletingId === c.id ? (
+                        <span className="comment-delete-spinner" />
+                      ) : (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="3 6 5 6 21 6" />
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                      )}
+                    </button>
+                  )}
                 </div>
                 <p className="comment-card-text">{c.content}</p>
               </article>

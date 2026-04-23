@@ -2423,22 +2423,6 @@
     filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.12));
   }
 
-  /* Carousel inside TV — hide arrows, simpler layout */
-  .carousel-header {
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .carousel-arrow {
-    width: 30px;
-    height: 30px;
-  }
-
-  .carousel-arrow svg {
-    width: 14px;
-    height: 14px;
-  }
-
   /* Buttons — compact on mobile */
   .vintage-btn {
     padding: 0.5rem 1.1rem;

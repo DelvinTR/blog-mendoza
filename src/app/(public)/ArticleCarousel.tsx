@@ -20,7 +20,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
   if (articles.length === 0) {
     return (
       <>
-        <h2 style={{ textAlign: 'center', fontSize: '3.5rem', marginBottom: '4rem' }}>Les derniers articles</h2>
+        <h2 style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '2rem' }}>Les derniers articles</h2>
         <p style={{ textAlign: 'center' }}>Pas encore d'articles.</p>
       </>
     );
@@ -30,7 +30,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
     <div style={{ width: '100%', padding: '0 1rem' }}>
 
       {/* Title & Navigation Arrows Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
 
         {/* Left Arrow */}
         <button
@@ -48,7 +48,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
           </svg>
         </button>
 
-        <h2 style={{ fontSize: '3.5rem', margin: 0, textAlign: 'center', color: '#2E434F' }}>Les derniers articles</h2>
+        <h2 style={{ fontSize: '2.5rem', margin: 0, textAlign: 'center', color: '#2E434F' }}>Les derniers articles</h2>
 
         {/* Right Arrow */}
         <button
@@ -75,8 +75,8 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
           display: 'flex',
           overflowX: 'auto',
           scrollSnapType: 'x mandatory',
-          gap: '2.5rem',
-          paddingBottom: '2rem',
+          gap: '1.5rem',
+          paddingBottom: '1rem',
           scrollbarWidth: 'none', /* Firefox */
           msOverflowStyle: 'none'  /* IE 10+ */
         }}
@@ -97,7 +97,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
               backgroundColor: 'var(--accent-blue)'
             }}
           >
-            <div style={{ border: '2px solid var(--text-primary)', height: '180px', backgroundColor: 'var(--bg-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
+            <div style={{ border: '2px solid var(--text-primary)', height: '140px', backgroundColor: 'var(--bg-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
               {article.coverImage ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
                 <img src={article.coverImage} alt={article.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -105,7 +105,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 <span style={{ fontSize: '3rem' }}>🌿</span>
               )}
             </div>
-            <h2 style={{ fontSize: '1.5rem', minHeight: '3.5rem', lineHeight: 1.2 }}>{article.title}</h2>
+            <h2 style={{ fontSize: '1.3rem', minHeight: 'auto', lineHeight: 1.2 }}>{article.title}</h2>
             <div style={{ fontSize: '0.9rem', color: 'var(--bg-color)', fontWeight: 'bold' }}>
               {new Date(article.createdAt).toLocaleDateString()}
             </div>

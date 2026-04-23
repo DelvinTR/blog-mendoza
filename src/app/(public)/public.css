@@ -1371,15 +1371,12 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start; /* FIX: Prevents Safari zoom overflow bug */
+  padding-top: 5%; /* Native spacing that doesn't miscalculate */
 }
 
 .retro-tv-zoom {
   zoom: 0.75;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 /* ==========================================
@@ -2370,10 +2367,6 @@
 
   .retro-tv-zoom {
     zoom: 0.65;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
 
   .hero-content {
@@ -2392,10 +2385,6 @@
 
   .retro-tv-zoom {
     zoom: 0.45;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
 
   .retro-tv-img {
@@ -2426,10 +2415,6 @@
 
   .retro-tv-zoom {
     zoom: 0.30;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     /* Push content down slightly from the inner top bezel */
     padding-top: 10px;
   }

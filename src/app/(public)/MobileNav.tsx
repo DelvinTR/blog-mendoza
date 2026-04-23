@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-export default function MobileNav() {
+export default function MobileNav({ isAdmin = false }: { isAdmin?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -38,8 +38,11 @@ export default function MobileNav() {
           </button>
           <Link href="/" onClick={() => setIsOpen(false)}>Accueil</Link>
           <Link href="/#blog" onClick={() => setIsOpen(false)}>Blog</Link>
-          <Link href="/#gallery" onClick={() => setIsOpen(false)}>Galerie</Link>
-          <Link href="/admin" onClick={() => setIsOpen(false)} prefetch={false}>Admin</Link>
+          <Link href="/#gallery" onClick={() => setIsOpen(false)}>Moments de vie</Link>
+          <Link href="/gallery" onClick={() => setIsOpen(false)}>Galerie</Link>
+          {isAdmin && (
+            <Link href="/admin" onClick={() => setIsOpen(false)} prefetch={false}>Admin</Link>
+          )}
         </div>
       )}
     </>

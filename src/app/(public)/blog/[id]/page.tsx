@@ -4,17 +4,15 @@ import Link from 'next/link';
 import ReadingProgress from '../../ReadingProgress';
 import NotebookReader from './NotebookReader';
 import CommentSection from './CommentSection';
+import { isAdminAuthenticated } from '@/lib/auth';
 
 export default async function ArticlePage({
   params,
-  searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { id } = await params;
-  const search = await searchParams;
-  const isAdmin = search.admin === 'true';
+  const isAdmin = await isAdminAuthenticated();
 
   const article: any = await prisma.article.findUnique({
     where: { id },

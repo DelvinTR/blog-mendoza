@@ -1,11 +1,20 @@
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import styles from './admin.module.css';
+import { isAdminAuthenticated } from '@/lib/auth';
+import LogoutButton from './components/LogoutButton';
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const isAdmin = await isAdminAuthenticated();
+
+  if (!isAdmin) {
+    redirect('/admin/login');
+  }
+
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -23,6 +32,7 @@ export default function AdminLayout({
             <Link href="/admin">Articles</Link>
             <Link href="/admin/gallery">Gallery</Link>
             <Link href="/" target="_blank">View Site ↗</Link>
+            <LogoutButton />
           </nav>
         </aside>
         <main className={styles.mainContent}>

@@ -114,7 +114,7 @@ export default function CommentSection({ articleId, isAdmin = false }: { article
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
-            Livre d&apos;or
+            Commentaires
           </h2>
           <p className="comments-subtitle">
             {comments.length === 0
@@ -131,13 +131,13 @@ export default function CommentSection({ articleId, isAdmin = false }: { article
         <form className="comment-form" onSubmit={handleSubmit}>
           <div className="comment-form-row">
             <div className="comment-form-field">
-              <label htmlFor="comment-author">Ton pseudo</label>
+              <label htmlFor="comment-author">Ton prénom</label>
               <input
                 id="comment-author"
                 type="text"
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
-                placeholder="Voyageur anonyme..."
+                placeholder="Prénom"
                 maxLength={50}
                 className="comment-input"
               />
@@ -149,7 +149,7 @@ export default function CommentSection({ articleId, isAdmin = false }: { article
               id="comment-content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="Laisse un petit mot, une anecdote, un souvenir..."
+              placeholder="Un petit message ?"
               maxLength={1000}
               rows={4}
               className="comment-textarea"

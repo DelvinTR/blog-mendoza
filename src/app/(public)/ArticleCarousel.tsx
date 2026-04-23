@@ -20,7 +20,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
   if (articles.length === 0) {
     return (
       <>
-        <h2 style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '2rem' }}>Les derniers articles</h2>
+        <h2 style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '1rem' }}>Les derniers articles</h2>
         <p style={{ textAlign: 'center' }}>Pas encore d'articles.</p>
       </>
     );
@@ -30,7 +30,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
     <div style={{ width: '100%', padding: '0 1rem' }}>
 
       {/* Title & Navigation Arrows Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
 
         {/* Left Arrow */}
         <button
@@ -75,8 +75,8 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
           display: 'flex',
           overflowX: 'auto',
           scrollSnapType: 'x mandatory',
-          gap: '1.5rem',
-          paddingBottom: '1rem',
+          gap: '1rem',
+          paddingBottom: '0.5rem',
           scrollbarWidth: 'none', /* Firefox */
           msOverflowStyle: 'none'  /* IE 10+ */
         }}
@@ -92,24 +92,24 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
               scrollSnapAlign: 'start',
               display: 'flex',
               flexDirection: 'column',
-              gap: '1rem',
+              gap: '0.5rem',
               /* Apply ALL article tags to BLUE */
               backgroundColor: 'var(--accent-blue)'
             }}
           >
-            <div style={{ border: '2px solid var(--text-primary)', height: '140px', backgroundColor: 'var(--bg-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
+            <div style={{ border: '2px solid var(--text-primary)', height: '110px', backgroundColor: 'var(--bg-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
               {article.coverImage ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
                 <img src={article.coverImage} alt={article.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : (
-                <span style={{ fontSize: '3rem' }}>🌿</span>
+                <span style={{ fontSize: '2.5rem' }}>🌿</span>
               )}
             </div>
-            <h2 style={{ fontSize: '1.3rem', minHeight: 'auto', lineHeight: 1.2 }}>{article.title}</h2>
-            <div style={{ fontSize: '0.9rem', color: 'var(--bg-color)', fontWeight: 'bold' }}>
+            <h2 style={{ fontSize: '1.1rem', margin: '0 0.5rem', minHeight: 'auto', lineHeight: 1.2 }}>{article.title}</h2>
+            <div style={{ fontSize: '0.8rem', color: 'var(--bg-color)', fontWeight: 'bold', margin: '0 0.5rem' }}>
               {new Date(article.createdAt).toLocaleDateString()}
             </div>
-            <Link href={`/blog/${article.id}`} className="vintage-btn" style={{ textAlign: 'center', width: '100%', fontSize: '1rem', marginTop: 'auto', backgroundColor: 'var(--bg-color)', color: 'var(--text-primary)' }}>
+            <Link href={`/blog/${article.id}`} className="vintage-btn" style={{ textAlign: 'center', width: '100%', fontSize: '0.85rem', padding: '0.5rem', marginTop: 'auto', backgroundColor: 'var(--bg-color)', color: 'var(--text-primary)' }}>
               LIRE L'ARTICLE
             </Link>
           </div>

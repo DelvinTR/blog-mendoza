@@ -19,10 +19,10 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
 
   if (articles.length === 0) {
     return (
-      <>
-        <h2 style={{ textAlign: 'center', fontSize: 'clamp(2rem, 5vw, 3.5rem)', marginBottom: 'max(2rem, 4vw)' }}>Les derniers articles</h2>
+      <div style={{ padding: '2rem 1rem' }}>
+        <h2 className="carousel-header-title" style={{ marginBottom: '2rem' }}>Les derniers articles</h2>
         <p style={{ textAlign: 'center' }}>Pas encore d'articles.</p>
-      </>
+      </div>
     );
   }
 
@@ -30,7 +30,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
     <div style={{ width: '100%', padding: '0 1rem' }}>
 
       {/* Title & Navigation Arrows Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'clamp(1.5rem, 4vw, 3rem)' }}>
+      <div className="carousel-header-wrapper" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4cqh' }}>
 
         {/* Left Arrow */}
         <button
@@ -49,7 +49,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
           </svg>
         </button>
 
-        <h2 style={{ fontSize: 'clamp(1.5rem, 4.5vw, 3.5rem)', margin: '0 1rem', textAlign: 'center', color: '#2E434F', lineHeight: 1.1 }}>
+        <h2 className="carousel-header-title" style={{ margin: '0 0.5rem' }}>
           Les derniers articles
         </h2>
 
@@ -79,8 +79,8 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
           display: 'flex',
           overflowX: 'auto',
           scrollSnapType: 'x mandatory',
-          gap: '2.5rem',
-          paddingBottom: '2rem',
+          gap: '3cqh',
+          paddingBottom: '2cqh',
           scrollbarWidth: 'none', /* Firefox */
           msOverflowStyle: 'none'  /* IE 10+ */
         }}
@@ -95,24 +95,23 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
               scrollSnapAlign: 'start',
               display: 'flex',
               flexDirection: 'column',
-              gap: '1rem',
               /* Apply ALL article tags to BLUE */
               backgroundColor: 'var(--accent-blue)'
             }}
           >
-            <div style={{ border: '2px solid var(--text-primary)', height: 'clamp(140px, 20vw, 180px)', backgroundColor: 'var(--bg-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
+            <div className="carousel-card-img-wrapper" style={{ border: '2px solid var(--text-primary)', backgroundColor: 'var(--bg-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', position: 'relative' }}>
               {article.coverImage ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
                 <img src={article.coverImage} alt={article.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : (
-                <span style={{ fontSize: '3rem' }}>🌿</span>
+                <span style={{ fontSize: '2rem' }}>🌿</span>
               )}
             </div>
             <h2 className="carousel-card-title">{article.title}</h2>
-            <div style={{ fontSize: '0.9rem', color: 'var(--bg-color)', fontWeight: 'bold' }}>
+            <div className="carousel-card-date" style={{ color: 'var(--bg-color)', fontWeight: 'bold' }}>
               {new Date(article.createdAt).toLocaleDateString()}
             </div>
-            <Link href={`/blog/${article.id}`} className="vintage-btn" style={{ textAlign: 'center', width: '100%', fontSize: '1rem', marginTop: 'auto', backgroundColor: 'var(--bg-color)', color: 'var(--text-primary)' }}>
+            <Link href={`/blog/${article.id}`} className="vintage-btn carousel-btn" style={{ textAlign: 'center', width: '100%', marginTop: 'auto', backgroundColor: 'var(--bg-color)', color: 'var(--text-primary)' }}>
               LIRE L'ARTICLE
             </Link>
           </div>

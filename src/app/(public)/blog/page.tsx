@@ -1,11 +1,20 @@
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default async function BlogFeed() {
-  const articles = await prisma.article.findMany({
-    where: { published: true },
-    orderBy: { createdAt: 'desc' },
-  });
+  let articles: any[] = [];
+
+  try {
+    articles = await prisma.article.findMany({
+      where: { published: true },
+      orderBy: { createdAt: 'desc' },
+    });
+  } catch (error) {
+    console.error("Erreur lors du chargement des articles:", error);
+    // On continue avec un tableau vide
+  }
 
   return (
     <div className="blog-list-page">

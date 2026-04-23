@@ -6,17 +6,26 @@ import RetroCameraFrame from './RetroCameraFrame';
 import HomePhotoSlider from './HomePhotoSlider';
 
 
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage() {
-  const articles = await prisma.article.findMany({
-    where: { published: true },
-    orderBy: { createdAt: 'desc' }
-  });
+  let articles: any[] = [];
+  let photos: any[] = [];
+  
+  try {
+    articles = await prisma.article.findMany({
+      where: { published: true },
+      orderBy: { createdAt: 'desc' }
+    });
+    
+    photos = await prisma.photo.findMany({
+      orderBy: { createdAt: 'desc' }
+    });
+  } catch (error) {
+    console.error("Erreur lors du chargement des données homepage:", error);
+  }
 
   const latestPost = articles.length > 0 ? articles[0] : null;
-
-  const photos = await prisma.photo.findMany({
-    orderBy: { createdAt: 'desc' }
-  });
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>

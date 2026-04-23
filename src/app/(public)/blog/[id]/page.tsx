@@ -6,6 +6,8 @@ import NotebookReader from './NotebookReader';
 import CommentSection from './CommentSection';
 import { isAdminAuthenticated } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ArticlePage({
   params,
 }: {
@@ -14,9 +16,15 @@ export default async function ArticlePage({
   const { id } = await params;
   const isAdmin = await isAdminAuthenticated();
 
-  const article: any = await prisma.article.findUnique({
-    where: { id },
-  });
+  let article: any = null;
+
+  try {
+    article = await prisma.article.findUnique({
+      where: { id },
+    });
+  } catch (error) {
+    console.error("Erreur lors du chargement de l'article:", error);
+  }
 
   if (!article || !article.published) {
     notFound();

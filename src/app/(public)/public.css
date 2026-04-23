@@ -1367,12 +1367,10 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Stop centering from clipping the top! */
+  justify-content: flex-start;
   align-items: center;
   overflow: hidden;
-  container-type: size;
-  container-name: tv;
-  padding-top: 5cqh;
+  padding-top: calc(2rem * var(--tv-scale, 1));
   box-sizing: border-box;
 }
 
@@ -1385,10 +1383,44 @@
 
 /* ==========================================
    CAROUSEL RESPONSIVE SETTINGS 
-   (Strict Container Proportions)
+   (Deterministic Variable Scaling)
    ========================================== */
+
+/* Define scaling variables for the TV inner UI based on breakpoints */
+:root {
+  --tv-scale: 1;
+}
+
+@media (max-width: 1024px) {
+  :root { --tv-scale: 0.85; }
+}
+
+@media (max-width: 768px) {
+  :root { --tv-scale: 0.70; }
+}
+
+@media (max-width: 480px) {
+  :root { --tv-scale: 0.50; }
+}
+
+.carousel-header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: calc(2rem * var(--tv-scale, 1));
+  width: 100%;
+}
+
+.carousel-cards-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: calc(1.5rem * var(--tv-scale, 1));
+  padding-bottom: calc(1rem * var(--tv-scale, 1));
+}
+
 .carousel-header-title {
-  font-size: 8cqh;
+  font-size: calc(3.5rem * var(--tv-scale, 1));
   line-height: 1.1;
   color: #2E434F;
   margin: 0;
@@ -1396,38 +1428,37 @@
 }
 
 .carousel-arrow {
-  width: 12cqh;
-  height: 12cqh;
+  width: calc(60px * var(--tv-scale, 1));
+  height: calc(60px * var(--tv-scale, 1));
   flex-shrink: 0;
 }
 
 .flex-carousel-card {
-  width: 55cqh;
-  height: 65cqh;
-  gap: 2cqh;
-  padding: 2cqh;
+  width: calc(320px * var(--tv-scale, 1));
+  gap: calc(1rem * var(--tv-scale, 1));
+  padding: 0;
   box-sizing: border-box;
 }
 
 .carousel-card-img-wrapper {
-  height: 30cqh;
+  height: calc(180px * var(--tv-scale, 1));
   width: 100%;
 }
 
 .carousel-card-title {
-  font-size: 6cqh;
-  min-height: 14cqh;
+  font-size: calc(1.5rem * var(--tv-scale, 1));
+  min-height: calc(3.3rem * var(--tv-scale, 1));
   line-height: 1.1;
 }
 
 .carousel-card-date {
-  font-size: 4cqh;
+  font-size: calc(0.9rem * var(--tv-scale, 1));
 }
 
 .carousel-btn {
-  font-size: 4.5cqh;
-  padding: 1.5cqh 2cqh;
-  min-height: 8cqh;
+  font-size: calc(1rem * var(--tv-scale, 1));
+  padding: calc(0.6rem * var(--tv-scale, 1)) calc(1rem * var(--tv-scale, 1));
+  min-height: calc(3rem * var(--tv-scale, 1));
   display: flex;
   align-items: center;
   justify-content: center;

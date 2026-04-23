@@ -30,7 +30,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
     <div style={{ width: '100%', padding: '0 1rem' }}>
 
       {/* Title & Navigation Arrows Header */}
-      <div className="carousel-header-wrapper" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4cqh' }}>
+      <div className="carousel-header-wrapper">
 
         {/* Left Arrow */}
         <button
@@ -75,16 +75,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
       {/* Carousel Container */}
       <div
         ref={scrollRef}
-        style={{
-          display: 'flex',
-          overflowX: 'auto',
-          scrollSnapType: 'x mandatory',
-          gap: '3cqh',
-          paddingBottom: '2cqh',
-          scrollbarWidth: 'none', /* Firefox */
-          msOverflowStyle: 'none'  /* IE 10+ */
-        }}
-        className="hide-scrollbar"
+        className="carousel-cards-container hide-scrollbar"
       >
         {articles.map((article: any) => (
           <div

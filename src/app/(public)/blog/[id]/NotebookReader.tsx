@@ -74,6 +74,7 @@ export default function NotebookReader({
       }
 
       const container = document.createElement('div');
+      container.className = 'page-text'; // Important for CSS inheritance (images, etc)
       container.innerHTML = content;
       container.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;padding:32px 40px;`;
       document.body.appendChild(container);
@@ -102,6 +103,7 @@ export default function NotebookReader({
 
       const measureHTML = (html: string): number => {
         const probe = document.createElement('div');
+        probe.className = 'page-text'; // Essential for images to get their 50% width style
         probe.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;`;
         probe.innerHTML = html;
         document.body.appendChild(probe);

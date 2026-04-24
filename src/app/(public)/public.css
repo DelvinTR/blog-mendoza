@@ -1355,7 +1355,7 @@
   .retro-tv-screen {
     --tv-top: 11.5%;
     --tv-left: 8.5%;
-    --tv-right: 25%;
+    --tv-right: 24.1%;
     --tv-bottom: 21%;
   }
 }
@@ -1426,12 +1426,12 @@
   justify-content: space-between;
   align-items: center;
   /* Ajustez cette variable pour descendre le carrousel par rapport au titre */
-  --carousel-gap: 3rem;
+  --carousel-gap: 6rem;
   margin-bottom: var(--carousel-gap);
 }
 
 .carousel-title {
-  font-size: 3.5rem;
+  font-size: 4.5rem;
   margin: 0;
   text-align: center;
   color: #2E434F;

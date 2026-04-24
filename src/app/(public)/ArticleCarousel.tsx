@@ -79,7 +79,8 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
             style={{
               backgroundColor: 'var(--accent-blue)',
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'column',
+              gap: 0
             }}
           >
             <div 
@@ -93,8 +94,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'flex-end',
-                padding: '1rem',
-                borderBottom: '2px solid var(--text-primary)'
+                padding: '1rem'
               }}
             >
               <div style={{

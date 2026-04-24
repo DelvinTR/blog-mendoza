@@ -94,7 +94,7 @@ export default function NotebookReader({
         return;
       }
 
-      const PAGE_HEIGHT = 480; // Secure internal height to adapt to 600px locked height
+      const PAGE_HEIGHT = 505; // Increased from 480 to allow more content per page
       const pagesArr: string[] = [];
       let currentPageHTML = '';
       let currentHeight = 0;
@@ -103,13 +103,13 @@ export default function NotebookReader({
 
       const measureHTML = (html: string): number => {
         const probe = document.createElement('div');
-        probe.className = 'page-text'; // Essential for images to get their 50% width style
-        probe.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;`;
+        probe.className = 'page-text'; // Essential for images to get their style
+        probe.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;box-sizing:border-box;`;
         probe.innerHTML = html;
         document.body.appendChild(probe);
-        const h = probe.offsetHeight + 30; // base margin matches grid
+        const h = probe.getBoundingClientRect().height;
         document.body.removeChild(probe);
-        return h;
+        return h + 24; // Reduced buffer from 30 to 24 to allow tighter packing
       };
 
       const pushPage = () => {

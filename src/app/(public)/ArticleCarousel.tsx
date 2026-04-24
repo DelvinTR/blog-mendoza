@@ -128,12 +128,13 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 <div 
                   className="carousel-card-date"
                   style={{
-                    fontSize: 'clamp(0.8rem, 2.5vw, 1rem)',
-                    fontFamily: 'var(--font-editorial)',
-                    fontWeight: 500,
+                    fontSize: 'clamp(0.6rem, 2vw, 0.75rem)',
+                    fontFamily: 'var(--font-body)',
+                    fontWeight: 700,
                     color: 'rgba(255,255,255,0.8)',
                     marginTop: '0.15rem',
-                    letterSpacing: '0.02em',
+                    letterSpacing: '0.05em',
+                    textTransform: 'uppercase',
                     whiteSpace: 'nowrap'
                   }}
                 >

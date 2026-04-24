@@ -79,11 +79,10 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
             style={{
               backgroundColor: 'var(--accent-blue)',
               display: 'flex',
-              flexDirection: 'column',
-              gap: 0
+              flexDirection: 'column'
             }}
           >
-            <div 
+            <div
               style={{
                 position: 'relative',
                 height: '220px',
@@ -94,7 +93,8 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'flex-end',
-                padding: '1rem'
+                padding: '1rem',
+                borderBottom: '2px solid var(--text-primary)'
               }}
             >
               <div style={{
@@ -105,7 +105,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
               }} />
 
               <div style={{ position: 'relative', zIndex: 2, width: '100%', overflow: 'hidden' }}>
-                <h2 
+                <h2
                   className="carousel-card-title"
                   style={{
                     margin: 0,
@@ -122,7 +122,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 >
                   {article.title}
                 </h2>
-                <div 
+                <div
                   className="carousel-card-date"
                   style={{
                     fontSize: 'clamp(0.6rem, 2vw, 0.75rem)',
@@ -137,24 +137,22 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 </div>
               </div>
             </div>
-            
-            <Link 
-              href={`/blog/${article.id}`} 
-              className="vintage-btn carousel-card-btn" 
-              style={{ 
+
+            <Link
+              href={`/blog/${article.id}`}
+              className="vintage-btn carousel-card-btn"
+              style={{
                 alignSelf: 'center',
-                width: 'fit-content', 
-                marginTop: 'auto', 
-                marginBottom: '0.75rem',
-                backgroundColor: 'var(--bg-color)', 
+                width: 'fit-content',
+                margin: 'auto 0 0.75rem 0', // Center vertically in remaining space and bottom margin
+                backgroundColor: 'var(--bg-color)',
                 color: 'var(--text-primary)',
                 whiteSpace: 'nowrap',
-                fontSize: 'clamp(0.7rem, 2.5vw, 0.85rem)',
-                padding: '0.5rem 1rem',
-                borderRadius: '4px',
+                fontSize: '0.75rem',
+                padding: '0.4rem 0.8rem',
+                borderRadius: '2px',
                 boxShadow: 'none',
-                border: '1px solid var(--text-primary)',
-                textAlign: 'center'
+                border: '1px solid var(--text-primary)'
               }}
             >
               LIRE L'ARTICLE

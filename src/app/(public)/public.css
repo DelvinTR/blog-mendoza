@@ -1350,6 +1350,16 @@
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
+/* Réglages spécifiques pour le mobile si l'écran dépasse */
+@media (max-width: 768px) {
+  .retro-tv-screen {
+    --tv-top: 11.5%;
+    --tv-left: 8.5%;
+    --tv-right: 25%;
+    --tv-bottom: 22%;
+  }
+}
+
 .retro-tv-scanlines {
   position: absolute;
   inset: 0;

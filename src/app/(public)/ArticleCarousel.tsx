@@ -137,14 +137,16 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
               href={`/blog/${article.id}`} 
               className="vintage-btn carousel-card-btn" 
               style={{ 
-                textAlign: 'center', 
-                width: '100%', 
+                alignSelf: 'center',
+                width: 'fit-content', 
                 marginTop: 'auto', 
+                marginBottom: '1rem',
                 backgroundColor: 'var(--bg-color)', 
                 color: 'var(--text-primary)',
                 whiteSpace: 'nowrap',
-                fontSize: '0.9rem',
-                padding: '0.8rem 0.5rem'
+                fontSize: '0.85rem',
+                padding: '0.6rem 1.2rem',
+                borderRadius: '4px'
               }}
             >
               LIRE L'ARTICLE

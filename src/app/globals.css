@@ -69,6 +69,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Adelline';
+  src: url('/fonts/Adelline PERSONAL USE ONLY!.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* --- Design Tokens --- */
 :root {
   /* Core Palette — Vintage Warm */
@@ -118,7 +126,7 @@
 
   /* Typography Variables */
   --font-playfair: var(--font-playfair);
-  --font-editorial: var(--font-playfair), 'Playfair Display', 'Georgia', serif;
+  --font-editorial: 'Adelline', var(--font-playfair), 'Playfair Display', serif;
   --font-body: var(--font-inter), 'Inter', system-ui, sans-serif;
 
   /* Spacing Scale */
@@ -216,9 +224,8 @@ h4 {
 .blog-card-title,
 .article-card-title {
   font-family: var(--font-editorial) !important;
-  font-style: italic !important;
   text-transform: none !important;
-  font-weight: 700 !important;
+  font-weight: 500 !important;
 }
 
 .vintage-btn,

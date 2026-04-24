@@ -39,11 +39,15 @@ export default function NotebookReader({
 
   const [viewWidth, setViewWidth] = useState(360);
 
+  const [isMobile, setIsMobile] = useState(false);
+
   // Resize listener to adapt text column width
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
-      if (w <= 768) {
+      const mobile = w <= 768;
+      setIsMobile(mobile);
+      if (mobile) {
         // Mobile padding is 28px each side => 56px total
         setViewWidth(Math.min(w - 56, 344)); 
       } else {
@@ -168,7 +172,8 @@ export default function NotebookReader({
 
       document.body.removeChild(container);
       setPages(pagesArr);
-      setTotalSpreads(Math.ceil(pagesArr.length / 2) + 1);
+      const mobile = window.innerWidth <= 768;
+      setTotalSpreads(mobile ? (pagesArr.length + 1) : (Math.ceil(pagesArr.length / 2) + 1));
     };
 
     paginate();
@@ -217,12 +222,18 @@ export default function NotebookReader({
   // Get content for current spread
   // spread 0 = cover page (left=cover, right=page[0])
   // spread n = pages[2n-1] left, pages[2n] right
-  const getLeftContent = (): { type: 'cover' | 'page'; html?: string; pageNum?: number } => {
+  const getLeftContent = (): { type: 'cover' | 'page' | 'blank'; html?: string; pageNum?: number } => {
+    if (isMobile) return { type: 'blank' }; // On mobile, we only use the right page slot for simplicity
     if (currentSpread === 0) return { type: 'cover' };
     const idx = currentSpread * 2 - 1;
     return { type: 'page', html: pages[idx] || '', pageNum: idx + 1 };
   };
-  const getRightContent = (): { type: 'blank' | 'page'; html?: string; pageNum?: number } => {
+  const getRightContent = (): { type: 'cover' | 'blank' | 'page'; html?: string; pageNum?: number } => {
+    if (isMobile) {
+      if (currentSpread === 0) return { type: 'cover' };
+      const idx = currentSpread - 1;
+      return { type: 'page', html: pages[idx] || '', pageNum: idx + 1 };
+    }
     if (currentSpread === 0) return { type: 'page', html: pages[0] || '', pageNum: 1 };
     const idx = currentSpread * 2;
     if (idx >= pages.length && !pages[idx]) return { type: 'blank' };
@@ -311,6 +322,27 @@ export default function NotebookReader({
           <div className="notebook-page">
             <div className="page-lines" aria-hidden="true" />
             <div className="page-margin-line" aria-hidden="true" />
+            
+            {right.type === 'cover' && (
+              <div className="page-cover-content">
+                <div className="cover-deco-dot" aria-hidden="true" />
+                <div className="cover-brand">Vinot&apos;s Blog</div>
+                <h1 className="cover-title">{title}</h1>
+                <div className="cover-meta">
+                  <span className="cover-author">{authorName || 'Penny Lane'}</span>
+                  <span className="cover-sep">·</span>
+                  <span className="cover-date">{date}</span>
+                </div>
+                {tags.length > 0 && (
+                  <div className="cover-tags">
+                    {tags.map(t => <span key={t} className="cover-tag">{t}</span>)}
+                  </div>
+                )}
+                <svg className="cover-doodle" viewBox="0 0 200 60" fill="none" aria-hidden="true">
+                  <path d="M10 30 Q30 10 50 30 Q70 50 90 30 Q110 10 130 30 Q150 50 170 30 Q190 10 200 30" stroke="rgba(160,120,80,0.35)" strokeWidth="1.5" fill="none"/>
+                </svg>
+              </div>
+            )}
 
             {right.type === 'blank' ? (
               <div className="page-blank">

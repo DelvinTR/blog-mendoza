@@ -89,9 +89,45 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 <span style={{ fontSize: '3rem' }}>🌿</span>
               )}
             </div>
-            <h2 className="carousel-card-title">{article.title}</h2>
-            <div className="carousel-card-date">
-              {new Date(article.publishedAt).toLocaleDateString()}
+            <div 
+              style={{
+                position: 'relative',
+                padding: '1rem',
+                margin: '0.5rem -1rem',
+                backgroundImage: article.coverImage ? `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${article.coverImage})` : 'none',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                borderRadius: '8px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.5rem'
+              }}
+            >
+              <h2 
+                className="carousel-card-title"
+                style={{
+                  margin: 0,
+                  fontSize: '1.4rem',
+                  fontWeight: 900,
+                  color: '#fff',
+                  textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                  textTransform: 'uppercase',
+                  lineHeight: 1.2
+                }}
+              >
+                {article.title}
+              </h2>
+              <div 
+                className="carousel-card-date"
+                style={{
+                  fontSize: '0.9rem',
+                  fontWeight: 700,
+                  color: 'rgba(255,255,255,0.8)',
+                  letterSpacing: '0.05em'
+                }}
+              >
+                {new Date(article.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </div>
             </div>
             <Link href={`/blog/${article.id}`} className="vintage-btn carousel-card-btn" style={{ textAlign: 'center', width: '100%', marginTop: 'auto', backgroundColor: 'var(--bg-color)', color: 'var(--text-primary)' }}>
               LIRE L'ARTICLE

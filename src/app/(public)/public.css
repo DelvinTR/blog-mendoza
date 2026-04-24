@@ -1334,14 +1334,14 @@
   /* Ajustez ces variables pour déplacer l'écran précisément */
   --tv-top: 11%;
   --tv-left: 8%;
-  --tv-right: 26%;
-  --tv-bottom: 20%;
+  --tv-right: 24%;
+  --tv-bottom: 21%;
 
   top: var(--tv-top);
   left: var(--tv-left);
   right: var(--tv-right);
   bottom: var(--tv-bottom);
-  
+
   background: #ffffff;
   overflow: hidden;
   border-radius: 1% / 1%;

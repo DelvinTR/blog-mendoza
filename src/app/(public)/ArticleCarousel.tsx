@@ -142,17 +142,18 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
               href={`/blog/${article.id}`} 
               className="vintage-btn carousel-card-btn" 
               style={{ 
-                alignSelf: 'center',
-                width: 'fit-content', 
-                margin: 'auto 0 0.75rem 0', // Center vertically in remaining space and bottom margin
+                width: '100%', 
+                marginTop: 'auto', 
                 backgroundColor: 'var(--bg-color)', 
                 color: 'var(--text-primary)',
                 whiteSpace: 'nowrap',
-                fontSize: '0.75rem',
-                padding: '0.4rem 0.8rem',
-                borderRadius: '2px',
+                fontSize: 'clamp(0.7rem, 2.5vw, 0.85rem)',
+                padding: '0.75rem 0.5rem',
+                borderRadius: '0 0 2px 2px', // Rounded only at bottom to match card
                 boxShadow: 'none',
-                border: '1px solid var(--text-primary)'
+                border: 'none',
+                borderTop: '1px solid var(--text-primary)',
+                textAlign: 'center'
               }}
             >
               LIRE L'ARTICLE

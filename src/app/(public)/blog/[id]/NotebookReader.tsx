@@ -94,22 +94,20 @@ export default function NotebookReader({
         return;
       }
 
-      const PAGE_HEIGHT = 505; // Increased from 480 to allow more content per page
+      const PAGE_HEIGHT = 520; 
       const pagesArr: string[] = [];
       let currentPageHTML = '';
       let currentHeight = 0;
 
-      const nodes = Array.from(container.childNodes);
+      // Reuse a single probe for all measurements to improve performance and consistency
+      const probe = document.createElement('div');
+      probe.className = 'page-text';
+      probe.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;box-sizing:border-box;`;
+      document.body.appendChild(probe);
 
       const measureHTML = (html: string): number => {
-        const probe = document.createElement('div');
-        probe.className = 'page-text'; // Essential for images to get their style
-        probe.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;box-sizing:border-box;`;
         probe.innerHTML = html;
-        document.body.appendChild(probe);
-        const h = probe.getBoundingClientRect().height;
-        document.body.removeChild(probe);
-        return h + 24; // Reduced buffer from 30 to 24 to allow tighter packing
+        return probe.getBoundingClientRect().height;
       };
 
       const pushPage = () => {
@@ -125,15 +123,24 @@ export default function NotebookReader({
         currentHeight += height;
       };
 
-      for (const node of nodes) {
-        // Skip empty text nodes
+      const nodes = Array.from(container.childNodes);
+
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
         if (node.nodeType === Node.TEXT_NODE && !node.textContent?.trim()) continue;
 
         let nodeHTML = node instanceof Element ? node.outerHTML : `<p>${node.textContent}</p>`;
         let nodeHeight = measureHTML(nodeHTML);
+        
+        if (nodeHeight <= 5) continue; // Skip empty or tiny nodes
 
-        if (currentHeight + nodeHeight <= PAGE_HEIGHT) {
-          addHTML(nodeHTML, nodeHeight);
+        // Check if it fits on current page
+        // We add a small buffer for the natural gap between elements (margin-bottom: 30px in CSS)
+        // but only if it's not the first element on the page
+        const gap = currentHeight > 0 ? 25 : 0; 
+
+        if (currentHeight + nodeHeight + gap <= PAGE_HEIGHT) {
+          addHTML(nodeHTML, nodeHeight + gap);
         } else {
           if (currentHeight > 0) {
             pushPage();
@@ -142,7 +149,7 @@ export default function NotebookReader({
           if (nodeHeight <= PAGE_HEIGHT) {
             addHTML(nodeHTML, nodeHeight);
           } else {
-            // Un paragraphe géant qui dépasse une page entière !
+            // Handle splitting for paragraphs only
             if (node instanceof Element && node.tagName.toLowerCase() === 'p') {
               const words = (node.textContent || '').split(' ');
               let currentChunk = '';
@@ -151,9 +158,10 @@ export default function NotebookReader({
                 const testChunk = currentChunk ? `${currentChunk} ${word}` : word;
                 const testHeight = measureHTML(`<p>${testChunk}</p>`);
 
-                if (currentHeight + testHeight > PAGE_HEIGHT) {
+                if (currentHeight + testHeight + 10 > PAGE_HEIGHT) { // 10 is small buffer for splitting
                   if (currentChunk) {
-                    addHTML(`<p>${currentChunk}</p>`, measureHTML(`<p>${currentChunk}</p>`));
+                    const chunkH = measureHTML(`<p>${currentChunk}</p>`);
+                    addHTML(`<p>${currentChunk}</p>`, chunkH);
                     pushPage();
                   }
                   currentChunk = word;
@@ -162,10 +170,10 @@ export default function NotebookReader({
                 }
               }
               if (currentChunk.trim()) {
-                addHTML(`<p>${currentChunk}</p>`, measureHTML(`<p>${currentChunk}</p>`));
+                const finalChunkH = measureHTML(`<p>${currentChunk}</p>`);
+                addHTML(`<p>${currentChunk}</p>`, finalChunkH);
               }
             } else {
-              // Un autre élément géant (image), on le laisse passer
               addHTML(nodeHTML, nodeHeight);
             }
           }
@@ -178,6 +186,7 @@ export default function NotebookReader({
         pagesArr.push(currentPageHTML);
       }
 
+      document.body.removeChild(probe); // Clean up probe
       document.body.removeChild(container);
       setPages(pagesArr);
       const mobile = window.innerWidth <= 768;

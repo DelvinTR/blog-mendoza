@@ -109,12 +109,12 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                   className="carousel-card-title"
                   style={{
                     margin: 0,
-                    fontSize: '1.4rem',
+                    fontSize: '1rem', // Reduced from 1.4rem
                     fontWeight: 900,
                     color: '#fff',
-                    textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+                    textShadow: '0 1px 3px rgba(0,0,0,0.5)',
                     textTransform: 'uppercase',
-                    lineHeight: 1.2
+                    lineHeight: 1.1
                   }}
                 >
                   {article.title}
@@ -122,11 +122,11 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 <div 
                   className="carousel-card-date"
                   style={{
-                    fontSize: '0.85rem',
-                    fontWeight: 700,
-                    color: 'rgba(255,255,255,0.9)',
-                    marginTop: '0.25rem',
-                    letterSpacing: '0.05em'
+                    fontSize: '0.7rem', // Reduced from 0.85rem
+                    fontWeight: 600,
+                    color: 'rgba(255,255,255,0.8)',
+                    marginTop: '0.15rem',
+                    letterSpacing: '0.02em'
                   }}
                 >
                   {new Date(article.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
@@ -140,13 +140,15 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 alignSelf: 'center',
                 width: 'fit-content', 
                 marginTop: 'auto', 
-                marginBottom: '1rem',
+                marginBottom: '0.75rem',
                 backgroundColor: 'var(--bg-color)', 
                 color: 'var(--text-primary)',
                 whiteSpace: 'nowrap',
-                fontSize: '0.85rem',
-                padding: '0.6rem 1.2rem',
-                borderRadius: '4px'
+                fontSize: '0.75rem', // Reduced from 0.85rem
+                padding: '0.4rem 0.8rem', // Thinner
+                borderRadius: '2px',
+                boxShadow: 'none', // Removed orange rectangle/shadow
+                border: '1px solid var(--text-primary)'
               }}
             >
               LIRE L'ARTICLE

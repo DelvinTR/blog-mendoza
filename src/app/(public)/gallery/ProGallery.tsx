@@ -16,12 +16,12 @@ export default function ProGallery({ photos }: { photos: Photo[] }) {
 
   const goNext = useCallback(() => {
     if (lightboxIndex === null) return;
-    setLightboxIndex((lightboxIndex + 1) % photos.length);
+    setLightboxIndex((prev) => (prev !== null ? (prev + 1) % photos.length : null));
   }, [lightboxIndex, photos.length]);
 
   const goPrev = useCallback(() => {
     if (lightboxIndex === null) return;
-    setLightboxIndex((lightboxIndex - 1 + photos.length) % photos.length);
+    setLightboxIndex((prev) => (prev !== null ? (prev - 1 + photos.length) % photos.length : null));
   }, [lightboxIndex, photos.length]);
 
   // Keyboard nav
@@ -40,8 +40,32 @@ export default function ProGallery({ photos }: { photos: Photo[] }) {
     };
   }, [lightboxIndex, goNext, goPrev]);
 
-  return (
-    <>
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      goNext();
+    } else if (isRightSwipe) {
+      goPrev();
+    }
+  };
       {/* Filter Bar */}
       <div className="pro-gallery-filters">
         <button
@@ -112,7 +136,13 @@ export default function ProGallery({ photos }: { photos: Photo[] }) {
 
       {/* Lightbox */}
       {lightboxIndex !== null && (
-        <div className="pro-lightbox" onClick={closeLightbox}>
+        <div 
+          className="pro-lightbox" 
+          onClick={closeLightbox}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           <div className="pro-lightbox-inner" onClick={(e) => e.stopPropagation()}>
 
             {/* Close */}

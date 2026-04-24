@@ -1528,7 +1528,6 @@
 /* Nouveau bouton d'action responsif */
 .carousel-action-btn {
   width: 100%;
-  margin-top: auto;
   background-color: var(--bg-color);
   color: var(--text-primary);
   white-space: nowrap;

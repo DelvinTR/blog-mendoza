@@ -79,13 +79,16 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
             style={{
               backgroundColor: 'var(--accent-blue)',
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'column',
+              gap: 0,
+              height: '100%' // Ensure card fills height
             }}
           >
-            <div
+            <div 
               style={{
                 position: 'relative',
-                height: '220px',
+                flex: 1, // Fill the card
+                minHeight: '220px',
                 backgroundImage: article.coverImage ? `url(${article.coverImage})` : 'none',
                 backgroundColor: 'var(--bg-color)',
                 backgroundSize: 'cover',
@@ -93,8 +96,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'flex-end',
-                padding: '1rem',
-                borderBottom: '2px solid var(--text-primary)'
+                padding: '1rem'
               }}
             >
               <div style={{
@@ -105,7 +107,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
               }} />
 
               <div style={{ position: 'relative', zIndex: 2, width: '100%', overflow: 'hidden' }}>
-                <h2
+                <h2 
                   className="carousel-card-title"
                   style={{
                     margin: 0,
@@ -122,7 +124,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 >
                   {article.title}
                 </h2>
-                <div
+                <div 
                   className="carousel-card-date"
                   style={{
                     fontSize: 'clamp(0.6rem, 2vw, 0.75rem)',
@@ -137,7 +139,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 </div>
               </div>
             </div>
-
+            
             <Link 
               href={`/blog/${article.id}`} 
               className="vintage-btn carousel-action-btn"

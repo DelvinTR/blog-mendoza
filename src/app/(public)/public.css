@@ -1331,10 +1331,10 @@
 
 .retro-tv-screen {
   position: absolute;
-  top: 13%;
-  left: 11%;
+  top: 11%;
+  left: 10%;
   right: 24%;
-  bottom: 22%;
+  bottom: 20%;
   background: #ffffff;
   overflow: hidden;
   border-radius: 1% / 1%;
@@ -1380,7 +1380,7 @@
   flex-direction: column;
   justify-content: flex-start;
   /* FIX: Prevents Safari zoom overflow bug */
-  padding-top: 5%;
+  padding-top: 10%;
   /* Native spacing that doesn't miscalculate */
 }
 
@@ -1617,7 +1617,7 @@
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.08em;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
 }
 

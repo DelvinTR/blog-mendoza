@@ -369,11 +369,9 @@ export default function NotebookReader({
 
             {right.type === 'blank' ? (
               <div className="page-blank">
-                <svg className="page-blank-doodle" viewBox="0 0 120 120" fill="none" aria-hidden="true">
-                  <circle cx="60" cy="60" r="40" stroke="rgba(160,120,80,0.15)" strokeWidth="1" strokeDasharray="4 4"/>
-                  <path d="M40 60 Q60 40 80 60 Q60 80 40 60Z" stroke="rgba(160,120,80,0.1)" strokeWidth="1" fill="none"/>
+                <svg className="page-blank-label-doodle" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+                  <circle cx="60" cy="60" r="40" stroke="rgba(160,120,80,0.1)" strokeWidth="1" strokeDasharray="4 4"/>
                 </svg>
-                <p className="page-blank-label">fin</p>
               </div>
             ) : (
               <div className="page-content">

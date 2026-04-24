@@ -366,7 +366,7 @@
 /* Images in pages — Polaroid / collage style */
 .page-text img {
   display: block;
-  max-width: 50%;
+  max-width: 65%;
   margin: 16px auto;
   border: 4px solid #fdfaf3;
   box-shadow:
@@ -438,20 +438,11 @@
   align-items: center;
   justify-content: center;
   gap: 16px;
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
-.page-blank-doodle {
+.page-blank-label-doodle {
   width: 100px;
-}
-
-.page-blank-label {
-  font-family: var(--font-caveat), cursive;
-  font-size: 3.5rem;
-  color: rgba(100, 70, 30, 0.25);
-  font-style: italic;
-  letter-spacing: 0.2em;
-  margin-top: -20px;
 }
 
 .page-end-label-inline {

@@ -133,7 +133,20 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 </div>
               </div>
             </div>
-            <Link href={`/blog/${article.id}`} className="vintage-btn carousel-card-btn" style={{ textAlign: 'center', width: '100%', marginTop: 'auto', backgroundColor: 'var(--bg-color)', color: 'var(--text-primary)' }}>
+            <Link 
+              href={`/blog/${article.id}`} 
+              className="vintage-btn carousel-card-btn" 
+              style={{ 
+                textAlign: 'center', 
+                width: '100%', 
+                marginTop: 'auto', 
+                backgroundColor: 'var(--bg-color)', 
+                color: 'var(--text-primary)',
+                whiteSpace: 'nowrap',
+                fontSize: '0.9rem',
+                padding: '0.8rem 0.5rem'
+              }}
+            >
               LIRE L'ARTICLE
             </Link>
           </div>

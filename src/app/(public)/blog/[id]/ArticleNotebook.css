@@ -27,19 +27,18 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: blur(1px) brightness(0.55) saturate(1.2);
-  transform: scale(1.02); /* avoid blur edges */
+  filter: blur(0.30px) brightness(0.55) saturate(1.2);
+  transform: scale(1.02);
+  /* avoid blur edges */
 }
 
 .notebook-bg-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(20, 12, 4, 0.55) 0%,
-    rgba(40, 24, 8, 0.40) 50%,
-    rgba(20, 12, 4, 0.55) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(20, 12, 4, 0.55) 0%,
+      rgba(40, 24, 8, 0.40) 50%,
+      rgba(20, 12, 4, 0.55) 100%);
 }
 
 .notebook-bg-default {
@@ -87,14 +86,14 @@
 
 .notebook-left .notebook-page {
   border-radius: 4px 0 0 4px;
-  box-shadow: inset -2px 0 6px rgba(0,0,0,0.08);
+  box-shadow: inset -2px 0 6px rgba(0, 0, 0, 0.08);
   /* Left page has less right padding (towards spine) */
   padding-right: 36px;
 }
 
 .notebook-right .notebook-page {
   border-radius: 0 12px 12px 0;
-  box-shadow: inset 2px 0 6px rgba(0,0,0,0.06), 2px 4px 12px rgba(0,0,0,0.15);
+  box-shadow: inset 2px 0 6px rgba(0, 0, 0, 0.06), 2px 4px 12px rgba(0, 0, 0, 0.15);
   padding-left: 36px;
 }
 
@@ -103,14 +102,13 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent,
-    transparent 29px,
-    rgba(100, 140, 200, 0.15) 29px,
-    rgba(100, 140, 200, 0.15) 30px
-  );
-  background-position: 0 56px; /* lines start below the header zone */
+  background-image: repeating-linear-gradient(to bottom,
+      transparent,
+      transparent 29px,
+      rgba(100, 140, 200, 0.15) 29px,
+      rgba(100, 140, 200, 0.15) 30px);
+  background-position: 0 56px;
+  /* lines start below the header zone */
   z-index: 0;
 }
 
@@ -138,9 +136,9 @@
   position: relative;
   z-index: 20;
   box-shadow:
-    -3px 0 8px rgba(0,0,0,0.20),
-    3px 0 8px rgba(0,0,0,0.15),
-    inset 0 0 6px rgba(255,255,255,0.3);
+    -3px 0 8px rgba(0, 0, 0, 0.20),
+    3px 0 8px rgba(0, 0, 0, 0.15),
+    inset 0 0 6px rgba(255, 255, 255, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -164,13 +162,11 @@
   left: 50%;
   transform: translateX(-50%);
   width: 3px;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(80, 55, 20, 0.6) 0px,
-    rgba(80, 55, 20, 0.6) 12px,
-    transparent 12px,
-    transparent 18px
-  );
+  background: repeating-linear-gradient(to bottom,
+      rgba(80, 55, 20, 0.6) 0px,
+      rgba(80, 55, 20, 0.6) 12px,
+      transparent 12px,
+      transparent 18px);
 }
 
 /* ---- COVER PAGE ---- */
@@ -228,6 +224,22 @@
   opacity: 0.4;
 }
 
+.cover-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1.5px solid rgba(180, 100, 40, 0.4);
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.cover-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .cover-tags {
   display: flex;
   flex-wrap: wrap;
@@ -237,12 +249,14 @@
 
 .cover-tag {
   font-family: var(--font-caveat), cursive;
-  font-size: 0.88rem;
-  padding: 2px 10px;
-  border-radius: 20px;
-  border: 1.5px solid rgba(180, 100, 40, 0.35);
-  color: rgba(120, 70, 20, 0.8);
-  background: rgba(255,220,160,0.3);
+  font-size: 0.95rem;
+  padding: 4px 14px;
+  border-radius: 50px;
+  border: 1.5px solid rgba(180, 100, 40, 0.4);
+  color: #5a3214;
+  background: rgba(255, 230, 180, 0.4);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.05);
+  line-height: 1;
 }
 
 .cover-doodle {
@@ -265,8 +279,13 @@
   margin-bottom: 12px;
 }
 
-.page-number-left { text-align: left; }
-.page-number-right { text-align: right; }
+.page-number-left {
+  text-align: left;
+}
+
+.page-number-right {
+  text-align: right;
+}
 
 /* ---- PAGE TEXT — Handwriting style ---- */
 .page-text {
@@ -298,18 +317,28 @@
   line-height: 30px;
 }
 
-.page-text h1 { font-size: 26px; }
-.page-text h2 { font-size: 22px; }
-.page-text h3 { font-size: 20px; }
+.page-text h1 {
+  font-size: 26px;
+}
+
+.page-text h2 {
+  font-size: 22px;
+}
+
+.page-text h3 {
+  font-size: 20px;
+}
 
 /* Bold / Strong */
-.page-text strong, .page-text b {
+.page-text strong,
+.page-text b {
   font-weight: 700;
   color: #3d1800;
 }
 
 /* Italic */
-.page-text em, .page-text i {
+.page-text em,
+.page-text i {
   font-style: italic;
   color: rgba(80, 40, 10, 0.85);
 }
@@ -331,7 +360,7 @@
   font-style: italic;
   color: rgba(80, 45, 10, 0.85);
   transform: rotate(0.3deg);
-  box-shadow: 1px 2px 6px rgba(0,0,0,0.07);
+  box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.07);
 }
 
 /* Images in pages — Polaroid / collage style */
@@ -341,7 +370,7 @@
   margin: 12px auto;
   border: 4px solid #fdfaf3;
   box-shadow:
-    2px 3px 10px rgba(0,0,0,0.2),
+    2px 3px 10px rgba(0, 0, 0, 0.2),
     0 0 0 1px rgba(200, 170, 100, 0.3);
   transform: rotate(-1.5deg);
   border-radius: 2px;
@@ -350,7 +379,7 @@
 
 .page-text img:hover {
   transform: rotate(0deg) scale(1.03);
-  box-shadow: 4px 6px 20px rgba(0,0,0,0.3);
+  box-shadow: 4px 6px 20px rgba(0, 0, 0, 0.3);
   z-index: 10;
   position: relative;
 }
@@ -365,7 +394,8 @@
 }
 
 /* Lists */
-.page-text ul, .page-text ol {
+.page-text ul,
+.page-text ol {
   padding-left: 1.4rem;
   margin-top: 0;
   margin-bottom: 30px;
@@ -387,13 +417,13 @@
 
 .page-corner-left {
   left: 0;
-  background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.06) 50%);
+  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.06) 50%);
   border-radius: 0 0 0 4px;
 }
 
 .page-corner-right {
   right: 0;
-  background: linear-gradient(225deg, transparent 50%, rgba(0,0,0,0.06) 50%);
+  background: linear-gradient(225deg, transparent 50%, rgba(0, 0, 0, 0.06) 50%);
   border-radius: 0 0 4px 0;
   cursor: pointer;
 }
@@ -411,7 +441,9 @@
   opacity: 0.5;
 }
 
-.page-blank-doodle { width: 100px; }
+.page-blank-doodle {
+  width: 100px;
+}
 
 .page-blank-label {
   font-family: var(--font-caveat), cursive;
@@ -454,28 +486,32 @@
 @keyframes flipToLeft {
   0% {
     transform: rotateY(0deg);
-    box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
   }
+
   50% {
-    box-shadow: -30px 0 60px rgba(0,0,0,0.4);
+    box-shadow: -30px 0 60px rgba(0, 0, 0, 0.4);
   }
+
   100% {
     transform: rotateY(-180deg);
-    box-shadow: 0px 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0px 0 10px rgba(0, 0, 0, 0.1);
   }
 }
 
 @keyframes flipToRight {
   0% {
     transform: rotateY(0deg);
-    box-shadow: 10px 0 30px rgba(0,0,0,0.2);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
   }
+
   50% {
-    box-shadow: 30px 0 60px rgba(0,0,0,0.4);
+    box-shadow: 30px 0 60px rgba(0, 0, 0, 0.4);
   }
+
   100% {
     transform: rotateY(180deg);
-    box-shadow: 0px 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0px 0 10px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -577,7 +613,7 @@
   border-radius: 4px;
   font-family: monospace;
   font-size: 0.68rem;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* ---- RESPONSIVE ---- */
@@ -612,7 +648,8 @@
     flex-direction: column;
     width: 100%;
     max-width: 440px;
-    height: 600px; /* Hauteur fixe pour éviter les sauts */
+    height: 600px;
+    /* Hauteur fixe pour éviter les sauts */
     perspective: none;
     border-radius: 8px;
   }
@@ -631,16 +668,16 @@
     width: auto;
     height: 3px;
     transform: translateY(-50%);
-    background: repeating-linear-gradient(
-      to right,
-      rgba(80, 55, 20, 0.6) 0px,
-      rgba(80, 55, 20, 0.6) 12px,
-      transparent 12px,
-      transparent 18px
-    );
+    background: repeating-linear-gradient(to right,
+        rgba(80, 55, 20, 0.6) 0px,
+        rgba(80, 55, 20, 0.6) 12px,
+        transparent 12px,
+        transparent 18px);
   }
 
-  .notebook-half.notebook-left { display: none; }
+  .notebook-half.notebook-left {
+    display: none;
+  }
 
   .notebook-right .notebook-page {
     border-radius: 8px;
@@ -758,9 +795,29 @@
 
 /* ---- prefers-reduced-motion ---- */
 @media (prefers-reduced-motion: reduce) {
-  .notebook-flap { display: none; }
-  @keyframes flipToLeft { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes flipToRight { from { opacity: 0; } to { opacity: 1; } }
+  .notebook-flap {
+    display: none;
+  }
+
+  @keyframes flipToLeft {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes flipToRight {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
 }
 
 /* =====================================================
@@ -783,6 +840,7 @@
     opacity: 0;
     transform: translateY(24px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1114,5 +1172,7 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }

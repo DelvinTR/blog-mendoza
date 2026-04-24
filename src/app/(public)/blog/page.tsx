@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
+import { parseTags } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,9 +40,7 @@ export default async function BlogFeed() {
       ) : (
         <div className="blog-list-grid">
           {articles.map((article: any, i: number) => {
-            const tagsArray = article.tags
-              ? article.tags.split(',').map((t: string) => t.trim()).filter(Boolean)
-              : [];
+            const tagsArray = parseTags(article.tags);
 
             return (
               <Link
@@ -95,19 +94,25 @@ export default async function BlogFeed() {
                   )}
 
                   <div className="blog-card-footer">
-                    <span className="blog-card-meta">
-                      {new Date(article.publishedAt).toLocaleDateString('fr-FR', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric'
-                      })}
-                    </span>
-                    <span className="blog-card-read-btn">
-                      Lire
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                      </svg>
-                    </span>
+                    <div className="blog-card-author">
+                      {article.authorAvatar && (
+                        <img 
+                          src={article.authorAvatar} 
+                          alt={article.authorName || 'Avatar'} 
+                          className="blog-card-author-avatar" 
+                        />
+                      )}
+                      <span className="blog-card-author-name">{article.authorName || 'Vinot'}</span>
+                    </div>
+                    <div className="blog-card-meta-group">
+                      <span className="blog-card-meta">
+                        {new Date(article.publishedAt).toLocaleDateString('fr-FR', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric'
+                        })}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </Link>

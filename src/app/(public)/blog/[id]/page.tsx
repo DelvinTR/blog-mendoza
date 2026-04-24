@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { parseTags } from '@/lib/utils';
 import ReadingProgress from '../../ReadingProgress';
 import NotebookReader from './NotebookReader';
 import CommentSection from './CommentSection';
@@ -30,9 +31,7 @@ export default async function ArticlePage({
     notFound();
   }
 
-  const tagsArray = article.tags
-    ? article.tags.split(',').map((t: string) => t.trim()).filter(Boolean)
-    : [];
+  const tagsArray = parseTags(article.tags);
 
   const formattedDate = new Date(article.publishedAt).toLocaleDateString('fr-FR', {
     day: 'numeric',
@@ -78,6 +77,7 @@ export default async function ArticlePage({
         content={article.content}
         bgImage={article.bgImage}
         authorName={article.authorName}
+        authorAvatar={article.authorAvatar}
         date={formattedDate}
         tags={tagsArray}
       />

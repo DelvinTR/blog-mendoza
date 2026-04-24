@@ -8,6 +8,7 @@ interface NotebookReaderProps {
   content: string;
   bgImage?: string | null;
   authorName?: string | null;
+  authorAvatar?: string | null;
   date: string;
   tags: string[];
 }
@@ -17,6 +18,7 @@ export default function NotebookReader({
   content,
   bgImage,
   authorName,
+  authorAvatar,
   date,
   tags,
 }: NotebookReaderProps) {
@@ -280,6 +282,12 @@ export default function NotebookReader({
                 <div className="cover-brand">Vinot&apos;s Blog</div>
                 <h1 className="cover-title">{title}</h1>
                 <div className="cover-meta">
+                  {authorAvatar && (
+                    <div className="cover-avatar">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={authorAvatar} alt={authorName || 'Avatar'} />
+                    </div>
+                  )}
                   <span className="cover-author">{authorName || 'Penny Lane'}</span>
                   <span className="cover-sep">·</span>
                   <span className="cover-date">{date}</span>
@@ -329,6 +337,12 @@ export default function NotebookReader({
                 <div className="cover-brand">Vinot&apos;s Blog</div>
                 <h1 className="cover-title">{title}</h1>
                 <div className="cover-meta">
+                  {authorAvatar && (
+                    <div className="cover-avatar">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={authorAvatar} alt={authorName || 'Avatar'} />
+                    </div>
+                  )}
                   <span className="cover-author">{authorName || 'Penny Lane'}</span>
                   <span className="cover-sep">·</span>
                   <span className="cover-date">{date}</span>

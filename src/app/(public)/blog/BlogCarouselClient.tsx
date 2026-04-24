@@ -1,6 +1,7 @@
 "use client";
 import Link from 'next/link';
 import { useRef, useState, useEffect } from 'react';
+import { parseTags } from '@/lib/utils';
 
 export default function BlogCarouselClient({ articles }: { articles: any[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,7 +58,7 @@ export default function BlogCarouselClient({ articles }: { articles: any[] }) {
       {articles.map((article, index) => {
         const wordCount = article.content ? article.content.replace(/<[^>]*>/g, ' ').split(/\s+/).filter(Boolean).length : 0;
         const readingTime = Math.max(1, Math.ceil(wordCount / 200));
-        const tagsArray = article.tags ? article.tags.split(',').map((t: string) => t.trim()).filter(Boolean) : [];
+        const tagsArray = parseTags(article.tags);
 
         return (
           <section key={article.id} className="blog-carousel-section">
@@ -88,11 +89,19 @@ export default function BlogCarouselClient({ articles }: { articles: any[] }) {
                   </div>
 
                   <div className="carousel-meta">
-                    <span className="meta-date">
-                      {new Date(article.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
-                    </span>
-                    <span className="meta-sep">/</span>
-                    <span className="meta-read">{readingTime} min de lecture</span>
+                    <div className="carousel-author-info">
+                      {article.authorAvatar && (
+                        <img src={article.authorAvatar} alt={article.authorName || 'Avatar'} className="carousel-author-avatar" />
+                      )}
+                      <span className="carousel-author-name">{article.authorName || 'Vinot'}</span>
+                    </div>
+                    <div className="carousel-meta-details">
+                      <span className="meta-date">
+                        {new Date(article.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      </span>
+                      <span className="meta-sep">/</span>
+                      <span className="meta-read">{readingTime} min de lecture</span>
+                    </div>
                   </div>
 
                   <h2 className="carousel-article-title">{article.title}</h2>

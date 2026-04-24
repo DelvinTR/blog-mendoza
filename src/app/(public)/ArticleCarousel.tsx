@@ -81,52 +81,56 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
               backgroundColor: 'var(--accent-blue)'
             }}
           >
-            <div className="carousel-img-container" style={{ backgroundColor: 'var(--bg-color)' }}>
-              {article.coverImage ? (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img src={article.coverImage} alt={article.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              ) : (
-                <span style={{ fontSize: '3rem' }}>🌿</span>
-              )}
-            </div>
             <div 
               style={{
                 position: 'relative',
-                padding: '1rem',
-                margin: '0.5rem -1rem',
-                backgroundImage: article.coverImage ? `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${article.coverImage})` : 'none',
+                height: '240px',
+                backgroundImage: article.coverImage ? `url(${article.coverImage})` : 'none',
+                backgroundColor: 'var(--bg-color)',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                borderRadius: '8px',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '0.5rem'
+                justifyContent: 'flex-end',
+                padding: '1.25rem',
+                borderBottom: '2px solid var(--text-primary)'
               }}
             >
-              <h2 
-                className="carousel-card-title"
-                style={{
-                  margin: 0,
-                  fontSize: '1.4rem',
-                  fontWeight: 900,
-                  color: '#fff',
-                  textShadow: '0 2px 4px rgba(0,0,0,0.3)',
-                  textTransform: 'uppercase',
-                  lineHeight: 1.2
-                }}
-              >
-                {article.title}
-              </h2>
-              <div 
-                className="carousel-card-date"
-                style={{
-                  fontSize: '0.9rem',
-                  fontWeight: 700,
-                  color: 'rgba(255,255,255,0.8)',
-                  letterSpacing: '0.05em'
-                }}
-              >
-                {new Date(article.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+              {/* Subtle dark gradient for text readability */}
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.7) 100%)',
+                zIndex: 1
+              }} />
+
+              <div style={{ position: 'relative', zIndex: 2 }}>
+                <h2 
+                  className="carousel-card-title"
+                  style={{
+                    margin: 0,
+                    fontSize: '1.4rem',
+                    fontWeight: 900,
+                    color: '#fff',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+                    textTransform: 'uppercase',
+                    lineHeight: 1.2
+                  }}
+                >
+                  {article.title}
+                </h2>
+                <div 
+                  className="carousel-card-date"
+                  style={{
+                    fontSize: '0.85rem',
+                    fontWeight: 700,
+                    color: 'rgba(255,255,255,0.9)',
+                    marginTop: '0.25rem',
+                    letterSpacing: '0.05em'
+                  }}
+                >
+                  {new Date(article.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </div>
               </div>
             </div>
             <Link href={`/blog/${article.id}`} className="vintage-btn carousel-card-btn" style={{ textAlign: 'center', width: '100%', marginTop: 'auto', backgroundColor: 'var(--bg-color)', color: 'var(--text-primary)' }}>

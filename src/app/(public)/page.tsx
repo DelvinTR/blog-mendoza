@@ -14,7 +14,7 @@ export default async function HomePage() {
 
   try {
     articles = await prisma.article.findMany({
-      where: { 
+      where: {
         published: true,
         publishedAt: { lte: new Date() }
       },
@@ -103,7 +103,7 @@ export default async function HomePage() {
 
         <div className="section-header">
           <p className="section-eyebrow">Articles récents</p>
-          <h2 className="section-title">Aventures & Récits</h2>
+          <h2 className="section-title">Aventures et Récits</h2>
           <p className="section-subtitle">Des histoires vintages racontées par Vinot</p>
         </div>
 

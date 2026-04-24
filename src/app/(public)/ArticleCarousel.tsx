@@ -111,11 +111,12 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                   className="carousel-card-title"
                   style={{
                     margin: 0,
-                    fontSize: 'clamp(0.8rem, 3vw, 1.1rem)',
-                    fontWeight: 900,
+                    fontSize: 'clamp(1.2rem, 4vw, 1.6rem)',
+                    fontFamily: 'var(--font-editorial)',
+                    fontWeight: 500,
                     color: '#fff',
                     textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-                    textTransform: 'uppercase',
+                    textTransform: 'none',
                     lineHeight: 1.1,
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
@@ -127,8 +128,9 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 <div 
                   className="carousel-card-date"
                   style={{
-                    fontSize: 'clamp(0.6rem, 2vw, 0.75rem)',
-                    fontWeight: 700,
+                    fontSize: 'clamp(0.8rem, 2.5vw, 1rem)',
+                    fontFamily: 'var(--font-editorial)',
+                    fontWeight: 500,
                     color: 'rgba(255,255,255,0.8)',
                     marginTop: '0.15rem',
                     letterSpacing: '0.02em',

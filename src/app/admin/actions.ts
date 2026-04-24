@@ -45,3 +45,12 @@ export async function deleteArticle(id: string) {
   revalidatePath('/blog');
   revalidatePath('/');
 }
+
+export async function getSavedAvatars() {
+  const articles = await prisma.article.findMany({
+    where: { authorAvatar: { not: null } },
+    select: { authorAvatar: true },
+    distinct: ['authorAvatar'],
+  });
+  return articles.map(a => a.authorAvatar).filter(Boolean) as string[];
+}

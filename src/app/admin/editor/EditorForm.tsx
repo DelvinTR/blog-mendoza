@@ -63,7 +63,7 @@ import {
   Clock,
   Type,
 } from 'lucide-react';
-import { saveArticle } from '../actions';
+import { saveArticle, getSavedAvatars } from '../actions';
 import { uploadImageOnly } from '../gallery/actions';
 import styles from '../admin.module.css';
 import BubbleMenuBar from './BubbleMenuBar';
@@ -108,6 +108,9 @@ const HIGHLIGHT_COLORS = [
 
 export default function EditorForm({ initialData }: { initialData: any }) {
   const [published, setPublished] = useState(initialData?.published || false);
+  const [authorAvatar, setAuthorAvatar] = useState<string>(initialData?.authorAvatar || '');
+  const [savedAvatars, setSavedAvatars] = useState<string[]>([]);
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
   const [publishedAt, setPublishedAt] = useState(
     initialData?.publishedAt 
       ? new Date(initialData.publishedAt).toISOString().slice(0, 16) 
@@ -125,6 +128,12 @@ export default function EditorForm({ initialData }: { initialData: any }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
   const bgInputRef = useRef<HTMLInputElement>(null);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+
+  // Fetch saved avatars
+  useState(() => {
+    getSavedAvatars().then(setSavedAvatars);
+  });
 
   const editor = useEditor({
     extensions: [
@@ -247,6 +256,26 @@ export default function EditorForm({ initialData }: { initialData: any }) {
     e.target.value = '';
   };
 
+  const handleAvatarChange = async (file: File) => {
+    const formData = new FormData();
+    formData.append('photo', file);
+    const res = await uploadImageOnly(formData);
+    if (res?.error) {
+      alert(res.error);
+    } else if (res?.url) {
+      setAuthorAvatar(res.url);
+      if (!savedAvatars.includes(res.url)) {
+        setSavedAvatars([res.url, ...savedAvatars]);
+      }
+    }
+  };
+
+  const handleAvatarInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) await handleAvatarChange(file);
+    e.target.value = '';
+  };
+
   const handleBgDrop = async (e: React.DragEvent) => {
     e.preventDefault();
     setBgDragging(false);
@@ -295,6 +324,7 @@ export default function EditorForm({ initialData }: { initialData: any }) {
       formData.set('content', editor.getHTML());
       formData.set('published', String(published));
       formData.set('publishedAt', new Date(publishedAt).toISOString());
+      formData.set('authorAvatar', authorAvatar);
       formData.set('coverImage', coverImage);
       formData.set('bgImage', bgImage);
       await saveArticle(formData);
@@ -437,13 +467,55 @@ export default function EditorForm({ initialData }: { initialData: any }) {
             defaultValue={initialData?.authorName || ''}
             className={styles.metaInput}
           />
-          <input
-            type="text"
-            name="authorAvatar"
-            placeholder="URL Avatar"
-            defaultValue={initialData?.authorAvatar || ''}
-            className={styles.metaInput}
-          />
+           <div className={styles.metaInputGroup} style={{ position: 'relative' }}>
+            <label className={styles.metaLabel} style={{ fontSize: '0.8rem', color: '#6b7280', marginBottom: '0.4rem', display: 'block' }}>
+              Avatar Auteur
+            </label>
+            <div className={styles.avatarPickerWrapper}>
+              <div 
+                className={styles.currentAvatar}
+                onClick={() => setShowAvatarPicker(!showAvatarPicker)}
+              >
+                {authorAvatar ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={authorAvatar} alt="Avatar" />
+                ) : (
+                  <div className={styles.avatarPlaceholder}><ImageIcon size={20} /></div>
+                )}
+                <div className={styles.avatarEditOverlay}><Upload size={14} /></div>
+              </div>
+              
+              {showAvatarPicker && (
+                <div className={styles.avatarDropdown}>
+                  <div className={styles.avatarDropdownHeader}>
+                    <span>Sélectionner ou</span>
+                    <button type="button" onClick={() => avatarInputRef.current?.click()}>
+                      <Upload size={12} /> Télécharger
+                    </button>
+                  </div>
+                  <div className={styles.avatarGrid}>
+                    {savedAvatars.map((url, idx) => (
+                      <div 
+                        key={idx} 
+                        className={`${styles.avatarItem} ${authorAvatar === url ? styles.avatarItemActive : ''}`}
+                        onClick={() => { setAuthorAvatar(url); setShowAvatarPicker(false); }}
+                      >
+                        <img src={url} alt={`Saved ${idx}`} />
+                      </div>
+                    ))}
+                    {savedAvatars.length === 0 && <p className={styles.noAvatars}>Aucun avatar sauvegardé</p>}
+                  </div>
+                </div>
+              )}
+            </div>
+            <input
+              type="file"
+              ref={avatarInputRef}
+              onChange={handleAvatarInput}
+              style={{ display: 'none' }}
+              accept="image/*"
+            />
+          </div>
           <input
             type="text"
             name="tags"

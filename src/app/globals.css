@@ -70,7 +70,7 @@
 }
 
 @font-face {
-  font-family: 'Adelline';
+  font-family: 'AdellineCustom';
   src: url('/fonts/Adelline.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
@@ -125,9 +125,8 @@
   --accent-pink-soft: rgba(236, 72, 153, 0.15);
 
   /* Typography Variables */
-  --font-playfair: var(--font-playfair);
-  --font-editorial: 'Adelline', var(--font-playfair), 'Playfair Display', serif;
-  --font-body: var(--font-inter), 'Inter', system-ui, sans-serif;
+  --font-editorial: 'AdellineCustom', 'Playfair Display', serif;
+  --font-body: 'Inter', system-ui, sans-serif;
 
   /* Spacing Scale */
   --space-xs: 0.25rem;
@@ -232,7 +231,7 @@ h4 {
 button,
 input,
 textarea {
-  font-family: 'Adelline', 'Forager', var(--font-righteous), sans-serif;
+  font-family: var(--font-editorial);
   color: var(--text-primary);
   text-transform: none;
 }

@@ -170,7 +170,11 @@ export default function NotebookReader({
         }
       }
 
-      if (currentPageHTML) pagesArr.push(currentPageHTML);
+      if (currentPageHTML) {
+        // Append an end marker to the very last page
+        currentPageHTML += '<div class="page-end-label-inline">fin</div>';
+        pagesArr.push(currentPageHTML);
+      }
 
       document.body.removeChild(container);
       setPages(pagesArr);

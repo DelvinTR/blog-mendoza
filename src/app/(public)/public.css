@@ -1331,10 +1331,17 @@
 
 .retro-tv-screen {
   position: absolute;
-  top: 11%;
-  left: 10%;
-  right: 24%;
-  bottom: 20%;
+  /* Ajustez ces variables pour déplacer l'écran précisément */
+  --tv-top: 11%;
+  --tv-left: 8%;
+  --tv-right: 26%;
+  --tv-bottom: 20%;
+
+  top: var(--tv-top);
+  left: var(--tv-left);
+  right: var(--tv-right);
+  bottom: var(--tv-bottom);
+  
   background: #ffffff;
   overflow: hidden;
   border-radius: 1% / 1%;
@@ -1380,7 +1387,7 @@
   flex-direction: column;
   justify-content: flex-start;
   /* FIX: Prevents Safari zoom overflow bug */
-  padding-top: clamp(20px, 8%, 45px);
+  padding-top: clamp(30px, 8%, 80px);
   /* Native spacing that doesn't miscalculate */
 }
 

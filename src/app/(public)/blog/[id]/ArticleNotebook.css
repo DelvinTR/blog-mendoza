@@ -447,10 +447,11 @@
 
 .page-blank-label {
   font-family: var(--font-caveat), cursive;
-  font-size: 1.2rem;
-  color: rgba(100, 70, 30, 0.5);
+  font-size: 3.5rem;
+  color: rgba(100, 70, 30, 0.25);
   font-style: italic;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.2em;
+  margin-top: -20px;
 }
 
 /* ---- PAGE FLIP ANIMATION ---- */

@@ -175,7 +175,10 @@ export default function NotebookReader({
       document.body.removeChild(container);
       setPages(pagesArr);
       const mobile = window.innerWidth <= 768;
-      setTotalSpreads(mobile ? (pagesArr.length + 1) : (Math.ceil(pagesArr.length / 2) + 1));
+      const spreadCount = mobile 
+        ? (pagesArr.length + 1) 
+        : (1 + Math.ceil(Math.max(0, pagesArr.length - 1) / 2));
+      setTotalSpreads(spreadCount);
     };
 
     paginate();

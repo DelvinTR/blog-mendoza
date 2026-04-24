@@ -1425,7 +1425,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 3rem;
+  /* Ajustez cette variable pour descendre le carrousel par rapport au titre */
+  --carousel-gap: 3rem;
+  margin-bottom: var(--carousel-gap);
 }
 
 .carousel-title {

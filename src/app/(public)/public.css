@@ -2322,7 +2322,7 @@
   align-items: center;
   justify-content: center;
   transition: all var(--transition-fast);
-  z-index: 100;
+  z-index: 10000;
   backdrop-filter: blur(4px);
 }
 

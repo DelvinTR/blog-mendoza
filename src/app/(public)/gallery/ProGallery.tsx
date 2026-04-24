@@ -156,13 +156,6 @@ export default function ProGallery({ photos }: { photos: Photo[] }) {
               </svg>
             </button>
 
-            {/* Prev */}
-            <button className="pro-lightbox-arrow pro-lightbox-prev" onClick={goPrev} aria-label="Précédent">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-            </button>
-
             {/* Image */}
             <div className="pro-lightbox-image-container" key={lightboxIndex}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -172,13 +165,6 @@ export default function ProGallery({ photos }: { photos: Photo[] }) {
                 className="pro-lightbox-img"
               />
             </div>
-
-            {/* Next */}
-            <button className="pro-lightbox-arrow pro-lightbox-next" onClick={goNext} aria-label="Suivant">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="9 6 15 12 9 18" />
-              </svg>
-            </button>
 
             {/* Bottom info */}
             <div className="pro-lightbox-info">
@@ -190,6 +176,21 @@ export default function ProGallery({ photos }: { photos: Photo[] }) {
               )}
             </div>
           </div>
+
+          {/* Arrows moved outside inner for better absolute positioning control */}
+          {/* Prev */}
+          <button className="pro-lightbox-arrow pro-lightbox-prev" onClick={goPrev} aria-label="Précédent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+
+          {/* Next */}
+          <button className="pro-lightbox-arrow pro-lightbox-next" onClick={goNext} aria-label="Suivant">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 6 15 12 9 18" />
+            </svg>
+          </button>
         </div>
       )}
     </>

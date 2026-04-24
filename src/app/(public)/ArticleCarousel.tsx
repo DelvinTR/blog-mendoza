@@ -84,7 +84,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
             <div 
               style={{
                 position: 'relative',
-                minHeight: '260px',
+                height: '240px',
                 backgroundImage: article.coverImage ? `url(${article.coverImage})` : 'none',
                 backgroundColor: 'var(--bg-color)',
                 backgroundSize: 'cover',
@@ -92,32 +92,29 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'flex-end',
-                padding: '1.5rem 1.25rem',
-                borderBottom: '4px solid var(--text-primary)',
-                boxShadow: 'inset 0 0 40px rgba(0,0,0,0.4)'
+                padding: '1.25rem',
+                borderBottom: '2px solid var(--text-primary)'
               }}
             >
               {/* Subtle dark gradient for text readability */}
               <div style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(to bottom, transparent 20%, rgba(0,0,0,0.8) 100%)',
+                background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.7) 100%)',
                 zIndex: 1
               }} />
 
-              <div style={{ position: 'relative', zIndex: 2, width: '100%' }}>
+              <div style={{ position: 'relative', zIndex: 2 }}>
                 <h2 
                   className="carousel-card-title"
                   style={{
                     margin: 0,
-                    fontSize: 'clamp(1.1rem, 4vw, 1.5rem)',
+                    fontSize: '1.4rem',
                     fontWeight: 900,
                     color: '#fff',
-                    textShadow: '0 2px 8px rgba(0,0,0,0.8)',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.5)',
                     textTransform: 'uppercase',
-                    lineHeight: 1.1,
-                    wordBreak: 'break-word',
-                    minHeight: 'auto' // Ensure it expands as needed
+                    lineHeight: 1.2
                   }}
                 >
                   {article.title}
@@ -125,13 +122,11 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 <div 
                   className="carousel-card-date"
                   style={{
-                    fontSize: '0.8rem',
+                    fontSize: '0.85rem',
                     fontWeight: 700,
-                    color: 'var(--accent-orange-light)',
-                    marginTop: '0.5rem',
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    opacity: 0.9
+                    color: 'rgba(255,255,255,0.9)',
+                    marginTop: '0.25rem',
+                    letterSpacing: '0.05em'
                   }}
                 >
                   {new Date(article.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
@@ -143,15 +138,13 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
               className="vintage-btn carousel-card-btn" 
               style={{ 
                 textAlign: 'center', 
-                width: 'calc(100% - 2rem)', 
-                margin: '1rem auto', 
+                width: '100%', 
+                marginTop: 'auto', 
                 backgroundColor: 'var(--bg-color)', 
                 color: 'var(--text-primary)',
                 whiteSpace: 'nowrap',
-                fontSize: '0.85rem',
-                padding: '0.8rem 0.5rem',
-                border: '2px solid var(--text-primary)',
-                boxShadow: '4px 4px 0px var(--text-primary)'
+                fontSize: '0.9rem',
+                padding: '0.8rem 0.5rem'
               }}
             >
               LIRE L'ARTICLE

@@ -1380,7 +1380,7 @@
   flex-direction: column;
   justify-content: flex-start;
   /* FIX: Prevents Safari zoom overflow bug */
-  padding-top: 10%;
+  padding-top: clamp(20px, 8%, 45px);
   /* Native spacing that doesn't miscalculate */
 }
 

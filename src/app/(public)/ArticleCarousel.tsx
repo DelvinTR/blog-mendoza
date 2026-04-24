@@ -77,14 +77,15 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
             key={article.id}
             className="vintage-card carousel-card"
             style={{
-              /* Apply ALL article tags to BLUE */
-              backgroundColor: 'var(--accent-blue)'
+              backgroundColor: 'var(--accent-blue)',
+              display: 'flex',
+              flexDirection: 'column'
             }}
           >
             <div 
               style={{
                 position: 'relative',
-                height: '240px',
+                height: '220px',
                 backgroundImage: article.coverImage ? `url(${article.coverImage})` : 'none',
                 backgroundColor: 'var(--bg-color)',
                 backgroundSize: 'cover',
@@ -92,11 +93,10 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'flex-end',
-                padding: '1.25rem',
+                padding: '1rem',
                 borderBottom: '2px solid var(--text-primary)'
               }}
             >
-              {/* Subtle dark gradient for text readability */}
               <div style={{
                 position: 'absolute',
                 inset: 0,
@@ -104,17 +104,20 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 zIndex: 1
               }} />
 
-              <div style={{ position: 'relative', zIndex: 2 }}>
+              <div style={{ position: 'relative', zIndex: 2, width: '100%', overflow: 'hidden' }}>
                 <h2 
                   className="carousel-card-title"
                   style={{
                     margin: 0,
-                    fontSize: '1rem', // Reduced from 1.4rem
+                    fontSize: 'clamp(0.8rem, 3vw, 1.1rem)',
                     fontWeight: 900,
                     color: '#fff',
-                    textShadow: '0 1px 3px rgba(0,0,0,0.5)',
+                    textShadow: '0 1px 3px rgba(0,0,0,0.8)',
                     textTransform: 'uppercase',
-                    lineHeight: 1.1
+                    lineHeight: 1.1,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
                   }}
                 >
                   {article.title}
@@ -122,32 +125,33 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
                 <div 
                   className="carousel-card-date"
                   style={{
-                    fontSize: '0.7rem', // Reduced from 0.85rem
-                    fontWeight: 600,
+                    fontSize: 'clamp(0.6rem, 2vw, 0.75rem)',
+                    fontWeight: 700,
                     color: 'rgba(255,255,255,0.8)',
                     marginTop: '0.15rem',
-                    letterSpacing: '0.02em'
+                    letterSpacing: '0.02em',
+                    whiteSpace: 'nowrap'
                   }}
                 >
-                  {new Date(article.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  {new Date(article.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
                 </div>
               </div>
             </div>
+            
             <Link 
               href={`/blog/${article.id}`} 
               className="vintage-btn carousel-card-btn" 
               style={{ 
                 alignSelf: 'center',
                 width: 'fit-content', 
-                marginTop: 'auto', 
-                marginBottom: '0.75rem',
+                margin: 'auto 0 0.75rem 0', // Center vertically in remaining space and bottom margin
                 backgroundColor: 'var(--bg-color)', 
                 color: 'var(--text-primary)',
                 whiteSpace: 'nowrap',
-                fontSize: '0.75rem', // Reduced from 0.85rem
-                padding: '0.4rem 0.8rem', // Thinner
+                fontSize: '0.75rem',
+                padding: '0.4rem 0.8rem',
                 borderRadius: '2px',
-                boxShadow: 'none', // Removed orange rectangle/shadow
+                boxShadow: 'none',
                 border: '1px solid var(--text-primary)'
               }}
             >

@@ -41,26 +41,69 @@ export async function uploadImageOnly(formData: FormData) {
 }
 
 /**
- * Uploads to gallery AND saves to the database.
+ * Uploads multiple photos to gallery AND saves to the database.
  */
 export async function uploadPhoto(formData: FormData) {
   const caption = formData.get('caption') as string;
-  const res = await uploadImageOnly(formData);
-
-  if (res.error) {
-    return { error: res.error };
+  const photos = formData.getAll('photo') as File[];
+  
+  if (!photos || photos.length === 0) {
+    return { error: 'Aucun fichier fourni' };
   }
 
-  if (res.url) {
-    await prisma.photo.create({
-      data: { url: res.url, caption },
-    });
-    revalidatePath('/admin/gallery');
-    revalidatePath('/gallery');
-    return { url: res.url };
+  const results = [];
+  const errors = [];
+
+  for (const photo of photos) {
+    if (photo.size === 0) continue;
+
+    // We reuse the logic from uploadImageOnly but for a single file from the array
+    let url = '';
+    
+    // Fallback for local development
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      if (process.env.NODE_ENV === 'development') {
+        try {
+          const bytes = await photo.arrayBuffer();
+          const buffer = Buffer.from(bytes);
+          const filename = `${Date.now()}-${photo.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+          const filepath = join(process.cwd(), 'public', 'uploads', filename);
+          await writeFile(filepath, buffer);
+          url = `/uploads/${filename}`;
+        } catch (err: any) {
+          errors.push(`Erreur d'upload local (${photo.name}): ${err.message}`);
+          continue;
+        }
+      } else {
+        errors.push("Vercel Blob: BLOB_READ_WRITE_TOKEN manquant.");
+        continue;
+      }
+    } else {
+      try {
+        const blob = await put(photo.name, photo, { access: 'public', addRandomSuffix: true });
+        url = blob.url;
+      } catch (err: any) {
+        errors.push(`Erreur Vercel Blob (${photo.name}): ${err.message}`);
+        continue;
+      }
+    }
+
+    if (url) {
+      await prisma.photo.create({
+        data: { url, caption },
+      });
+      results.push(url);
+    }
   }
 
-  return { error: 'Erreur inconnue lors de l\'upload' };
+  revalidatePath('/admin/gallery');
+  revalidatePath('/gallery');
+
+  if (errors.length > 0) {
+    return { error: errors.join(' | '), uploaded: results.length };
+  }
+
+  return { success: true, uploaded: results.length };
 }
 
 export async function deletePhoto(id: string, url: string) {

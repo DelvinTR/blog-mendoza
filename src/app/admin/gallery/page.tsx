@@ -20,7 +20,7 @@ export default async function AdminGallery() {
         }} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end' }}>
           <div className={styles.formGroup} style={{ marginBottom: 0, flex: 1 }}>
             <label>Select Image</label>
-            <input type="file" name="photo" accept="image/*" required className={styles.input} />
+            <input type="file" name="photo" accept="image/*" multiple required className={styles.input} />
           </div>
           <div className={styles.formGroup} style={{ marginBottom: 0, flex: 2 }}>
             <label>Caption (Optional)</label>

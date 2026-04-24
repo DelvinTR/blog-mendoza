@@ -1355,8 +1355,8 @@
   .retro-tv-screen {
     --tv-top: 11.5%;
     --tv-left: 8.5%;
-    --tv-right: 25%;
-    --tv-bottom: 22%;
+    --tv-right: 26%;
+    --tv-bottom: 21%;
   }
 }
 
@@ -1397,7 +1397,7 @@
   flex-direction: column;
   justify-content: flex-start;
   /* FIX: Prevents Safari zoom overflow bug */
-  padding-top: clamp(30px, 8%, 80px);
+  padding-top: clamp(30px, 11%, 80px);
   /* Native spacing that doesn't miscalculate */
 }
 
@@ -1523,6 +1523,34 @@
 .carousel-card-btn {
   font-size: 1rem;
   padding: 1rem;
+}
+
+/* Nouveau bouton d'action responsif */
+.carousel-action-btn {
+  width: 100%;
+  margin-top: auto;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  white-space: nowrap;
+  font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+  padding: 0.75rem 0.5rem;
+  border-radius: 0 0 2px 2px;
+  box-shadow: none;
+  border: none;
+  border-top: 1px solid var(--text-primary);
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .carousel-action-btn {
+    align-self: center;
+    width: fit-content;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 4px;
+    border: 1px solid var(--text-primary);
+  }
 }
 
 /* ==========================================

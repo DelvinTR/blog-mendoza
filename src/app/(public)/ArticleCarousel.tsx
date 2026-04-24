@@ -140,21 +140,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
 
             <Link 
               href={`/blog/${article.id}`} 
-              className="vintage-btn carousel-card-btn" 
-              style={{ 
-                width: '100%', 
-                marginTop: 'auto', 
-                backgroundColor: 'var(--bg-color)', 
-                color: 'var(--text-primary)',
-                whiteSpace: 'nowrap',
-                fontSize: 'clamp(0.7rem, 2.5vw, 0.85rem)',
-                padding: '0.75rem 0.5rem',
-                borderRadius: '0 0 2px 2px',
-                boxShadow: 'none',
-                border: 'none',
-                borderTop: '1px solid var(--text-primary)',
-                textAlign: 'center'
-              }}
+              className="vintage-btn carousel-action-btn"
             >
               LIRE L'ARTICLE
             </Link>

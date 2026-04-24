@@ -77,7 +77,7 @@ export default async function HomePage() {
                   <>
                     <div className="phone-new-badge">
                       <span className="phone-pulse-dot"></span>
-                      Nouveau POST
+                      NOUVEAU POST
                     </div>
                     <div className="phone-title">
                       <h3>{latestPost.title}</h3>

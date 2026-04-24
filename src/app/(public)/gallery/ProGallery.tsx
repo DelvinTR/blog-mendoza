@@ -66,6 +66,9 @@ export default function ProGallery({ photos }: { photos: Photo[] }) {
       goPrev();
     }
   };
+
+  return (
+    <>
       {/* Filter Bar */}
       <div className="pro-gallery-filters">
         <button

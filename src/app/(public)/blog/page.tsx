@@ -8,8 +8,11 @@ export default async function BlogFeed() {
 
   try {
     articles = await prisma.article.findMany({
-      where: { published: true },
-      orderBy: { createdAt: 'desc' },
+      where: { 
+        published: true,
+        publishedAt: { lte: new Date() }
+      },
+      orderBy: { publishedAt: 'desc' },
     });
   } catch (error) {
     console.error("Erreur lors du chargement des articles:", error);
@@ -93,7 +96,7 @@ export default async function BlogFeed() {
 
                   <div className="blog-card-footer">
                     <span className="blog-card-meta">
-                      {new Date(article.createdAt).toLocaleDateString('fr-FR', {
+                      {new Date(article.publishedAt).toLocaleDateString('fr-FR', {
                         month: 'short',
                         day: 'numeric',
                         year: 'numeric'

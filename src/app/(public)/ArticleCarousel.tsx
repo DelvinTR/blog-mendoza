@@ -91,7 +91,7 @@ export default function ArticleCarousel({ articles }: { articles: any[] }) {
             </div>
             <h2 className="carousel-card-title">{article.title}</h2>
             <div className="carousel-card-date">
-              {new Date(article.createdAt).toLocaleDateString()}
+              {new Date(article.publishedAt).toLocaleDateString()}
             </div>
             <Link href={`/blog/${article.id}`} className="vintage-btn carousel-card-btn" style={{ textAlign: 'center', width: '100%', marginTop: 'auto', backgroundColor: 'var(--bg-color)', color: 'var(--text-primary)' }}>
               LIRE L'ARTICLE

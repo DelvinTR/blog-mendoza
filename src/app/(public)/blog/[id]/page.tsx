@@ -34,7 +34,7 @@ export default async function ArticlePage({
     ? article.tags.split(',').map((t: string) => t.trim()).filter(Boolean)
     : [];
 
-  const formattedDate = new Date(article.createdAt).toLocaleDateString('fr-FR', {
+  const formattedDate = new Date(article.publishedAt).toLocaleDateString('fr-FR', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',

@@ -11,13 +11,16 @@ export const dynamic = 'force-dynamic';
 export default async function HomePage() {
   let articles: any[] = [];
   let photos: any[] = [];
-  
+
   try {
     articles = await prisma.article.findMany({
-      where: { published: true },
-      orderBy: { createdAt: 'desc' }
+      where: { 
+        published: true,
+        publishedAt: { lte: new Date() }
+      },
+      orderBy: { publishedAt: 'desc' }
     });
-    
+
     photos = await prisma.photo.findMany({
       orderBy: { createdAt: 'desc' }
     });
@@ -101,7 +104,7 @@ export default async function HomePage() {
         <div className="section-header">
           <p className="section-eyebrow">Articles récents</p>
           <h2 className="section-title">Aventures & Récits</h2>
-          <p className="section-subtitle">Des histoires de voyage et de vie, racontées par Vinot</p>
+          <p className="section-subtitle">Des histoires vintages racontées par Vinot</p>
         </div>
 
         <RetroTvFrame>

@@ -15,8 +15,9 @@ export async function saveArticle(formData: FormData) {
   const authorAvatar = formData.get('authorAvatar') as string;
   const tags = formData.get('tags') as string;
   const published = formData.get('published') === 'true';
+  const publishedAt = formData.get('publishedAt') ? new Date(formData.get('publishedAt') as string) : new Date();
 
-  const data = { title, content, excerpt, coverImage, bgImage, authorName, authorAvatar, tags, published };
+  const data = { title, content, excerpt, coverImage, bgImage, authorName, authorAvatar, tags, published, publishedAt };
 
   if (id) {
     await prisma.article.update({

@@ -108,6 +108,11 @@ const HIGHLIGHT_COLORS = [
 
 export default function EditorForm({ initialData }: { initialData: any }) {
   const [published, setPublished] = useState(initialData?.published || false);
+  const [publishedAt, setPublishedAt] = useState(
+    initialData?.publishedAt 
+      ? new Date(initialData.publishedAt).toISOString().slice(0, 16) 
+      : new Date().toISOString().slice(0, 16)
+  );
   const [saving, setSaving] = useState(false);
   const [coverImage, setCoverImage] = useState<string>(initialData?.coverImage || '');
   const [coverDragging, setCoverDragging] = useState(false);
@@ -289,6 +294,7 @@ export default function EditorForm({ initialData }: { initialData: any }) {
       if (initialData?.id) formData.set('id', initialData.id);
       formData.set('content', editor.getHTML());
       formData.set('published', String(published));
+      formData.set('publishedAt', new Date(publishedAt).toISOString());
       formData.set('coverImage', coverImage);
       formData.set('bgImage', bgImage);
       await saveArticle(formData);
@@ -445,6 +451,21 @@ export default function EditorForm({ initialData }: { initialData: any }) {
             defaultValue={initialData?.tags || ''}
             className={styles.metaInputWide}
           />
+        </div>
+        <div className={styles.metaRow} style={{ marginTop: '1rem' }}>
+          <div className={styles.metaInputGroup}>
+            <label className={styles.metaLabel} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', color: '#6b7280', marginBottom: '0.4rem' }}>
+              <Clock size={14} /> Date de publication
+            </label>
+            <input
+              type="datetime-local"
+              name="publishedAt"
+              value={publishedAt}
+              onChange={(e) => setPublishedAt(e.target.value)}
+              className={styles.metaInput}
+              style={{ width: '100%' }}
+            />
+          </div>
         </div>
       </div>
 

@@ -2357,11 +2357,11 @@
     height: 50px;
     background: rgba(0, 0, 0, 0.6);
   }
-  
+
   .pro-lightbox-prev {
     left: 1rem;
   }
-  
+
   .pro-lightbox-next {
     right: 1rem;
   }
@@ -2717,7 +2717,7 @@
   }
 
   .carousel-card-date {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     margin: 0 0.5rem;
   }
 

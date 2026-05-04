@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import './ArticleNotebook.css';
+import { paginateContent } from '@/lib/paginateContent';
 
 interface NotebookReaderProps {
   title: string;
@@ -23,14 +24,13 @@ export default function NotebookReader({
   tags,
 }: NotebookReaderProps) {
   const [pages, setPages] = useState<string[]>([]);
-  const [currentSpread, setCurrentSpread] = useState(0); // 0 = cover + page1, 1 = page2+3, ...
+  const [currentSpread, setCurrentSpread] = useState(0);
   const [isFlipping, setIsFlipping] = useState(false);
   const [flipDir, setFlipDir] = useState<'next' | 'prev'>('next');
   const [totalSpreads, setTotalSpreads] = useState(1);
   const [reducedMotion, setReducedMotion] = useState(false);
   const bookRef = useRef<HTMLDivElement>(null);
 
-  // Check prefers-reduced-motion
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     setReducedMotion(mq.matches);
@@ -40,24 +40,20 @@ export default function NotebookReader({
   }, []);
 
   const [viewWidth, setViewWidth] = useState(360);
-
   const [isMobile, setIsMobile] = useState(false);
 
-  // Resize listener to adapt text column width
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
       const mobile = w <= 768;
       setIsMobile(mobile);
       if (mobile) {
-        // Mobile padding is 28px each side => 56px total
         setViewWidth(Math.min(w - 56, 344)); 
       } else {
-        // Desktop book is 880px / 2 = 440. Paddings = ~80px => 360px
         setViewWidth(360);
       }
     };
-    handleResize(); // Initial calc
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -67,127 +63,15 @@ export default function NotebookReader({
     
     let isCancelled = false;
 
-    const paginate = async () => {
-      // 1. Wait for custom web fonts (Caveat) to load so text metrics are accurate
-      if (document.fonts && document.fonts.ready) {
-        await document.fonts.ready;
+    const run = async () => {
+      const pagesArr = await paginateContent(content, viewWidth);
+      if (isCancelled) return;
+
+      // Add end marker to last page
+      if (pagesArr.length > 0) {
+        pagesArr[pagesArr.length - 1] += '<div class="page-end-label-inline">fin</div>';
       }
 
-      const container = document.createElement('div');
-      container.className = 'page-text'; // Important for CSS inheritance (images, etc)
-      container.innerHTML = content;
-      container.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;padding:32px 40px;`;
-      document.body.appendChild(container);
-
-      // 2. Wait for all images inside the content to load to get true image heights
-      const images = Array.from(container.querySelectorAll('img'));
-      await Promise.all(images.map(img => {
-        if (img.complete) return Promise.resolve();
-        return new Promise(resolve => {
-          img.onload = resolve;
-          img.onerror = resolve;
-        });
-      }));
-
-      if (isCancelled) {
-        document.body.removeChild(container);
-        return;
-      }
-
-      const PAGE_HEIGHT = 520; 
-      const pagesArr: string[] = [];
-      let currentPageHTML = '';
-      let currentHeight = 0;
-
-      // Reuse a single probe for all measurements to improve performance and consistency
-      const probe = document.createElement('div');
-      probe.className = 'page-text';
-      probe.style.cssText = `position:absolute;visibility:hidden;width:${viewWidth}px;font-family:var(--font-caveat,cursive);font-size:19px;line-height:30px;box-sizing:border-box;`;
-      document.body.appendChild(probe);
-
-      const measureHTML = (html: string): number => {
-        probe.innerHTML = html;
-        return probe.getBoundingClientRect().height;
-      };
-
-      const pushPage = () => {
-        if (currentPageHTML !== '') {
-          pagesArr.push(currentPageHTML);
-          currentPageHTML = '';
-          currentHeight = 0;
-        }
-      };
-
-      const addHTML = (html: string, height: number) => {
-        currentPageHTML += html;
-        currentHeight += height;
-      };
-
-      const nodes = Array.from(container.childNodes);
-
-      for (let i = 0; i < nodes.length; i++) {
-        const node = nodes[i];
-        if (node.nodeType === Node.TEXT_NODE && !node.textContent?.trim()) continue;
-
-        let nodeHTML = node instanceof Element ? node.outerHTML : `<p>${node.textContent}</p>`;
-        let nodeHeight = measureHTML(nodeHTML);
-        
-        if (nodeHeight <= 5) continue; // Skip empty or tiny nodes
-
-        // Check if it fits on current page
-        // We add a small buffer for the natural gap between elements (margin-bottom: 30px in CSS)
-        // but only if it's not the first element on the page
-        const gap = currentHeight > 0 ? 25 : 0; 
-
-        if (currentHeight + nodeHeight + gap <= PAGE_HEIGHT) {
-          addHTML(nodeHTML, nodeHeight + gap);
-        } else {
-          if (currentHeight > 0) {
-            pushPage();
-          }
-
-          if (nodeHeight <= PAGE_HEIGHT) {
-            addHTML(nodeHTML, nodeHeight);
-          } else {
-            // Handle splitting for paragraphs only
-            if (node instanceof Element && node.tagName.toLowerCase() === 'p') {
-              const words = (node.textContent || '').split(' ');
-              let currentChunk = '';
-
-              for (const word of words) {
-                const testChunk = currentChunk ? `${currentChunk} ${word}` : word;
-                const testHeight = measureHTML(`<p>${testChunk}</p>`);
-
-                if (currentHeight + testHeight + 10 > PAGE_HEIGHT) { // 10 is small buffer for splitting
-                  if (currentChunk) {
-                    const chunkH = measureHTML(`<p>${currentChunk}</p>`);
-                    addHTML(`<p>${currentChunk}</p>`, chunkH);
-                    pushPage();
-                  }
-                  currentChunk = word;
-                } else {
-                  currentChunk = testChunk;
-                }
-              }
-              if (currentChunk.trim()) {
-                const finalChunkH = measureHTML(`<p>${currentChunk}</p>`);
-                addHTML(`<p>${currentChunk}</p>`, finalChunkH);
-              }
-            } else {
-              addHTML(nodeHTML, nodeHeight);
-            }
-          }
-        }
-      }
-
-      if (currentPageHTML) {
-        // Append an end marker to the very last page
-        currentPageHTML += '<div class="page-end-label-inline">fin</div>';
-        pagesArr.push(currentPageHTML);
-      }
-
-      document.body.removeChild(probe); // Clean up probe
-      document.body.removeChild(container);
       setPages(pagesArr);
       const mobile = window.innerWidth <= 768;
       const spreadCount = mobile 
@@ -196,7 +80,7 @@ export default function NotebookReader({
       setTotalSpreads(spreadCount);
     };
 
-    paginate();
+    run();
 
     return () => { isCancelled = true; };
   }, [content, viewWidth]);

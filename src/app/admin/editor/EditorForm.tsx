@@ -2,7 +2,6 @@
 
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight';
@@ -62,6 +61,7 @@ import {
   EyeOff,
   Clock,
   Type,
+  BookOpen,
 } from 'lucide-react';
 import { saveArticle, getSavedAvatars } from '../actions';
 import { uploadImageOnly } from '../gallery/actions';
@@ -70,6 +70,10 @@ import BubbleMenuBar from './BubbleMenuBar';
 import SlashCommandMenu from './SlashCommandMenu';
 import { FontSize } from './FontSizeExtension';
 import { Callout } from './CalloutExtension';
+import { ResizableImage } from './ResizableImageExtension';
+import { PageBreak } from './PageBreakExtension';
+import ImageResizer from './ImageResizer';
+import NotebookEditorMode from './NotebookEditorMode';
 
 const lowlight = createLowlight(common);
 
@@ -125,6 +129,7 @@ export default function EditorForm({ initialData }: { initialData: any }) {
   const [showSizePicker, setShowSizePicker] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [showHighlightPicker, setShowHighlightPicker] = useState(false);
+  const [notebookMode, setNotebookMode] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
   const bgInputRef = useRef<HTMLInputElement>(null);
@@ -140,11 +145,12 @@ export default function EditorForm({ initialData }: { initialData: any }) {
       StarterKit.configure({
         codeBlock: false,
       }),
-      Image.configure({
+      ResizableImage.configure({
         HTMLAttributes: {
           class: 'editor-image',
         },
       }),
+      PageBreak,
       Placeholder.configure({
         placeholder: ({ node }) => {
           if (node.type.name === 'heading') {
@@ -964,6 +970,21 @@ export default function EditorForm({ initialData }: { initialData: any }) {
               <Video size={16} />
             </button>
           </div>
+
+          <div className={styles.toolDivider} />
+
+          {/* Notebook Mode Toggle */}
+          <div className={styles.toolGroup}>
+            <button
+              type="button"
+              className={`${styles.notebookToggleBtn} ${notebookMode ? styles.notebookToggleBtnActive : ''}`}
+              onClick={() => setNotebookMode(!notebookMode)}
+              title="Mode cahier — Aperçu page par page"
+            >
+              <BookOpen size={14} />
+              Cahier
+            </button>
+          </div>
         </div>
 
         {/* Contextual Menus */}
@@ -973,8 +994,14 @@ export default function EditorForm({ initialData }: { initialData: any }) {
           onImageClick={() => fileInputRef.current?.click()}
         />
 
+        {/* Image Resizer (shows when an image is selected) */}
+        <ImageResizer editor={editor} />
+
         {/* Editor Content */}
         <EditorContent editor={editor} className={styles.premiumEditorContent} />
+
+        {/* Notebook Mode — Paginated Preview */}
+        <NotebookEditorMode editor={editor} enabled={notebookMode} />
 
         {/* Footer with word count + reading time */}
         <div className={styles.editorFooter}>

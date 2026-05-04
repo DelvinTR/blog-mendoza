@@ -2039,9 +2039,48 @@
   color: white;
 }
 
-/* Preview container */
+/* Split View for Notebook Mode */
+.editorSplitView {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.editorSplitLeft {
+  flex: 1;
+  min-width: 0; /* prevent flex blowout */
+  transition: all 0.3s ease;
+}
+
+.editorSplitRight {
+  flex: 0 0 500px;
+  max-width: 500px;
+  position: sticky;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f8f0e0 0%, #f0e8d4 100%);
+  border: 1px solid rgba(180, 140, 80, 0.25);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+/* Custom scrollbar for preview panel */
+.editorSplitRight::-webkit-scrollbar {
+  width: 6px;
+}
+.editorSplitRight::-webkit-scrollbar-track {
+  background: rgba(180, 140, 80, 0.1);
+  border-radius: 4px;
+}
+.editorSplitRight::-webkit-scrollbar-thumb {
+  background: rgba(180, 140, 80, 0.3);
+  border-radius: 4px;
+}
+
+/* Preview container adjustments for split view */
 .notebookPreviewContainer {
-  margin-top: 1.5rem;
+  margin-top: 0;
   padding: 1.5rem;
   background: linear-gradient(180deg, #f8f0e0 0%, #f0e8d4 100%);
   border-radius: 16px;

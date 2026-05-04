@@ -997,11 +997,20 @@ export default function EditorForm({ initialData }: { initialData: any }) {
         {/* Image Resizer (shows when an image is selected) */}
         <ImageResizer editor={editor} />
 
-        {/* Editor Content */}
-        <EditorContent editor={editor} className={styles.premiumEditorContent} />
+        {/* Editor and Preview Split Container */}
+        <div className={notebookMode ? styles.editorSplitView : undefined}>
+          <div className={notebookMode ? styles.editorSplitLeft : undefined}>
+            {/* Editor Content */}
+            <EditorContent editor={editor} className={styles.premiumEditorContent} />
+          </div>
 
-        {/* Notebook Mode — Paginated Preview */}
-        <NotebookEditorMode editor={editor} enabled={notebookMode} />
+          {notebookMode && (
+            <div className={styles.editorSplitRight}>
+              {/* Notebook Mode — Paginated Preview */}
+              <NotebookEditorMode editor={editor} enabled={notebookMode} />
+            </div>
+          )}
+        </div>
 
         {/* Footer with word count + reading time */}
         <div className={styles.editorFooter}>

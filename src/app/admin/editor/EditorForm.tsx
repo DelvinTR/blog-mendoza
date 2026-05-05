@@ -1007,7 +1007,11 @@ export default function EditorForm({ initialData }: { initialData: any }) {
           {notebookMode && (
             <div className={styles.editorSplitRight}>
               {/* Notebook Mode — Paginated Preview */}
-              <NotebookEditorMode editor={editor} enabled={notebookMode} />
+              <NotebookEditorMode 
+                editor={editor} 
+                enabled={notebookMode} 
+                onClose={() => setNotebookMode(false)}
+              />
             </div>
           )}
         </div>

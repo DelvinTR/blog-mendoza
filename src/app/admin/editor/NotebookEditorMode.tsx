@@ -4,10 +4,12 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { Editor } from '@tiptap/react';
 import { paginateContent, PAGE_HEIGHT, DEFAULT_VIEW_WIDTH } from '@/lib/paginateContent';
 import styles from '../admin.module.css';
+import { X } from 'lucide-react';
 
 interface NotebookEditorModeProps {
   editor: Editor;
   enabled: boolean;
+  onClose: () => void;
 }
 
 /**
@@ -16,7 +18,7 @@ interface NotebookEditorModeProps {
  * into pages and displays them in fixed-height containers that exactly match
  * the public NotebookReader rendering.
  */
-export default function NotebookEditorMode({ editor, enabled }: NotebookEditorModeProps) {
+export default function NotebookEditorMode({ editor, enabled, onClose }: NotebookEditorModeProps) {
   const [pages, setPages] = useState<string[]>([]);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastHtmlRef = useRef<string>('');
@@ -64,8 +66,17 @@ export default function NotebookEditorMode({ editor, enabled }: NotebookEditorMo
 
   return (
     <div className={styles.notebookPreviewContainer}>
-      <div className={styles.notebookPreviewLabel}>
-        Aperçu des pages ({pages.length} page{pages.length !== 1 ? 's' : ''})
+      <div className={styles.notebookPreviewHeader}>
+        <div className={styles.notebookPreviewLabel}>
+          Aperçu des pages ({pages.length} page{pages.length !== 1 ? 's' : ''})
+        </div>
+        <button 
+          className={styles.notebookPreviewCloseBtn} 
+          onClick={onClose}
+          title="Fermer l'aperçu"
+        >
+          <X size={18} />
+        </button>
       </div>
       <div className={styles.notebookPagesGrid}>
         {pages.map((pageHtml, i) => (

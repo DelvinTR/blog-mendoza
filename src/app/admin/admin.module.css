@@ -779,6 +779,46 @@
 }
 
 /* Code Block */
+.premiumEditorContent :global(.ProseMirror code) {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.15em 0.3em;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  color: #db2777;
+}
+
+/* Images */
+.premiumEditorContent :global(.ProseMirror img) {
+  display: block;
+  max-width: 65%; /* Default */
+  margin: 16px auto;
+  border: 4px solid #fdfaf3;
+  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(200, 170, 100, 0.3);
+  transform: rotate(-1.5deg);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, max-width 0.3s ease;
+}
+
+.premiumEditorContent :global(.ProseMirror img:hover) {
+  transform: rotate(0deg) scale(1.02);
+  box-shadow: 4px 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.premiumEditorContent :global(.ProseMirror img.ProseMirror-selectednode) {
+  outline: 3px solid #FF6E31;
+  outline-offset: 3px;
+  transform: rotate(0deg);
+}
+
+/* Image Width Utilities */
+.premiumEditorContent :global(.ProseMirror img[width="25%"]) { max-width: 25%; }
+.premiumEditorContent :global(.ProseMirror img[width="50%"]) { max-width: 50%; }
+.premiumEditorContent :global(.ProseMirror img[width="65%"]) { max-width: 65%; }
+.premiumEditorContent :global(.ProseMirror img[width="75%"]) { max-width: 75%; }
+.premiumEditorContent :global(.ProseMirror img[width="100%"]) { max-width: 100%; }
+
 .premiumEditorContent :global(.ProseMirror pre) {
   background: #1e1e2e;
   color: #cdd6f4;
@@ -2076,6 +2116,47 @@
 .editorSplitRight::-webkit-scrollbar-thumb {
   background: rgba(180, 140, 80, 0.3);
   border-radius: 4px;
+}
+
+/* Image Resizer Toolbar */
+.imageResizeToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  position: sticky;
+  top: 10px;
+  z-index: 200;
+  margin: 0 auto 16px auto;
+  width: max-content;
+}
+
+.imageResizeBtn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.imageResizeBtn:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.imageResizeBtnActive {
+  background: #fff1f2;
+  border-color: #fecdd3;
+  color: #be123c;
+  font-weight: 500;
 }
 
 /* Preview container adjustments for split view */

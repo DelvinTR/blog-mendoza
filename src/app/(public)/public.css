@@ -1431,10 +1431,6 @@
   100% { transform: translateX(-50%); }
 }
 
-/* Pause on hover for readability */
-.led-ticker:hover .led-ticker-track {
-  animation-play-state: paused;
-}
 
 .led-ticker-item {
   display: inline-flex;

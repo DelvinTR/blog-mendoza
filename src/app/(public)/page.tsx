@@ -96,6 +96,8 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
+
+        <LedTicker />
       </section>
 
       {/* 2. Blog Feed Section */}
@@ -107,8 +109,6 @@ export default async function HomePage() {
           <h2 className="section-title">Aventures et Récits</h2>
           <p className="section-subtitle">Des histoires vintages racontées par Vinot</p>
         </div>
-
-        <LedTicker />
 
         <RetroTvFrame>
           <ArticleCarousel articles={articles} />

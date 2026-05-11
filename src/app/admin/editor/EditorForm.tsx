@@ -74,6 +74,7 @@ import { ResizableImage } from './ResizableImageExtension';
 import { PageBreak } from './PageBreakExtension';
 import ImageResizer from './ImageResizer';
 import NotebookEditorMode from './NotebookEditorMode';
+import LivePreview from './LivePreview';
 
 const lowlight = createLowlight(common);
 
@@ -130,6 +131,9 @@ export default function EditorForm({ initialData }: { initialData: any }) {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [showHighlightPicker, setShowHighlightPicker] = useState(false);
   const [notebookMode, setNotebookMode] = useState(false);
+  const [liveTitle, setLiveTitle] = useState(initialData?.title || '');
+  const [liveAuthor, setLiveAuthor] = useState(initialData?.authorName || '');
+  const [liveTags, setLiveTags] = useState(initialData?.tags || '');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
   const bgInputRef = useRef<HTMLInputElement>(null);
@@ -455,6 +459,7 @@ export default function EditorForm({ initialData }: { initialData: any }) {
           name="title"
           placeholder="Titre de l'article"
           defaultValue={initialData?.title || ''}
+          onChange={(e) => setLiveTitle(e.target.value)}
           required
           className={styles.premiumTitleInput}
         />
@@ -471,6 +476,7 @@ export default function EditorForm({ initialData }: { initialData: any }) {
             name="authorName"
             placeholder="Auteur"
             defaultValue={initialData?.authorName || ''}
+            onChange={(e) => setLiveAuthor(e.target.value)}
             className={styles.metaInput}
           />
            <div className={styles.metaInputGroup} style={{ position: 'relative' }}>
@@ -527,6 +533,7 @@ export default function EditorForm({ initialData }: { initialData: any }) {
             name="tags"
             placeholder="Tags (séparés par des virgules)"
             defaultValue={initialData?.tags || ''}
+            onChange={(e) => setLiveTags(e.target.value)}
             className={styles.metaInputWide}
           />
         </div>
@@ -984,6 +991,15 @@ export default function EditorForm({ initialData }: { initialData: any }) {
               <BookOpen size={14} />
               Cahier
             </button>
+            <LivePreview
+              editor={editor}
+              title={liveTitle}
+              coverImage={coverImage}
+              authorName={liveAuthor}
+              authorAvatar={authorAvatar}
+              tags={liveTags}
+              publishedAt={publishedAt}
+            />
           </div>
         </div>
 

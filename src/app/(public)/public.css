@@ -1396,66 +1396,23 @@
   50% { opacity: 1; transform: scale(1.2); }
 }
 
-/* LIVE label */
-.led-ticker-label {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 10px;
-  font-family: var(--font-body), monospace;
-  font-size: 0.6rem;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--led-glow-alt);
-  background: var(--led-label-bg);
-  border: 1px solid rgba(255, 110, 199, 0.3);
-  border-radius: 3px;
-  backdrop-filter: blur(4px);
-  box-shadow: 0 0 8px rgba(255, 110, 199, 0.15);
-  animation: labelGlow 3s ease-in-out infinite;
-}
-
-.led-ticker-label svg {
-  color: var(--led-glow-alt);
-  filter: drop-shadow(0 0 3px rgba(255, 17, 0, 0.5));
-  animation: pulseDot 1.5s infinite;
-}
-
-@keyframes pulseDot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-
-@keyframes labelGlow {
-  0%, 100% { box-shadow: 0 0 8px rgba(255, 17, 0, 0.15); }
-  50% { box-shadow: 0 0 16px rgba(255, 17, 0, 0.35), 0 0 30px rgba(255, 17, 0, 0.1); }
-}
-
 /* Scrolling viewport */
 .led-ticker-viewport {
   overflow: hidden;
-  padding: 10px 0 10px 80px;
+  padding: 16px 0;
   /* Fade edges */
   mask-image: linear-gradient(
     to right,
     transparent 0%,
-    transparent 70px,
-    black 110px,
-    black 90%,
+    black 8%,
+    black 92%,
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0%,
-    transparent 70px,
-    black 110px,
-    black 90%,
+    black 8%,
+    black 92%,
     transparent 100%
   );
 }
@@ -1483,7 +1440,7 @@
   display: inline-flex;
   align-items: center;
   font-family: var(--font-body), monospace;
-  font-size: 0.78rem;
+  font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--led-text);
@@ -1498,7 +1455,7 @@
 .led-ticker-separator {
   color: var(--led-separator);
   margin-right: 1.5rem;
-  font-size: 0.65rem;
+  font-size: 0.9rem;
   text-shadow:
     0 0 6px rgba(255, 69, 0, 0.5),
     0 0 14px rgba(255, 69, 0, 0.2);
@@ -1518,18 +1475,13 @@
     margin-bottom: var(--space-xs);
   }
 
-  .led-ticker-label {
-    display: none;
-  }
-
   .led-ticker-viewport {
-    padding-left: 0;
     mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
   }
 
   .led-ticker-item {
-    font-size: 0.7rem;
+    font-size: 0.95rem;
   }
 
   .led-ticker {
@@ -1541,7 +1493,7 @@
   .led-ticker-dot { display: none; }
   
   .led-ticker-item {
-    font-size: 0.65rem;
+    font-size: 0.85rem;
   }
 
   .led-ticker {

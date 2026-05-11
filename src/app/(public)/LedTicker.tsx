@@ -45,14 +45,6 @@ export default function LedTicker() {
         <span className="led-ticker-dot led-ticker-dot--bl" />
         <span className="led-ticker-dot led-ticker-dot--br" />
 
-        {/* Label */}
-        <span className="led-ticker-label">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" className="led-ticker-record">
-            <circle cx="5" cy="5" r="5" />
-          </svg>
-          EN DIRECT
-        </span>
-
         {/* Scrolling track */}
         <div className="led-ticker-viewport">
           <div className="led-ticker-track" ref={trackRef}>

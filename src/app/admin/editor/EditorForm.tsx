@@ -221,7 +221,10 @@ export default function EditorForm({ initialData }: { initialData: any }) {
     if (res?.error) {
       alert(res.error);
     } else if (res?.url) {
-      editor.chain().focus().setImage({ src: res.url, alt: file.name }).run();
+      editor.chain().focus().insertContent({
+        type: 'resizableImage',
+        attrs: { src: res.url, alt: file.name, width: '65%' },
+      }).run();
     }
   }, [editor]);
 

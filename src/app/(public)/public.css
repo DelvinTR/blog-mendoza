@@ -1326,13 +1326,13 @@
    LED COMMENT TICKER — Neon Marquee
    ========================================== */
 .led-ticker {
-  --led-bg: #0a0a0f;
-  --led-glow: #00ffe5;
-  --led-glow-alt: #ff6ec7;
-  --led-text: #00ffe5;
-  --led-separator: #ff6ec7;
-  --led-label-bg: rgba(255, 110, 199, 0.15);
-  --led-border: rgba(0, 255, 229, 0.25);
+  --led-bg: #140804;
+  --led-glow: #ff4500;
+  --led-glow-alt: #ff1100;
+  --led-text: #fcbc42;
+  --led-separator: #ff4500;
+  --led-label-bg: rgba(255, 17, 0, 0.15);
+  --led-border: rgba(252, 188, 66, 0.25);
   --led-dot-size: 6px;
   --led-speed: 35s;
 
@@ -1354,11 +1354,21 @@
   border-radius: 0;
   overflow: hidden;
   box-shadow:
-    0 0 15px rgba(0, 255, 229, 0.12),
-    0 0 40px rgba(0, 255, 229, 0.05),
-    inset 0 0 30px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(0, 255, 229, 0.08);
+    0 0 15px rgba(252, 188, 66, 0.12),
+    0 0 40px rgba(252, 188, 66, 0.05),
+    inset 0 0 30px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(252, 188, 66, 0.08);
   padding: 0;
+}
+
+.led-ticker-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.35) 50%);
+  background-size: 100% 4px;
+  z-index: 5;
+  pointer-events: none;
 }
 
 /* Corner LED dots */
@@ -1371,7 +1381,7 @@
   box-shadow:
     0 0 4px var(--led-glow),
     0 0 10px var(--led-glow),
-    0 0 20px rgba(0, 255, 229, 0.3);
+    0 0 20px rgba(255, 69, 0, 0.3);
   z-index: 10;
   animation: ledPulse 2s ease-in-out infinite;
 }
@@ -1413,12 +1423,18 @@
 
 .led-ticker-label svg {
   color: var(--led-glow-alt);
-  filter: drop-shadow(0 0 3px rgba(255, 110, 199, 0.5));
+  filter: drop-shadow(0 0 3px rgba(255, 17, 0, 0.5));
+  animation: pulseDot 1.5s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
 @keyframes labelGlow {
-  0%, 100% { box-shadow: 0 0 8px rgba(255, 110, 199, 0.15); }
-  50% { box-shadow: 0 0 16px rgba(255, 110, 199, 0.35), 0 0 30px rgba(255, 110, 199, 0.1); }
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 17, 0, 0.15); }
+  50% { box-shadow: 0 0 16px rgba(255, 17, 0, 0.35), 0 0 30px rgba(255, 17, 0, 0.1); }
 }
 
 /* Scrolling viewport */
@@ -1472,8 +1488,8 @@
   letter-spacing: 0.04em;
   color: var(--led-text);
   text-shadow:
-    0 0 6px rgba(0, 255, 229, 0.5),
-    0 0 14px rgba(0, 255, 229, 0.2);
+    0 0 4px rgba(252, 188, 66, 0.6),
+    0 0 12px rgba(252, 188, 66, 0.2);
   padding-right: 1.5rem;
   text-transform: none;
   line-height: 1;
@@ -1484,8 +1500,8 @@
   margin-right: 1.5rem;
   font-size: 0.65rem;
   text-shadow:
-    0 0 6px rgba(255, 110, 199, 0.5),
-    0 0 14px rgba(255, 110, 199, 0.2);
+    0 0 6px rgba(255, 69, 0, 0.5),
+    0 0 14px rgba(255, 69, 0, 0.2);
   animation: starSpin 4s linear infinite;
   display: inline-block;
 }

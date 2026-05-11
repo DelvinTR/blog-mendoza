@@ -47,10 +47,10 @@ export default function LedTicker() {
 
         {/* Label */}
         <span className="led-ticker-label">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" className="led-ticker-record">
+            <circle cx="5" cy="5" r="5" />
           </svg>
-          LIVE
+          EN DIRECT
         </span>
 
         {/* Scrolling track */}

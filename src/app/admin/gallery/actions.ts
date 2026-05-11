@@ -125,7 +125,7 @@ export async function updatePhotoCaption(formData: FormData) {
   const id = formData.get('id') as string;
   const caption = formData.get('caption') as string;
   
-  if (!id) return { error: 'ID manquant' };
+  if (!id) return;
 
   try {
     await prisma.photo.update({
@@ -135,8 +135,7 @@ export async function updatePhotoCaption(formData: FormData) {
     
     revalidatePath('/admin/gallery');
     revalidatePath('/gallery');
-    return { success: true };
-  } catch (error: any) {
-    return { error: `Erreur: ${error.message}` };
+  } catch (error) {
+    console.error(error);
   }
 }

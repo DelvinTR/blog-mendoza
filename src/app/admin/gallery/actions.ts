@@ -121,3 +121,22 @@ export async function deletePhoto(id: string, url: string) {
   revalidatePath('/gallery');
 }
 
+export async function updatePhotoCaption(formData: FormData) {
+  const id = formData.get('id') as string;
+  const caption = formData.get('caption') as string;
+  
+  if (!id) return { error: 'ID manquant' };
+
+  try {
+    await prisma.photo.update({
+      where: { id },
+      data: { caption: caption || null },
+    });
+    
+    revalidatePath('/admin/gallery');
+    revalidatePath('/gallery');
+    return { success: true };
+  } catch (error: any) {
+    return { error: `Erreur: ${error.message}` };
+  }
+}

@@ -4,6 +4,7 @@ import ArticleCarousel from './ArticleCarousel';
 import RetroTvFrame from './RetroTvFrame';
 import RetroCameraFrame from './RetroCameraFrame';
 import HomePhotoSlider from './HomePhotoSlider';
+import LedTicker from './LedTicker';
 
 
 export const dynamic = 'force-dynamic';
@@ -106,6 +107,8 @@ export default async function HomePage() {
           <h2 className="section-title">Aventures et Récits</h2>
           <p className="section-subtitle">Des histoires vintages racontées par Vinot</p>
         </div>
+
+        <LedTicker />
 
         <RetroTvFrame>
           <ArticleCarousel articles={articles} />

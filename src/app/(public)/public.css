@@ -1323,6 +1323,232 @@
 }
 
 /* ==========================================
+   LED COMMENT TICKER — Neon Marquee
+   ========================================== */
+.led-ticker {
+  --led-bg: #0a0a0f;
+  --led-glow: #00ffe5;
+  --led-glow-alt: #ff6ec7;
+  --led-text: #00ffe5;
+  --led-separator: #ff6ec7;
+  --led-label-bg: rgba(255, 110, 199, 0.15);
+  --led-border: rgba(0, 255, 229, 0.25);
+  --led-dot-size: 6px;
+  --led-speed: 35s;
+
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto var(--space-sm);
+  position: relative;
+  z-index: 10;
+  transform: rotate(-1deg);
+}
+
+.led-ticker-frame {
+  position: relative;
+  background: var(--led-bg);
+  border: 2px solid var(--led-border);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow:
+    0 0 15px rgba(0, 255, 229, 0.12),
+    0 0 40px rgba(0, 255, 229, 0.05),
+    inset 0 0 30px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(0, 255, 229, 0.08);
+  padding: 0;
+}
+
+/* Corner LED dots */
+.led-ticker-dot {
+  position: absolute;
+  width: var(--led-dot-size);
+  height: var(--led-dot-size);
+  border-radius: 50%;
+  background: var(--led-glow);
+  box-shadow:
+    0 0 4px var(--led-glow),
+    0 0 10px var(--led-glow),
+    0 0 20px rgba(0, 255, 229, 0.3);
+  z-index: 10;
+  animation: ledPulse 2s ease-in-out infinite;
+}
+
+.led-ticker-dot--tl { top: 6px; left: 6px; }
+.led-ticker-dot--tr { top: 6px; right: 6px; animation-delay: 0.5s; }
+.led-ticker-dot--bl { bottom: 6px; left: 6px; animation-delay: 1s; }
+.led-ticker-dot--br { bottom: 6px; right: 6px; animation-delay: 1.5s; }
+
+@keyframes ledPulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* LIVE label */
+.led-ticker-label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  font-family: var(--font-body), monospace;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--led-glow-alt);
+  background: var(--led-label-bg);
+  border: 1px solid rgba(255, 110, 199, 0.3);
+  border-radius: 3px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 8px rgba(255, 110, 199, 0.15);
+  animation: labelGlow 3s ease-in-out infinite;
+}
+
+.led-ticker-label svg {
+  color: var(--led-glow-alt);
+  filter: drop-shadow(0 0 3px rgba(255, 110, 199, 0.5));
+}
+
+@keyframes labelGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 110, 199, 0.15); }
+  50% { box-shadow: 0 0 16px rgba(255, 110, 199, 0.35), 0 0 30px rgba(255, 110, 199, 0.1); }
+}
+
+/* Scrolling viewport */
+.led-ticker-viewport {
+  overflow: hidden;
+  padding: 10px 0 10px 80px;
+  /* Fade edges */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 70px,
+    black 110px,
+    black 90%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 70px,
+    black 110px,
+    black 90%,
+    transparent 100%
+  );
+}
+
+/* Infinite scrolling track */
+.led-ticker-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  width: max-content;
+  animation: ledScroll var(--led-speed) linear infinite;
+}
+
+@keyframes ledScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Pause on hover for readability */
+.led-ticker:hover .led-ticker-track {
+  animation-play-state: paused;
+}
+
+.led-ticker-item {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body), monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--led-text);
+  text-shadow:
+    0 0 6px rgba(0, 255, 229, 0.5),
+    0 0 14px rgba(0, 255, 229, 0.2);
+  padding-right: 1.5rem;
+  text-transform: none;
+  line-height: 1;
+}
+
+.led-ticker-separator {
+  color: var(--led-separator);
+  margin-right: 1.5rem;
+  font-size: 0.65rem;
+  text-shadow:
+    0 0 6px rgba(255, 110, 199, 0.5),
+    0 0 14px rgba(255, 110, 199, 0.2);
+  animation: starSpin 4s linear infinite;
+  display: inline-block;
+}
+
+@keyframes starSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .led-ticker {
+    max-width: 100%;
+    margin-bottom: var(--space-xs);
+  }
+
+  .led-ticker-label {
+    display: none;
+  }
+
+  .led-ticker-viewport {
+    padding-left: 0;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+
+  .led-ticker-item {
+    font-size: 0.7rem;
+  }
+
+  .led-ticker {
+    --led-speed: 25s;
+  }
+}
+
+@media (max-width: 480px) {
+  .led-ticker-dot { display: none; }
+  
+  .led-ticker-item {
+    font-size: 0.65rem;
+  }
+
+  .led-ticker {
+    --led-speed: 20s;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .led-ticker-track {
+    animation: none;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .led-ticker-separator {
+    animation: none;
+  }
+
+  .led-ticker-dot {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+/* ==========================================
    RETRO TV FRAME
    ========================================== */
 .retro-tv-wrapper {

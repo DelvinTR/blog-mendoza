@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { uploadPhoto, deletePhoto } from './actions';
+import { uploadPhoto, deletePhoto, updatePhotoCaption } from './actions';
 import DeleteButton from '../components/DeleteButton';
 import styles from '../admin.module.css';
 
@@ -35,8 +35,21 @@ export default async function AdminGallery() {
           <div key={photo.id} style={{ border: '1px solid #e5e7eb', borderRadius: '4px', overflow: 'hidden', backgroundColor: 'white', display: 'flex', flexDirection: 'column' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={photo.url} alt={photo.caption || 'Gallery image'} style={{ width: '100%', height: '150px', objectFit: 'cover' }} />
-            {photo.caption && <p style={{ padding: '0.5rem', fontSize: '0.875rem' }}>{photo.caption}</p>}
-            <form action={deletePhoto.bind(null, photo.id, photo.url)} style={{ marginTop: 'auto', padding: '0.5rem', borderTop: '1px solid #e5e7eb' }}>
+            
+            <form action={updatePhotoCaption} style={{ padding: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <input type="hidden" name="id" value={photo.id} />
+              <input 
+                type="text" 
+                name="caption" 
+                defaultValue={photo.caption || ''} 
+                placeholder="Titre de l'image..." 
+                className={styles.input} 
+                style={{ fontSize: '0.875rem', padding: '0.4rem' }} 
+              />
+              <button type="submit" className={styles.btn} style={{ fontSize: '0.8rem', padding: '0.4rem', width: '100%' }}>Enregistrer le titre</button>
+            </form>
+
+            <form action={deletePhoto.bind(null, photo.id, photo.url)} style={{ marginTop: 'auto', padding: '0.5rem', paddingTop: '0' }}>
               <DeleteButton 
                 confirmMessage="Delete this photo?"
                 style={{ width: '100%', background: '#fee2e2', color: '#ef4444', border: 'none', padding: '0.5rem', borderRadius: '4px', cursor: 'pointer' }}

@@ -138,6 +138,7 @@ export default function EditorForm({ initialData }: { initialData: any }) {
   const coverInputRef = useRef<HTMLInputElement>(null);
   const bgInputRef = useRef<HTMLInputElement>(null);
   const avatarInputRef = useRef<HTMLInputElement>(null);
+  const imageUploadPosRef = useRef<number | null>(null);
 
   // Fetch saved avatars
   useState(() => {
@@ -234,9 +235,13 @@ export default function EditorForm({ initialData }: { initialData: any }) {
 
   const handleImageInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) await addImage(file);
+    if (file) {
+      const pos = imageUploadPosRef.current !== null ? imageUploadPosRef.current : undefined;
+      await addImage(file, pos);
+    }
     // Reset input so same file can be selected again
     e.target.value = '';
+    imageUploadPosRef.current = null;
   };
 
   const handleCoverChange = async (file: File) => {
@@ -955,7 +960,12 @@ export default function EditorForm({ initialData }: { initialData: any }) {
           <div className={styles.toolGroup}>
             <button
               type="button"
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => {
+                if (editor) {
+                  imageUploadPosRef.current = editor.state.selection.from;
+                }
+                fileInputRef.current?.click();
+              }}
               className={styles.tBtn}
               title="Image"
             >

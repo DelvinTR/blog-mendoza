@@ -1467,8 +1467,10 @@
 /* Responsive */
 @media (max-width: 768px) {
   .led-ticker {
-    max-width: 100%;
-    margin-bottom: var(--space-xs);
+    /* Keep full width breakout on tablet & mobile */
+    width: 100vw;
+    max-width: 100vw;
+    margin: var(--space-md) calc(-50vw + 50%) var(--space-xs);
   }
 
   .led-ticker-viewport {
@@ -1478,6 +1480,12 @@
 
   .led-ticker-item {
     font-size: 0.95rem;
+    padding-right: 1rem; /* Compact spacing on smaller screens */
+  }
+
+  .led-ticker-separator {
+    margin-right: 1rem;
+    font-size: 0.8rem;
   }
 
   .led-ticker {
@@ -1486,10 +1494,20 @@
 }
 
 @media (max-width: 480px) {
+  .led-ticker {
+    margin-top: var(--space-sm);
+  }
+
   .led-ticker-dot { display: none; }
   
   .led-ticker-item {
     font-size: 0.85rem;
+    padding-right: 0.75rem; /* Even tighter spacing on mobile */
+  }
+
+  .led-ticker-separator {
+    margin-right: 0.75rem;
+    font-size: 0.7rem;
   }
 
   .led-ticker {
@@ -3436,8 +3454,9 @@
   .hero-section {
     grid-template-columns: 1fr;
     min-height: auto;
-    padding: calc(var(--navbar-height) + var(--space-xl)) var(--content-padding) var(--space-2xl);
+    padding: calc(var(--navbar-height) + var(--space-xl)) var(--content-padding) var(--space-xl);
     text-align: center;
+    gap: var(--space-lg); /* Compact grid gap on smaller screens */
   }
 
   .hero-subtitle {

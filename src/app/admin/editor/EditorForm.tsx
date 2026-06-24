@@ -213,15 +213,19 @@ export default function EditorForm({ initialData }: { initialData: any }) {
     immediatelyRender: false,
   });
 
-  const addImage = useCallback(async (file: File) => {
+  const addImage = useCallback(async (file: File, pos?: number) => {
     if (!editor) return;
+    
+    // Capture position before async operation to prevent insertion in wrong place
+    const targetPos = pos !== undefined ? pos : editor.state.selection.from;
+    
     const formData = new FormData();
     formData.append('photo', file);
     const res = await uploadImageOnly(formData);
     if (res?.error) {
       alert(res.error);
     } else if (res?.url) {
-      editor.chain().focus().insertContent({
+      editor.chain().focus().insertContentAt(targetPos, {
         type: 'resizableImage',
         attrs: { src: res.url, alt: file.name, width: '65%' },
       }).run();
@@ -314,10 +318,17 @@ export default function EditorForm({ initialData }: { initialData: any }) {
       const file = files[0];
       if (file.type.startsWith('image/')) {
         e.preventDefault();
-        await addImage(file);
+        let dropPos;
+        if (editor) {
+          const coordinates = editor.view.posAtCoords({ left: e.clientX, top: e.clientY });
+          if (coordinates) {
+            dropPos = coordinates.pos;
+          }
+        }
+        await addImage(file, dropPos);
       }
     }
-  }, [addImage]);
+  }, [addImage, editor]);
 
   if (!editor) {
     return (

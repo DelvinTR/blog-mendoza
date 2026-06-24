@@ -28,10 +28,15 @@ export default function LedTicker() {
     fetchAllComments();
   }, []);
 
-  if (comments.length === 0) return null;
+  // Fallback comments if none are in the database yet
+  const displayComments = comments.length > 0 ? comments : [
+    { id: "fallback-1", author: "Vinot", content: "Bienvenue sur l'aventure Mendoza ! Les commentaires défilent ici en temps réel." },
+    { id: "fallback-2", author: "Chloé", content: "Un voyage vintage et des souvenirs inoubliables... Laissez vos impressions !" },
+    { id: "fallback-3", author: "Marc", content: "Superbe blog ! L'ambiance vintage est parfaitement réussie." }
+  ];
 
   // Build the ticker text: duplicate for seamless loop
-  const tickerItems = comments.map(
+  const tickerItems = displayComments.map(
     (c) => `${c.author}: "${c.content}"`
   );
 
